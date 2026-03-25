@@ -1,10 +1,10 @@
 #!/bin/bash
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-CACHE_DIR="$SCRIPT_DIR/.cache"
-PROTOC="$SCRIPT_DIR/tools/protoc/bin/protoc"
-GEN_DIR="$SCRIPT_DIR/Sources/ETradeProxyClient/Generated"
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+CACHE_DIR="$REPO_ROOT/.cache"
+PROTOC="$REPO_ROOT/tools/protoc/bin/protoc"
+GEN_DIR="$REPO_ROOT/Sources/ETradeProxyClient/Generated"
 
 SWIFT_PROTOBUF_DIR="$CACHE_DIR/swift-protobuf"
 GRPC_PROTOBUF_DIR="$CACHE_DIR/grpc-swift-protobuf"
@@ -24,7 +24,7 @@ if [ ! -x "$SWIFT_PLUGIN" ]; then
         --package-path "$SWIFT_PROTOBUF_DIR" \
         --scratch-path "$SWIFT_PROTOBUF_DIR/.build" \
         --product protoc-gen-swift
-    cd "$SCRIPT_DIR"
+    cd "$REPO_ROOT"
     echo "Built protoc-gen-swift."
 fi
 
@@ -51,16 +51,16 @@ rm -rf "$GEN_DIR"/etrade "$GEN_DIR"/google
 
 echo "Running protoc..."
 "$PROTOC" \
-    --proto_path="$SCRIPT_DIR/proto" \
-    --proto_path="$SCRIPT_DIR/tools/protoc/include" \
+    --proto_path="$REPO_ROOT/proto" \
+    --proto_path="$REPO_ROOT/tools/protoc/include" \
     --plugin=protoc-gen-swift="$SWIFT_PLUGIN" \
     --swift_out="$GEN_DIR" \
     --swift_opt=Visibility=Internal \
     --plugin=protoc-gen-grpc-swift-2="$GRPC_PLUGIN" \
     --grpc-swift-2_out="$GEN_DIR" \
     --grpc-swift-2_opt=Visibility=Internal \
-    "$SCRIPT_DIR/proto/etrade/proxy_service.proto" \
-    "$SCRIPT_DIR/proto/google/type/decimal.proto"
+    "$REPO_ROOT/proto/etrade/proxy_service.proto" \
+    "$REPO_ROOT/proto/google/type/decimal.proto"
 
 # --- Flatten generated subdirectories ---
 
