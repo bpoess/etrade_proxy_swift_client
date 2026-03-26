@@ -9,7 +9,7 @@ public struct Account: Sendable {
     public let accountStatus: String
     public let closedDate: Date?
     public let accountMode: String
-    public let accountDesk: String?
+    public let accountDesc: String?
     public let instNo: Int32?
     public let shareWorksAccount: Bool
     public let shareWorksSource: String?

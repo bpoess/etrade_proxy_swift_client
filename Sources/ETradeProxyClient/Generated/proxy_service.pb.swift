@@ -482,14 +482,14 @@ struct Etrade_Account: Sendable {
 
   var accountMode: String = String()
 
-  var accountDesk: String {
-    get {_accountDesk ?? String()}
-    set {_accountDesk = newValue}
+  var accountDesc: String {
+    get {_accountDesc ?? String()}
+    set {_accountDesc = newValue}
   }
-  /// Returns true if `accountDesk` has been explicitly set.
-  var hasAccountDesk: Bool {self._accountDesk != nil}
-  /// Clears the value of `accountDesk`. Subsequent reads from it will return its default value.
-  mutating func clearAccountDesk() {self._accountDesk = nil}
+  /// Returns true if `accountDesc` has been explicitly set.
+  var hasAccountDesc: Bool {self._accountDesc != nil}
+  /// Clears the value of `accountDesc`. Subsequent reads from it will return its default value.
+  mutating func clearAccountDesc() {self._accountDesc = nil}
 
   var instNo: Int32 {
     get {_instNo ?? 0}
@@ -518,7 +518,7 @@ struct Etrade_Account: Sendable {
   init() {}
 
   fileprivate var _closedDate: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
-  fileprivate var _accountDesk: String? = nil
+  fileprivate var _accountDesc: String? = nil
   fileprivate var _instNo: Int32? = nil
   fileprivate var _shareWorksSource: String? = nil
 }
@@ -3520,7 +3520,7 @@ extension Etrade_GetOptionChainsResponse: SwiftProtobuf.Message, SwiftProtobuf._
 
 extension Etrade_Account: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".Account"
-  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}account_id\0\u{3}account_id_key\0\u{3}account_name\0\u{3}account_type\0\u{3}institution_type\0\u{3}account_status\0\u{3}closed_date\0\u{3}account_mode\0\u{3}account_desk\0\u{3}inst_no\0\u{3}share_works_account\0\u{3}share_works_source\0\u{3}fc_managed_mssb_closed_account\0")
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}account_id\0\u{3}account_id_key\0\u{3}account_name\0\u{3}account_type\0\u{3}institution_type\0\u{3}account_status\0\u{3}closed_date\0\u{3}account_mode\0\u{3}account_desc\0\u{3}inst_no\0\u{3}share_works_account\0\u{3}share_works_source\0\u{3}fc_managed_mssb_closed_account\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -3536,7 +3536,7 @@ extension Etrade_Account: SwiftProtobuf.Message, SwiftProtobuf._MessageImplement
       case 6: try { try decoder.decodeSingularStringField(value: &self.accountStatus) }()
       case 7: try { try decoder.decodeSingularMessageField(value: &self._closedDate) }()
       case 8: try { try decoder.decodeSingularStringField(value: &self.accountMode) }()
-      case 9: try { try decoder.decodeSingularStringField(value: &self._accountDesk) }()
+      case 9: try { try decoder.decodeSingularStringField(value: &self._accountDesc) }()
       case 10: try { try decoder.decodeSingularInt32Field(value: &self._instNo) }()
       case 11: try { try decoder.decodeSingularBoolField(value: &self.shareWorksAccount) }()
       case 12: try { try decoder.decodeSingularStringField(value: &self._shareWorksSource) }()
@@ -3575,7 +3575,7 @@ extension Etrade_Account: SwiftProtobuf.Message, SwiftProtobuf._MessageImplement
     if !self.accountMode.isEmpty {
       try visitor.visitSingularStringField(value: self.accountMode, fieldNumber: 8)
     }
-    try { if let v = self._accountDesk {
+    try { if let v = self._accountDesc {
       try visitor.visitSingularStringField(value: v, fieldNumber: 9)
     } }()
     try { if let v = self._instNo {
@@ -3602,7 +3602,7 @@ extension Etrade_Account: SwiftProtobuf.Message, SwiftProtobuf._MessageImplement
     if lhs.accountStatus != rhs.accountStatus {return false}
     if lhs._closedDate != rhs._closedDate {return false}
     if lhs.accountMode != rhs.accountMode {return false}
-    if lhs._accountDesk != rhs._accountDesk {return false}
+    if lhs._accountDesc != rhs._accountDesc {return false}
     if lhs._instNo != rhs._instNo {return false}
     if lhs.shareWorksAccount != rhs.shareWorksAccount {return false}
     if lhs._shareWorksSource != rhs._shareWorksSource {return false}

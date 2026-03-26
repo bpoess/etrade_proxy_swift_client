@@ -14,7 +14,7 @@ extension Account {
             accountStatus: proto.accountStatus,
             closedDate: proto.hasClosedDate ? Date(proto: proto.closedDate) : nil,
             accountMode: proto.accountMode,
-            accountDesk: proto.hasAccountDesk ? proto.accountDesk : nil,
+            accountDesc: proto.hasAccountDesc ? proto.accountDesc : nil,
             instNo: proto.hasInstNo ? proto.instNo : nil,
             shareWorksAccount: proto.shareWorksAccount,
             shareWorksSource: proto.hasShareWorksSource ? proto.shareWorksSource : nil,
