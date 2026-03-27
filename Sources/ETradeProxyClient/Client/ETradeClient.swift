@@ -172,6 +172,27 @@ public final class ETradeClient: Sendable {
         }
     }
 
+    // MARK: - Account Balance
+
+    public func getAccountBalance(
+        accountIdKey: String,
+        institutionType: String,
+        realTime: Bool? = nil,
+        accountType: String? = nil
+    ) async throws -> AccountBalance {
+        do {
+            var request = Etrade_GetAccountBalanceRequest()
+            request.accountIDKey = accountIdKey
+            request.institutionType = institutionType
+            if let realTime { request.realTime = realTime }
+            if let accountType { request.accountType = accountType }
+            let response = try await proxyService.getAccountBalance(request)
+            return try AccountBalance(proto: response)
+        } catch let error as RPCError {
+            throw ETradeError(rpcError: error)
+        }
+    }
+
     // MARK: - Options
 
     public func getOptionChains(

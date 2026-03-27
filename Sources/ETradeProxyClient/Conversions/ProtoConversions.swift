@@ -320,8 +320,8 @@ extension OrderEvent {
 extension Order {
     init(proto: Etrade_Order) throws {
         self.init(
-            orderId: proto.orderID,
-            orderType: proto.hasOrderType ? proto.orderType : nil,
+            id: proto.orderID,
+            type: proto.hasOrderType ? proto.orderType : nil,
             executedTime: Date(proto: proto.executedTime),
             status: proto.status,
             events: try proto.events.map { try OrderEvent(proto: $0) },
@@ -453,6 +453,82 @@ extension OptionChains {
             quoteType: proto.quoteType,
             selectedEd: SelectedEd(proto: proto.selectedEd),
             timeStamp: Date(proto: proto.timeStamp)
+        )
+    }
+}
+
+// MARK: - Account Balance
+
+extension BalanceCash {
+    init(proto: Etrade_BalanceCash) throws {
+        self.init(
+            fundsForOpenOrdersCash: try Decimal(proto: proto.fundsForOpenOrdersCash),
+            moneyMktBalance: try Decimal(proto: proto.moneyMktBalance)
+        )
+    }
+}
+
+extension BalanceOpenCalls {
+    init(proto: Etrade_BalanceOpenCalls) throws {
+        self.init(
+            cashCall: try Decimal(proto: proto.cashCall),
+            fedCall: try Decimal(proto: proto.fedCall),
+            houseCall: try Decimal(proto: proto.houseCall),
+            minEquityCall: try Decimal(proto: proto.minEquityCall)
+        )
+    }
+}
+
+extension BalanceRealTimeValues {
+    init(proto: Etrade_BalanceRealTimeValues) throws {
+        self.init(
+            netMv: try Decimal(proto: proto.netMv),
+            netMvLong: try Decimal(proto: proto.netMvLong),
+            netMvShort: try Decimal(proto: proto.netMvShort),
+            totalAccountValue: try Decimal(proto: proto.totalAccountValue)
+        )
+    }
+}
+
+extension BalanceComputed {
+    init(proto: Etrade_BalanceComputed) throws {
+        self.init(
+            accountBalance: try Decimal(proto: proto.accountBalance),
+            cashAvailableForInvestment: try Decimal(proto: proto.cashAvailableForInvestment),
+            cashAvailableForWithdrawal: try Decimal(proto: proto.cashAvailableForWithdrawal),
+            cashBalance: try Decimal(proto: proto.cashBalance),
+            cashBuyingPower: try Decimal(proto: proto.cashBuyingPower),
+            dtCashBuyingPower: try Decimal(proto: proto.dtCashBuyingPower),
+            dtMarginBuyingPower: try Decimal(proto: proto.dtMarginBuyingPower),
+            marginBuyingPower: try Decimal(proto: proto.marginBuyingPower),
+            netCash: try Decimal(proto: proto.netCash),
+            openCalls: try BalanceOpenCalls(proto: proto.openCalls),
+            realTimeValues: try BalanceRealTimeValues(proto: proto.realTimeValues),
+            settledCashForInvestment: try Decimal(proto: proto.settledCashForInvestment),
+            shortAdjustBalance: try Decimal(proto: proto.shortAdjustBalance),
+            totalAvailableForWithdrawal: try Decimal(proto: proto.totalAvailableForWithdrawal),
+            unSettledCashForInvestment: try Decimal(proto: proto.unSettledCashForInvestment),
+            fundsWithheldFromPurchasePower: proto.hasFundsWithheldFromPurchasePower ? try Decimal(proto: proto.fundsWithheldFromPurchasePower) : nil,
+            fundsWithheldFromWithdrawal: proto.hasFundsWithheldFromWithdrawal ? try Decimal(proto: proto.fundsWithheldFromWithdrawal) : nil,
+            marginBalance: proto.hasMarginBalance ? try Decimal(proto: proto.marginBalance) : nil,
+            regtEquity: proto.hasRegtEquity ? try Decimal(proto: proto.regtEquity) : nil,
+            regtEquityPercent: proto.hasRegtEquityPercent ? try Decimal(proto: proto.regtEquityPercent) : nil
+        )
+    }
+}
+
+extension AccountBalance {
+    init(proto: Etrade_GetAccountBalanceResponse) throws {
+        self.init(
+            description: proto.accountDescription,
+            id: proto.accountID,
+            mode: proto.accountMode,
+            type: proto.accountType,
+            cash: try BalanceCash(proto: proto.cash),
+            computed: try BalanceComputed(proto: proto.computed),
+            dayTraderStatus: proto.dayTraderStatus,
+            optionLevel: proto.optionLevel,
+            quoteMode: proto.quoteMode
         )
     }
 }

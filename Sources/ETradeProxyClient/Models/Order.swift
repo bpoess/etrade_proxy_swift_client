@@ -1,8 +1,8 @@
 import Foundation
 
 public struct Order: Sendable {
-    public let orderId: String
-    public let orderType: String?
+    public let id: String
+    public let type: String?
     public let executedTime: Date
     public let status: String
     public let events: [OrderEvent]
