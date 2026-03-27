@@ -1,9 +1,9 @@
 import Foundation
 
 public struct Transaction: Sendable {
-    public let transactionId: String
+    public let id: String
     public let accountId: String
-    public let transactionDate: Date
+    public let date: Date
     public let postDate: Date?
     public let amount: Decimal
     public let description: String

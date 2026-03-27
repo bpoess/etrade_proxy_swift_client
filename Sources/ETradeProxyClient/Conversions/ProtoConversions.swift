@@ -6,15 +6,15 @@ import SwiftProtobuf
 extension Account {
     init(proto: Etrade_Account) throws {
         self.init(
-            accountId: proto.accountID,
-            accountIdKey: proto.accountIDKey,
-            accountName: proto.accountName,
-            accountType: proto.accountType,
+            id: proto.accountID,
+            idKey: proto.accountIDKey,
+            name: proto.accountName,
+            type: proto.accountType,
             institutionType: proto.institutionType,
-            accountStatus: proto.accountStatus,
+            status: proto.accountStatus,
             closedDate: proto.hasClosedDate ? Date(proto: proto.closedDate) : nil,
-            accountMode: proto.accountMode,
-            accountDesc: proto.hasAccountDesc ? proto.accountDesc : nil,
+            mode: proto.accountMode,
+            desc: proto.hasAccountDesc ? proto.accountDesc : nil,
             instNo: proto.hasInstNo ? proto.instNo : nil,
             shareWorksAccount: proto.shareWorksAccount,
             shareWorksSource: proto.hasShareWorksSource ? proto.shareWorksSource : nil,
@@ -152,9 +152,9 @@ extension Position {
             marketValue: try Decimal(proto: proto.marketValue),
             otherFees: try Decimal(proto: proto.otherFees),
             pctOfPortfolio: try Decimal(proto: proto.pctOfPortfolio),
-            positionId: proto.positionID,
-            positionIndicator: proto.positionIndicator,
-            positionType: proto.positionType,
+            id: proto.positionID,
+            indicator: proto.positionIndicator,
+            type: proto.positionType,
             pricePaid: try Decimal(proto: proto.pricePaid),
             product: try Product(proto: proto.product),
             quantity: try Decimal(proto: proto.quantity),
@@ -350,9 +350,9 @@ extension Brokerage {
 extension Transaction {
     init(proto: Etrade_Transaction) throws {
         self.init(
-            transactionId: proto.transactionID,
+            id: proto.transactionID,
             accountId: proto.accountID,
-            transactionDate: Date(proto: proto.transactionDate),
+            date: Date(proto: proto.transactionDate),
             postDate: proto.hasPostDate ? Date(proto: proto.postDate) : nil,
             amount: try Decimal(proto: proto.amount),
             description: proto.description_p,

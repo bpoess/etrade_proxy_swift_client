@@ -11,9 +11,9 @@ public struct Position: Sendable {
     public let marketValue: Decimal
     public let otherFees: Decimal
     public let pctOfPortfolio: Decimal
-    public let positionId: String
-    public let positionIndicator: String
-    public let positionType: String
+    public let id: String
+    public let indicator: String
+    public let type: String
     public let pricePaid: Decimal
     public let product: Product
     public let quantity: Decimal
