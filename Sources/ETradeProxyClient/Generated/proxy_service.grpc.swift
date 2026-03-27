@@ -176,6 +176,19 @@ internal enum Etrade_ProxyService: Sendable {
                 type: .unary
             )
         }
+        /// Namespace for "GetAccountBalance" metadata.
+        internal enum GetAccountBalance: Sendable {
+            /// Request type for "GetAccountBalance".
+            internal typealias Input = Etrade_GetAccountBalanceRequest
+            /// Response type for "GetAccountBalance".
+            internal typealias Output = Etrade_GetAccountBalanceResponse
+            /// Descriptor for "GetAccountBalance".
+            internal static let descriptor = GRPCCore.MethodDescriptor(
+                service: GRPCCore.ServiceDescriptor(fullyQualifiedService: "etrade.ProxyService"),
+                method: "GetAccountBalance",
+                type: .unary
+            )
+        }
         /// Descriptors for all methods in the "etrade.ProxyService" service.
         internal static let descriptors: [GRPCCore.MethodDescriptor] = [
             GetAuthenticationStatus.descriptor,
@@ -189,7 +202,8 @@ internal enum Etrade_ProxyService: Sendable {
             ListTransactions.descriptor,
             GetTransactionDetails.descriptor,
             GetOptionChains.descriptor,
-            GetOptionExpireDates.descriptor
+            GetOptionExpireDates.descriptor,
+            GetAccountBalance.descriptor
         ]
     }
 }
@@ -382,6 +396,20 @@ extension Etrade_ProxyService {
             request: GRPCCore.StreamingServerRequest<Etrade_GetOptionExpireDatesRequest>,
             context: GRPCCore.ServerContext
         ) async throws -> GRPCCore.StreamingServerResponse<Etrade_GetOptionExpireDatesResponse>
+
+        /// Handle the "GetAccountBalance" method.
+        ///
+        /// - Parameters:
+        ///   - request: A streaming request of `Etrade_GetAccountBalanceRequest` messages.
+        ///   - context: Context providing information about the RPC.
+        /// - Throws: Any error which occurred during the processing of the request. Thrown errors
+        ///     of type `RPCError` are mapped to appropriate statuses. All other errors are converted
+        ///     to an internal error.
+        /// - Returns: A streaming response of `Etrade_GetAccountBalanceResponse` messages.
+        func getAccountBalance(
+            request: GRPCCore.StreamingServerRequest<Etrade_GetAccountBalanceRequest>,
+            context: GRPCCore.ServerContext
+        ) async throws -> GRPCCore.StreamingServerResponse<Etrade_GetAccountBalanceResponse>
     }
 
     /// Service protocol for the "etrade.ProxyService" service.
@@ -559,6 +587,20 @@ extension Etrade_ProxyService {
             request: GRPCCore.ServerRequest<Etrade_GetOptionExpireDatesRequest>,
             context: GRPCCore.ServerContext
         ) async throws -> GRPCCore.ServerResponse<Etrade_GetOptionExpireDatesResponse>
+
+        /// Handle the "GetAccountBalance" method.
+        ///
+        /// - Parameters:
+        ///   - request: A request containing a single `Etrade_GetAccountBalanceRequest` message.
+        ///   - context: Context providing information about the RPC.
+        /// - Throws: Any error which occurred during the processing of the request. Thrown errors
+        ///     of type `RPCError` are mapped to appropriate statuses. All other errors are converted
+        ///     to an internal error.
+        /// - Returns: A response containing a single `Etrade_GetAccountBalanceResponse` message.
+        func getAccountBalance(
+            request: GRPCCore.ServerRequest<Etrade_GetAccountBalanceRequest>,
+            context: GRPCCore.ServerContext
+        ) async throws -> GRPCCore.ServerResponse<Etrade_GetAccountBalanceResponse>
     }
 
     /// Simple service protocol for the "etrade.ProxyService" service.
@@ -738,6 +780,20 @@ extension Etrade_ProxyService {
             request: Etrade_GetOptionExpireDatesRequest,
             context: GRPCCore.ServerContext
         ) async throws -> Etrade_GetOptionExpireDatesResponse
+
+        /// Handle the "GetAccountBalance" method.
+        ///
+        /// - Parameters:
+        ///   - request: A `Etrade_GetAccountBalanceRequest` message.
+        ///   - context: Context providing information about the RPC.
+        /// - Throws: Any error which occurred during the processing of the request. Thrown errors
+        ///     of type `RPCError` are mapped to appropriate statuses. All other errors are converted
+        ///     to an internal error.
+        /// - Returns: A `Etrade_GetAccountBalanceResponse` to respond with.
+        func getAccountBalance(
+            request: Etrade_GetAccountBalanceRequest,
+            context: GRPCCore.ServerContext
+        ) async throws -> Etrade_GetAccountBalanceResponse
     }
 }
 
@@ -877,6 +933,17 @@ extension Etrade_ProxyService.StreamingServiceProtocol {
                 )
             }
         )
+        router.registerHandler(
+            forMethod: Etrade_ProxyService.Method.GetAccountBalance.descriptor,
+            deserializer: GRPCProtobuf.ProtobufDeserializer<Etrade_GetAccountBalanceRequest>(),
+            serializer: GRPCProtobuf.ProtobufSerializer<Etrade_GetAccountBalanceResponse>(),
+            handler: { request, context in
+                try await self.getAccountBalance(
+                    request: request,
+                    context: context
+                )
+            }
+        )
     }
 }
 
@@ -1009,6 +1076,17 @@ extension Etrade_ProxyService.ServiceProtocol {
         context: GRPCCore.ServerContext
     ) async throws -> GRPCCore.StreamingServerResponse<Etrade_GetOptionExpireDatesResponse> {
         let response = try await self.getOptionExpireDates(
+            request: GRPCCore.ServerRequest(stream: request),
+            context: context
+        )
+        return GRPCCore.StreamingServerResponse(single: response)
+    }
+
+    internal func getAccountBalance(
+        request: GRPCCore.StreamingServerRequest<Etrade_GetAccountBalanceRequest>,
+        context: GRPCCore.ServerContext
+    ) async throws -> GRPCCore.StreamingServerResponse<Etrade_GetAccountBalanceResponse> {
+        let response = try await self.getAccountBalance(
             request: GRPCCore.ServerRequest(stream: request),
             context: context
         )
@@ -1184,6 +1262,19 @@ extension Etrade_ProxyService.SimpleServiceProtocol {
     ) async throws -> GRPCCore.ServerResponse<Etrade_GetOptionExpireDatesResponse> {
         return GRPCCore.ServerResponse<Etrade_GetOptionExpireDatesResponse>(
             message: try await self.getOptionExpireDates(
+                request: request.message,
+                context: context
+            ),
+            metadata: [:]
+        )
+    }
+
+    internal func getAccountBalance(
+        request: GRPCCore.ServerRequest<Etrade_GetAccountBalanceRequest>,
+        context: GRPCCore.ServerContext
+    ) async throws -> GRPCCore.ServerResponse<Etrade_GetAccountBalanceResponse> {
+        return GRPCCore.ServerResponse<Etrade_GetAccountBalanceResponse>(
+            message: try await self.getAccountBalance(
                 request: request.message,
                 context: context
             ),
@@ -1427,6 +1518,25 @@ extension Etrade_ProxyService {
             deserializer: some GRPCCore.MessageDeserializer<Etrade_GetOptionExpireDatesResponse>,
             options: GRPCCore.CallOptions,
             onResponse handleResponse: @Sendable @escaping (GRPCCore.ClientResponse<Etrade_GetOptionExpireDatesResponse>) async throws -> Result
+        ) async throws -> Result where Result: Sendable
+
+        /// Call the "GetAccountBalance" method.
+        ///
+        /// - Parameters:
+        ///   - request: A request containing a single `Etrade_GetAccountBalanceRequest` message.
+        ///   - serializer: A serializer for `Etrade_GetAccountBalanceRequest` messages.
+        ///   - deserializer: A deserializer for `Etrade_GetAccountBalanceResponse` messages.
+        ///   - options: Options to apply to this RPC.
+        ///   - handleResponse: A closure which handles the response, the result of which is
+        ///       returned to the caller. Returning from the closure will cancel the RPC if it
+        ///       hasn't already finished.
+        /// - Returns: The result of `handleResponse`.
+        func getAccountBalance<Result>(
+            request: GRPCCore.ClientRequest<Etrade_GetAccountBalanceRequest>,
+            serializer: some GRPCCore.MessageSerializer<Etrade_GetAccountBalanceRequest>,
+            deserializer: some GRPCCore.MessageDeserializer<Etrade_GetAccountBalanceResponse>,
+            options: GRPCCore.CallOptions,
+            onResponse handleResponse: @Sendable @escaping (GRPCCore.ClientResponse<Etrade_GetAccountBalanceResponse>) async throws -> Result
         ) async throws -> Result where Result: Sendable
     }
 
@@ -1797,6 +1907,36 @@ extension Etrade_ProxyService {
                 onResponse: handleResponse
             )
         }
+
+        /// Call the "GetAccountBalance" method.
+        ///
+        /// - Parameters:
+        ///   - request: A request containing a single `Etrade_GetAccountBalanceRequest` message.
+        ///   - serializer: A serializer for `Etrade_GetAccountBalanceRequest` messages.
+        ///   - deserializer: A deserializer for `Etrade_GetAccountBalanceResponse` messages.
+        ///   - options: Options to apply to this RPC.
+        ///   - handleResponse: A closure which handles the response, the result of which is
+        ///       returned to the caller. Returning from the closure will cancel the RPC if it
+        ///       hasn't already finished.
+        /// - Returns: The result of `handleResponse`.
+        internal func getAccountBalance<Result>(
+            request: GRPCCore.ClientRequest<Etrade_GetAccountBalanceRequest>,
+            serializer: some GRPCCore.MessageSerializer<Etrade_GetAccountBalanceRequest>,
+            deserializer: some GRPCCore.MessageDeserializer<Etrade_GetAccountBalanceResponse>,
+            options: GRPCCore.CallOptions = .defaults,
+            onResponse handleResponse: @Sendable @escaping (GRPCCore.ClientResponse<Etrade_GetAccountBalanceResponse>) async throws -> Result = { response in
+                try response.message
+            }
+        ) async throws -> Result where Result: Sendable {
+            try await self.client.unary(
+                request: request,
+                descriptor: Etrade_ProxyService.Method.GetAccountBalance.descriptor,
+                serializer: serializer,
+                deserializer: deserializer,
+                options: options,
+                onResponse: handleResponse
+            )
+        }
     }
 }
 
@@ -2090,6 +2230,31 @@ extension Etrade_ProxyService.ClientProtocol {
             request: request,
             serializer: GRPCProtobuf.ProtobufSerializer<Etrade_GetOptionExpireDatesRequest>(),
             deserializer: GRPCProtobuf.ProtobufDeserializer<Etrade_GetOptionExpireDatesResponse>(),
+            options: options,
+            onResponse: handleResponse
+        )
+    }
+
+    /// Call the "GetAccountBalance" method.
+    ///
+    /// - Parameters:
+    ///   - request: A request containing a single `Etrade_GetAccountBalanceRequest` message.
+    ///   - options: Options to apply to this RPC.
+    ///   - handleResponse: A closure which handles the response, the result of which is
+    ///       returned to the caller. Returning from the closure will cancel the RPC if it
+    ///       hasn't already finished.
+    /// - Returns: The result of `handleResponse`.
+    internal func getAccountBalance<Result>(
+        request: GRPCCore.ClientRequest<Etrade_GetAccountBalanceRequest>,
+        options: GRPCCore.CallOptions = .defaults,
+        onResponse handleResponse: @Sendable @escaping (GRPCCore.ClientResponse<Etrade_GetAccountBalanceResponse>) async throws -> Result = { response in
+            try response.message
+        }
+    ) async throws -> Result where Result: Sendable {
+        try await self.getAccountBalance(
+            request: request,
+            serializer: GRPCProtobuf.ProtobufSerializer<Etrade_GetAccountBalanceRequest>(),
+            deserializer: GRPCProtobuf.ProtobufDeserializer<Etrade_GetAccountBalanceResponse>(),
             options: options,
             onResponse: handleResponse
         )
@@ -2433,6 +2598,35 @@ extension Etrade_ProxyService.ClientProtocol {
             metadata: metadata
         )
         return try await self.getOptionExpireDates(
+            request: request,
+            options: options,
+            onResponse: handleResponse
+        )
+    }
+
+    /// Call the "GetAccountBalance" method.
+    ///
+    /// - Parameters:
+    ///   - message: request message to send.
+    ///   - metadata: Additional metadata to send, defaults to empty.
+    ///   - options: Options to apply to this RPC, defaults to `.defaults`.
+    ///   - handleResponse: A closure which handles the response, the result of which is
+    ///       returned to the caller. Returning from the closure will cancel the RPC if it
+    ///       hasn't already finished.
+    /// - Returns: The result of `handleResponse`.
+    internal func getAccountBalance<Result>(
+        _ message: Etrade_GetAccountBalanceRequest,
+        metadata: GRPCCore.Metadata = [:],
+        options: GRPCCore.CallOptions = .defaults,
+        onResponse handleResponse: @Sendable @escaping (GRPCCore.ClientResponse<Etrade_GetAccountBalanceResponse>) async throws -> Result = { response in
+            try response.message
+        }
+    ) async throws -> Result where Result: Sendable {
+        let request = GRPCCore.ClientRequest<Etrade_GetAccountBalanceRequest>(
+            message: message,
+            metadata: metadata
+        )
+        return try await self.getAccountBalance(
             request: request,
             options: options,
             onResponse: handleResponse

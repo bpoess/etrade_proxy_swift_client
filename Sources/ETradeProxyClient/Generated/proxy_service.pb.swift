@@ -2815,6 +2815,411 @@ struct Etrade_ExpirationDate: Sendable {
   init() {}
 }
 
+struct Etrade_GetAccountBalanceRequest: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var accountIDKey: String = String()
+
+  var institutionType: String = String()
+
+  var realTime: Bool {
+    get {_realTime ?? false}
+    set {_realTime = newValue}
+  }
+  /// Returns true if `realTime` has been explicitly set.
+  var hasRealTime: Bool {self._realTime != nil}
+  /// Clears the value of `realTime`. Subsequent reads from it will return its default value.
+  mutating func clearRealTime() {self._realTime = nil}
+
+  var accountType: String {
+    get {_accountType ?? String()}
+    set {_accountType = newValue}
+  }
+  /// Returns true if `accountType` has been explicitly set.
+  var hasAccountType: Bool {self._accountType != nil}
+  /// Clears the value of `accountType`. Subsequent reads from it will return its default value.
+  mutating func clearAccountType() {self._accountType = nil}
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+
+  fileprivate var _realTime: Bool? = nil
+  fileprivate var _accountType: String? = nil
+}
+
+struct Etrade_GetAccountBalanceResponse: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var accountDescription: String = String()
+
+  var accountID: String = String()
+
+  var accountMode: String = String()
+
+  var accountType: String = String()
+
+  var cash: Etrade_BalanceCash {
+    get {_cash ?? Etrade_BalanceCash()}
+    set {_cash = newValue}
+  }
+  /// Returns true if `cash` has been explicitly set.
+  var hasCash: Bool {self._cash != nil}
+  /// Clears the value of `cash`. Subsequent reads from it will return its default value.
+  mutating func clearCash() {self._cash = nil}
+
+  var computed: Etrade_BalanceComputed {
+    get {_computed ?? Etrade_BalanceComputed()}
+    set {_computed = newValue}
+  }
+  /// Returns true if `computed` has been explicitly set.
+  var hasComputed: Bool {self._computed != nil}
+  /// Clears the value of `computed`. Subsequent reads from it will return its default value.
+  mutating func clearComputed() {self._computed = nil}
+
+  var dayTraderStatus: String = String()
+
+  var optionLevel: String = String()
+
+  var quoteMode: Int64 = 0
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+
+  fileprivate var _cash: Etrade_BalanceCash? = nil
+  fileprivate var _computed: Etrade_BalanceComputed? = nil
+}
+
+struct Etrade_BalanceCash: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var fundsForOpenOrdersCash: Google_Type_Decimal {
+    get {_fundsForOpenOrdersCash ?? Google_Type_Decimal()}
+    set {_fundsForOpenOrdersCash = newValue}
+  }
+  /// Returns true if `fundsForOpenOrdersCash` has been explicitly set.
+  var hasFundsForOpenOrdersCash: Bool {self._fundsForOpenOrdersCash != nil}
+  /// Clears the value of `fundsForOpenOrdersCash`. Subsequent reads from it will return its default value.
+  mutating func clearFundsForOpenOrdersCash() {self._fundsForOpenOrdersCash = nil}
+
+  var moneyMktBalance: Google_Type_Decimal {
+    get {_moneyMktBalance ?? Google_Type_Decimal()}
+    set {_moneyMktBalance = newValue}
+  }
+  /// Returns true if `moneyMktBalance` has been explicitly set.
+  var hasMoneyMktBalance: Bool {self._moneyMktBalance != nil}
+  /// Clears the value of `moneyMktBalance`. Subsequent reads from it will return its default value.
+  mutating func clearMoneyMktBalance() {self._moneyMktBalance = nil}
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+
+  fileprivate var _fundsForOpenOrdersCash: Google_Type_Decimal? = nil
+  fileprivate var _moneyMktBalance: Google_Type_Decimal? = nil
+}
+
+struct Etrade_BalanceComputed: @unchecked Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var accountBalance: Google_Type_Decimal {
+    get {_storage._accountBalance ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._accountBalance = newValue}
+  }
+  /// Returns true if `accountBalance` has been explicitly set.
+  var hasAccountBalance: Bool {_storage._accountBalance != nil}
+  /// Clears the value of `accountBalance`. Subsequent reads from it will return its default value.
+  mutating func clearAccountBalance() {_uniqueStorage()._accountBalance = nil}
+
+  var cashAvailableForInvestment: Google_Type_Decimal {
+    get {_storage._cashAvailableForInvestment ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._cashAvailableForInvestment = newValue}
+  }
+  /// Returns true if `cashAvailableForInvestment` has been explicitly set.
+  var hasCashAvailableForInvestment: Bool {_storage._cashAvailableForInvestment != nil}
+  /// Clears the value of `cashAvailableForInvestment`. Subsequent reads from it will return its default value.
+  mutating func clearCashAvailableForInvestment() {_uniqueStorage()._cashAvailableForInvestment = nil}
+
+  var cashAvailableForWithdrawal: Google_Type_Decimal {
+    get {_storage._cashAvailableForWithdrawal ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._cashAvailableForWithdrawal = newValue}
+  }
+  /// Returns true if `cashAvailableForWithdrawal` has been explicitly set.
+  var hasCashAvailableForWithdrawal: Bool {_storage._cashAvailableForWithdrawal != nil}
+  /// Clears the value of `cashAvailableForWithdrawal`. Subsequent reads from it will return its default value.
+  mutating func clearCashAvailableForWithdrawal() {_uniqueStorage()._cashAvailableForWithdrawal = nil}
+
+  var cashBalance: Google_Type_Decimal {
+    get {_storage._cashBalance ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._cashBalance = newValue}
+  }
+  /// Returns true if `cashBalance` has been explicitly set.
+  var hasCashBalance: Bool {_storage._cashBalance != nil}
+  /// Clears the value of `cashBalance`. Subsequent reads from it will return its default value.
+  mutating func clearCashBalance() {_uniqueStorage()._cashBalance = nil}
+
+  var cashBuyingPower: Google_Type_Decimal {
+    get {_storage._cashBuyingPower ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._cashBuyingPower = newValue}
+  }
+  /// Returns true if `cashBuyingPower` has been explicitly set.
+  var hasCashBuyingPower: Bool {_storage._cashBuyingPower != nil}
+  /// Clears the value of `cashBuyingPower`. Subsequent reads from it will return its default value.
+  mutating func clearCashBuyingPower() {_uniqueStorage()._cashBuyingPower = nil}
+
+  var dtCashBuyingPower: Google_Type_Decimal {
+    get {_storage._dtCashBuyingPower ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._dtCashBuyingPower = newValue}
+  }
+  /// Returns true if `dtCashBuyingPower` has been explicitly set.
+  var hasDtCashBuyingPower: Bool {_storage._dtCashBuyingPower != nil}
+  /// Clears the value of `dtCashBuyingPower`. Subsequent reads from it will return its default value.
+  mutating func clearDtCashBuyingPower() {_uniqueStorage()._dtCashBuyingPower = nil}
+
+  var dtMarginBuyingPower: Google_Type_Decimal {
+    get {_storage._dtMarginBuyingPower ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._dtMarginBuyingPower = newValue}
+  }
+  /// Returns true if `dtMarginBuyingPower` has been explicitly set.
+  var hasDtMarginBuyingPower: Bool {_storage._dtMarginBuyingPower != nil}
+  /// Clears the value of `dtMarginBuyingPower`. Subsequent reads from it will return its default value.
+  mutating func clearDtMarginBuyingPower() {_uniqueStorage()._dtMarginBuyingPower = nil}
+
+  var marginBuyingPower: Google_Type_Decimal {
+    get {_storage._marginBuyingPower ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._marginBuyingPower = newValue}
+  }
+  /// Returns true if `marginBuyingPower` has been explicitly set.
+  var hasMarginBuyingPower: Bool {_storage._marginBuyingPower != nil}
+  /// Clears the value of `marginBuyingPower`. Subsequent reads from it will return its default value.
+  mutating func clearMarginBuyingPower() {_uniqueStorage()._marginBuyingPower = nil}
+
+  var netCash: Google_Type_Decimal {
+    get {_storage._netCash ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._netCash = newValue}
+  }
+  /// Returns true if `netCash` has been explicitly set.
+  var hasNetCash: Bool {_storage._netCash != nil}
+  /// Clears the value of `netCash`. Subsequent reads from it will return its default value.
+  mutating func clearNetCash() {_uniqueStorage()._netCash = nil}
+
+  var openCalls: Etrade_BalanceOpenCalls {
+    get {_storage._openCalls ?? Etrade_BalanceOpenCalls()}
+    set {_uniqueStorage()._openCalls = newValue}
+  }
+  /// Returns true if `openCalls` has been explicitly set.
+  var hasOpenCalls: Bool {_storage._openCalls != nil}
+  /// Clears the value of `openCalls`. Subsequent reads from it will return its default value.
+  mutating func clearOpenCalls() {_uniqueStorage()._openCalls = nil}
+
+  var realTimeValues: Etrade_BalanceRealTimeValues {
+    get {_storage._realTimeValues ?? Etrade_BalanceRealTimeValues()}
+    set {_uniqueStorage()._realTimeValues = newValue}
+  }
+  /// Returns true if `realTimeValues` has been explicitly set.
+  var hasRealTimeValues: Bool {_storage._realTimeValues != nil}
+  /// Clears the value of `realTimeValues`. Subsequent reads from it will return its default value.
+  mutating func clearRealTimeValues() {_uniqueStorage()._realTimeValues = nil}
+
+  var settledCashForInvestment: Google_Type_Decimal {
+    get {_storage._settledCashForInvestment ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._settledCashForInvestment = newValue}
+  }
+  /// Returns true if `settledCashForInvestment` has been explicitly set.
+  var hasSettledCashForInvestment: Bool {_storage._settledCashForInvestment != nil}
+  /// Clears the value of `settledCashForInvestment`. Subsequent reads from it will return its default value.
+  mutating func clearSettledCashForInvestment() {_uniqueStorage()._settledCashForInvestment = nil}
+
+  var shortAdjustBalance: Google_Type_Decimal {
+    get {_storage._shortAdjustBalance ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._shortAdjustBalance = newValue}
+  }
+  /// Returns true if `shortAdjustBalance` has been explicitly set.
+  var hasShortAdjustBalance: Bool {_storage._shortAdjustBalance != nil}
+  /// Clears the value of `shortAdjustBalance`. Subsequent reads from it will return its default value.
+  mutating func clearShortAdjustBalance() {_uniqueStorage()._shortAdjustBalance = nil}
+
+  var totalAvailableForWithdrawal: Google_Type_Decimal {
+    get {_storage._totalAvailableForWithdrawal ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._totalAvailableForWithdrawal = newValue}
+  }
+  /// Returns true if `totalAvailableForWithdrawal` has been explicitly set.
+  var hasTotalAvailableForWithdrawal: Bool {_storage._totalAvailableForWithdrawal != nil}
+  /// Clears the value of `totalAvailableForWithdrawal`. Subsequent reads from it will return its default value.
+  mutating func clearTotalAvailableForWithdrawal() {_uniqueStorage()._totalAvailableForWithdrawal = nil}
+
+  var unSettledCashForInvestment: Google_Type_Decimal {
+    get {_storage._unSettledCashForInvestment ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._unSettledCashForInvestment = newValue}
+  }
+  /// Returns true if `unSettledCashForInvestment` has been explicitly set.
+  var hasUnSettledCashForInvestment: Bool {_storage._unSettledCashForInvestment != nil}
+  /// Clears the value of `unSettledCashForInvestment`. Subsequent reads from it will return its default value.
+  mutating func clearUnSettledCashForInvestment() {_uniqueStorage()._unSettledCashForInvestment = nil}
+
+  var fundsWithheldFromPurchasePower: Google_Type_Decimal {
+    get {_storage._fundsWithheldFromPurchasePower ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._fundsWithheldFromPurchasePower = newValue}
+  }
+  /// Returns true if `fundsWithheldFromPurchasePower` has been explicitly set.
+  var hasFundsWithheldFromPurchasePower: Bool {_storage._fundsWithheldFromPurchasePower != nil}
+  /// Clears the value of `fundsWithheldFromPurchasePower`. Subsequent reads from it will return its default value.
+  mutating func clearFundsWithheldFromPurchasePower() {_uniqueStorage()._fundsWithheldFromPurchasePower = nil}
+
+  var fundsWithheldFromWithdrawal: Google_Type_Decimal {
+    get {_storage._fundsWithheldFromWithdrawal ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._fundsWithheldFromWithdrawal = newValue}
+  }
+  /// Returns true if `fundsWithheldFromWithdrawal` has been explicitly set.
+  var hasFundsWithheldFromWithdrawal: Bool {_storage._fundsWithheldFromWithdrawal != nil}
+  /// Clears the value of `fundsWithheldFromWithdrawal`. Subsequent reads from it will return its default value.
+  mutating func clearFundsWithheldFromWithdrawal() {_uniqueStorage()._fundsWithheldFromWithdrawal = nil}
+
+  var marginBalance: Google_Type_Decimal {
+    get {_storage._marginBalance ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._marginBalance = newValue}
+  }
+  /// Returns true if `marginBalance` has been explicitly set.
+  var hasMarginBalance: Bool {_storage._marginBalance != nil}
+  /// Clears the value of `marginBalance`. Subsequent reads from it will return its default value.
+  mutating func clearMarginBalance() {_uniqueStorage()._marginBalance = nil}
+
+  var regtEquity: Google_Type_Decimal {
+    get {_storage._regtEquity ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._regtEquity = newValue}
+  }
+  /// Returns true if `regtEquity` has been explicitly set.
+  var hasRegtEquity: Bool {_storage._regtEquity != nil}
+  /// Clears the value of `regtEquity`. Subsequent reads from it will return its default value.
+  mutating func clearRegtEquity() {_uniqueStorage()._regtEquity = nil}
+
+  var regtEquityPercent: Google_Type_Decimal {
+    get {_storage._regtEquityPercent ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._regtEquityPercent = newValue}
+  }
+  /// Returns true if `regtEquityPercent` has been explicitly set.
+  var hasRegtEquityPercent: Bool {_storage._regtEquityPercent != nil}
+  /// Clears the value of `regtEquityPercent`. Subsequent reads from it will return its default value.
+  mutating func clearRegtEquityPercent() {_uniqueStorage()._regtEquityPercent = nil}
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+
+  fileprivate var _storage = _StorageClass.defaultInstance
+}
+
+struct Etrade_BalanceOpenCalls: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var cashCall: Google_Type_Decimal {
+    get {_cashCall ?? Google_Type_Decimal()}
+    set {_cashCall = newValue}
+  }
+  /// Returns true if `cashCall` has been explicitly set.
+  var hasCashCall: Bool {self._cashCall != nil}
+  /// Clears the value of `cashCall`. Subsequent reads from it will return its default value.
+  mutating func clearCashCall() {self._cashCall = nil}
+
+  var fedCall: Google_Type_Decimal {
+    get {_fedCall ?? Google_Type_Decimal()}
+    set {_fedCall = newValue}
+  }
+  /// Returns true if `fedCall` has been explicitly set.
+  var hasFedCall: Bool {self._fedCall != nil}
+  /// Clears the value of `fedCall`. Subsequent reads from it will return its default value.
+  mutating func clearFedCall() {self._fedCall = nil}
+
+  var houseCall: Google_Type_Decimal {
+    get {_houseCall ?? Google_Type_Decimal()}
+    set {_houseCall = newValue}
+  }
+  /// Returns true if `houseCall` has been explicitly set.
+  var hasHouseCall: Bool {self._houseCall != nil}
+  /// Clears the value of `houseCall`. Subsequent reads from it will return its default value.
+  mutating func clearHouseCall() {self._houseCall = nil}
+
+  var minEquityCall: Google_Type_Decimal {
+    get {_minEquityCall ?? Google_Type_Decimal()}
+    set {_minEquityCall = newValue}
+  }
+  /// Returns true if `minEquityCall` has been explicitly set.
+  var hasMinEquityCall: Bool {self._minEquityCall != nil}
+  /// Clears the value of `minEquityCall`. Subsequent reads from it will return its default value.
+  mutating func clearMinEquityCall() {self._minEquityCall = nil}
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+
+  fileprivate var _cashCall: Google_Type_Decimal? = nil
+  fileprivate var _fedCall: Google_Type_Decimal? = nil
+  fileprivate var _houseCall: Google_Type_Decimal? = nil
+  fileprivate var _minEquityCall: Google_Type_Decimal? = nil
+}
+
+struct Etrade_BalanceRealTimeValues: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var netMv: Google_Type_Decimal {
+    get {_netMv ?? Google_Type_Decimal()}
+    set {_netMv = newValue}
+  }
+  /// Returns true if `netMv` has been explicitly set.
+  var hasNetMv: Bool {self._netMv != nil}
+  /// Clears the value of `netMv`. Subsequent reads from it will return its default value.
+  mutating func clearNetMv() {self._netMv = nil}
+
+  var netMvLong: Google_Type_Decimal {
+    get {_netMvLong ?? Google_Type_Decimal()}
+    set {_netMvLong = newValue}
+  }
+  /// Returns true if `netMvLong` has been explicitly set.
+  var hasNetMvLong: Bool {self._netMvLong != nil}
+  /// Clears the value of `netMvLong`. Subsequent reads from it will return its default value.
+  mutating func clearNetMvLong() {self._netMvLong = nil}
+
+  var netMvShort: Google_Type_Decimal {
+    get {_netMvShort ?? Google_Type_Decimal()}
+    set {_netMvShort = newValue}
+  }
+  /// Returns true if `netMvShort` has been explicitly set.
+  var hasNetMvShort: Bool {self._netMvShort != nil}
+  /// Clears the value of `netMvShort`. Subsequent reads from it will return its default value.
+  mutating func clearNetMvShort() {self._netMvShort = nil}
+
+  var totalAccountValue: Google_Type_Decimal {
+    get {_totalAccountValue ?? Google_Type_Decimal()}
+    set {_totalAccountValue = newValue}
+  }
+  /// Returns true if `totalAccountValue` has been explicitly set.
+  var hasTotalAccountValue: Bool {self._totalAccountValue != nil}
+  /// Clears the value of `totalAccountValue`. Subsequent reads from it will return its default value.
+  mutating func clearTotalAccountValue() {self._totalAccountValue = nil}
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+
+  fileprivate var _netMv: Google_Type_Decimal? = nil
+  fileprivate var _netMvLong: Google_Type_Decimal? = nil
+  fileprivate var _netMvShort: Google_Type_Decimal? = nil
+  fileprivate var _totalAccountValue: Google_Type_Decimal? = nil
+}
+
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
 
 fileprivate let _protobuf_package = "etrade"
@@ -6305,6 +6710,469 @@ extension Etrade_ExpirationDate: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
     if lhs.expiryType != rhs.expiryType {return false}
     if lhs.month != rhs.month {return false}
     if lhs.year != rhs.year {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Etrade_GetAccountBalanceRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".GetAccountBalanceRequest"
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}account_id_key\0\u{3}institution_type\0\u{3}real_time\0\u{3}account_type\0")
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.accountIDKey) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self.institutionType) }()
+      case 3: try { try decoder.decodeSingularBoolField(value: &self._realTime) }()
+      case 4: try { try decoder.decodeSingularStringField(value: &self._accountType) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
+    if !self.accountIDKey.isEmpty {
+      try visitor.visitSingularStringField(value: self.accountIDKey, fieldNumber: 1)
+    }
+    if !self.institutionType.isEmpty {
+      try visitor.visitSingularStringField(value: self.institutionType, fieldNumber: 2)
+    }
+    try { if let v = self._realTime {
+      try visitor.visitSingularBoolField(value: v, fieldNumber: 3)
+    } }()
+    try { if let v = self._accountType {
+      try visitor.visitSingularStringField(value: v, fieldNumber: 4)
+    } }()
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Etrade_GetAccountBalanceRequest, rhs: Etrade_GetAccountBalanceRequest) -> Bool {
+    if lhs.accountIDKey != rhs.accountIDKey {return false}
+    if lhs.institutionType != rhs.institutionType {return false}
+    if lhs._realTime != rhs._realTime {return false}
+    if lhs._accountType != rhs._accountType {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Etrade_GetAccountBalanceResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".GetAccountBalanceResponse"
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}account_description\0\u{3}account_id\0\u{3}account_mode\0\u{3}account_type\0\u{1}cash\0\u{1}computed\0\u{3}day_trader_status\0\u{3}option_level\0\u{3}quote_mode\0")
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.accountDescription) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self.accountID) }()
+      case 3: try { try decoder.decodeSingularStringField(value: &self.accountMode) }()
+      case 4: try { try decoder.decodeSingularStringField(value: &self.accountType) }()
+      case 5: try { try decoder.decodeSingularMessageField(value: &self._cash) }()
+      case 6: try { try decoder.decodeSingularMessageField(value: &self._computed) }()
+      case 7: try { try decoder.decodeSingularStringField(value: &self.dayTraderStatus) }()
+      case 8: try { try decoder.decodeSingularStringField(value: &self.optionLevel) }()
+      case 9: try { try decoder.decodeSingularInt64Field(value: &self.quoteMode) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
+    if !self.accountDescription.isEmpty {
+      try visitor.visitSingularStringField(value: self.accountDescription, fieldNumber: 1)
+    }
+    if !self.accountID.isEmpty {
+      try visitor.visitSingularStringField(value: self.accountID, fieldNumber: 2)
+    }
+    if !self.accountMode.isEmpty {
+      try visitor.visitSingularStringField(value: self.accountMode, fieldNumber: 3)
+    }
+    if !self.accountType.isEmpty {
+      try visitor.visitSingularStringField(value: self.accountType, fieldNumber: 4)
+    }
+    try { if let v = self._cash {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 5)
+    } }()
+    try { if let v = self._computed {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 6)
+    } }()
+    if !self.dayTraderStatus.isEmpty {
+      try visitor.visitSingularStringField(value: self.dayTraderStatus, fieldNumber: 7)
+    }
+    if !self.optionLevel.isEmpty {
+      try visitor.visitSingularStringField(value: self.optionLevel, fieldNumber: 8)
+    }
+    if self.quoteMode != 0 {
+      try visitor.visitSingularInt64Field(value: self.quoteMode, fieldNumber: 9)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Etrade_GetAccountBalanceResponse, rhs: Etrade_GetAccountBalanceResponse) -> Bool {
+    if lhs.accountDescription != rhs.accountDescription {return false}
+    if lhs.accountID != rhs.accountID {return false}
+    if lhs.accountMode != rhs.accountMode {return false}
+    if lhs.accountType != rhs.accountType {return false}
+    if lhs._cash != rhs._cash {return false}
+    if lhs._computed != rhs._computed {return false}
+    if lhs.dayTraderStatus != rhs.dayTraderStatus {return false}
+    if lhs.optionLevel != rhs.optionLevel {return false}
+    if lhs.quoteMode != rhs.quoteMode {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Etrade_BalanceCash: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".BalanceCash"
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}funds_for_open_orders_cash\0\u{3}money_mkt_balance\0")
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularMessageField(value: &self._fundsForOpenOrdersCash) }()
+      case 2: try { try decoder.decodeSingularMessageField(value: &self._moneyMktBalance) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
+    try { if let v = self._fundsForOpenOrdersCash {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 1)
+    } }()
+    try { if let v = self._moneyMktBalance {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 2)
+    } }()
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Etrade_BalanceCash, rhs: Etrade_BalanceCash) -> Bool {
+    if lhs._fundsForOpenOrdersCash != rhs._fundsForOpenOrdersCash {return false}
+    if lhs._moneyMktBalance != rhs._moneyMktBalance {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Etrade_BalanceComputed: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".BalanceComputed"
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}account_balance\0\u{3}cash_available_for_investment\0\u{3}cash_available_for_withdrawal\0\u{3}cash_balance\0\u{3}cash_buying_power\0\u{3}dt_cash_buying_power\0\u{3}dt_margin_buying_power\0\u{3}margin_buying_power\0\u{3}net_cash\0\u{3}open_calls\0\u{3}real_time_values\0\u{3}settled_cash_for_investment\0\u{3}short_adjust_balance\0\u{3}total_available_for_withdrawal\0\u{3}un_settled_cash_for_investment\0\u{3}funds_withheld_from_purchase_power\0\u{3}funds_withheld_from_withdrawal\0\u{3}margin_balance\0\u{3}regt_equity\0\u{3}regt_equity_percent\0")
+
+  fileprivate class _StorageClass {
+    var _accountBalance: Google_Type_Decimal? = nil
+    var _cashAvailableForInvestment: Google_Type_Decimal? = nil
+    var _cashAvailableForWithdrawal: Google_Type_Decimal? = nil
+    var _cashBalance: Google_Type_Decimal? = nil
+    var _cashBuyingPower: Google_Type_Decimal? = nil
+    var _dtCashBuyingPower: Google_Type_Decimal? = nil
+    var _dtMarginBuyingPower: Google_Type_Decimal? = nil
+    var _marginBuyingPower: Google_Type_Decimal? = nil
+    var _netCash: Google_Type_Decimal? = nil
+    var _openCalls: Etrade_BalanceOpenCalls? = nil
+    var _realTimeValues: Etrade_BalanceRealTimeValues? = nil
+    var _settledCashForInvestment: Google_Type_Decimal? = nil
+    var _shortAdjustBalance: Google_Type_Decimal? = nil
+    var _totalAvailableForWithdrawal: Google_Type_Decimal? = nil
+    var _unSettledCashForInvestment: Google_Type_Decimal? = nil
+    var _fundsWithheldFromPurchasePower: Google_Type_Decimal? = nil
+    var _fundsWithheldFromWithdrawal: Google_Type_Decimal? = nil
+    var _marginBalance: Google_Type_Decimal? = nil
+    var _regtEquity: Google_Type_Decimal? = nil
+    var _regtEquityPercent: Google_Type_Decimal? = nil
+
+      // This property is used as the initial default value for new instances of the type.
+      // The type itself is protecting the reference to its storage via CoW semantics.
+      // This will force a copy to be made of this reference when the first mutation occurs;
+      // hence, it is safe to mark this as `nonisolated(unsafe)`.
+      static nonisolated(unsafe) let defaultInstance = _StorageClass()
+
+    private init() {}
+
+    init(copying source: _StorageClass) {
+      _accountBalance = source._accountBalance
+      _cashAvailableForInvestment = source._cashAvailableForInvestment
+      _cashAvailableForWithdrawal = source._cashAvailableForWithdrawal
+      _cashBalance = source._cashBalance
+      _cashBuyingPower = source._cashBuyingPower
+      _dtCashBuyingPower = source._dtCashBuyingPower
+      _dtMarginBuyingPower = source._dtMarginBuyingPower
+      _marginBuyingPower = source._marginBuyingPower
+      _netCash = source._netCash
+      _openCalls = source._openCalls
+      _realTimeValues = source._realTimeValues
+      _settledCashForInvestment = source._settledCashForInvestment
+      _shortAdjustBalance = source._shortAdjustBalance
+      _totalAvailableForWithdrawal = source._totalAvailableForWithdrawal
+      _unSettledCashForInvestment = source._unSettledCashForInvestment
+      _fundsWithheldFromPurchasePower = source._fundsWithheldFromPurchasePower
+      _fundsWithheldFromWithdrawal = source._fundsWithheldFromWithdrawal
+      _marginBalance = source._marginBalance
+      _regtEquity = source._regtEquity
+      _regtEquityPercent = source._regtEquityPercent
+    }
+  }
+
+  fileprivate mutating func _uniqueStorage() -> _StorageClass {
+    if !isKnownUniquelyReferenced(&_storage) {
+      _storage = _StorageClass(copying: _storage)
+    }
+    return _storage
+  }
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    _ = _uniqueStorage()
+    try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
+      while let fieldNumber = try decoder.nextFieldNumber() {
+        // The use of inline closures is to circumvent an issue where the compiler
+        // allocates stack space for every case branch when no optimizations are
+        // enabled. https://github.com/apple/swift-protobuf/issues/1034
+        switch fieldNumber {
+        case 1: try { try decoder.decodeSingularMessageField(value: &_storage._accountBalance) }()
+        case 2: try { try decoder.decodeSingularMessageField(value: &_storage._cashAvailableForInvestment) }()
+        case 3: try { try decoder.decodeSingularMessageField(value: &_storage._cashAvailableForWithdrawal) }()
+        case 4: try { try decoder.decodeSingularMessageField(value: &_storage._cashBalance) }()
+        case 5: try { try decoder.decodeSingularMessageField(value: &_storage._cashBuyingPower) }()
+        case 6: try { try decoder.decodeSingularMessageField(value: &_storage._dtCashBuyingPower) }()
+        case 7: try { try decoder.decodeSingularMessageField(value: &_storage._dtMarginBuyingPower) }()
+        case 8: try { try decoder.decodeSingularMessageField(value: &_storage._marginBuyingPower) }()
+        case 9: try { try decoder.decodeSingularMessageField(value: &_storage._netCash) }()
+        case 10: try { try decoder.decodeSingularMessageField(value: &_storage._openCalls) }()
+        case 11: try { try decoder.decodeSingularMessageField(value: &_storage._realTimeValues) }()
+        case 12: try { try decoder.decodeSingularMessageField(value: &_storage._settledCashForInvestment) }()
+        case 13: try { try decoder.decodeSingularMessageField(value: &_storage._shortAdjustBalance) }()
+        case 14: try { try decoder.decodeSingularMessageField(value: &_storage._totalAvailableForWithdrawal) }()
+        case 15: try { try decoder.decodeSingularMessageField(value: &_storage._unSettledCashForInvestment) }()
+        case 16: try { try decoder.decodeSingularMessageField(value: &_storage._fundsWithheldFromPurchasePower) }()
+        case 17: try { try decoder.decodeSingularMessageField(value: &_storage._fundsWithheldFromWithdrawal) }()
+        case 18: try { try decoder.decodeSingularMessageField(value: &_storage._marginBalance) }()
+        case 19: try { try decoder.decodeSingularMessageField(value: &_storage._regtEquity) }()
+        case 20: try { try decoder.decodeSingularMessageField(value: &_storage._regtEquityPercent) }()
+        default: break
+        }
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every if/case branch local when no optimizations
+      // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+      // https://github.com/apple/swift-protobuf/issues/1182
+      try { if let v = _storage._accountBalance {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 1)
+      } }()
+      try { if let v = _storage._cashAvailableForInvestment {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 2)
+      } }()
+      try { if let v = _storage._cashAvailableForWithdrawal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 3)
+      } }()
+      try { if let v = _storage._cashBalance {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 4)
+      } }()
+      try { if let v = _storage._cashBuyingPower {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 5)
+      } }()
+      try { if let v = _storage._dtCashBuyingPower {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 6)
+      } }()
+      try { if let v = _storage._dtMarginBuyingPower {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 7)
+      } }()
+      try { if let v = _storage._marginBuyingPower {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 8)
+      } }()
+      try { if let v = _storage._netCash {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 9)
+      } }()
+      try { if let v = _storage._openCalls {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 10)
+      } }()
+      try { if let v = _storage._realTimeValues {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 11)
+      } }()
+      try { if let v = _storage._settledCashForInvestment {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 12)
+      } }()
+      try { if let v = _storage._shortAdjustBalance {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 13)
+      } }()
+      try { if let v = _storage._totalAvailableForWithdrawal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 14)
+      } }()
+      try { if let v = _storage._unSettledCashForInvestment {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 15)
+      } }()
+      try { if let v = _storage._fundsWithheldFromPurchasePower {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 16)
+      } }()
+      try { if let v = _storage._fundsWithheldFromWithdrawal {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 17)
+      } }()
+      try { if let v = _storage._marginBalance {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 18)
+      } }()
+      try { if let v = _storage._regtEquity {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 19)
+      } }()
+      try { if let v = _storage._regtEquityPercent {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 20)
+      } }()
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Etrade_BalanceComputed, rhs: Etrade_BalanceComputed) -> Bool {
+    if lhs._storage !== rhs._storage {
+      let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
+        let _storage = _args.0
+        let rhs_storage = _args.1
+        if _storage._accountBalance != rhs_storage._accountBalance {return false}
+        if _storage._cashAvailableForInvestment != rhs_storage._cashAvailableForInvestment {return false}
+        if _storage._cashAvailableForWithdrawal != rhs_storage._cashAvailableForWithdrawal {return false}
+        if _storage._cashBalance != rhs_storage._cashBalance {return false}
+        if _storage._cashBuyingPower != rhs_storage._cashBuyingPower {return false}
+        if _storage._dtCashBuyingPower != rhs_storage._dtCashBuyingPower {return false}
+        if _storage._dtMarginBuyingPower != rhs_storage._dtMarginBuyingPower {return false}
+        if _storage._marginBuyingPower != rhs_storage._marginBuyingPower {return false}
+        if _storage._netCash != rhs_storage._netCash {return false}
+        if _storage._openCalls != rhs_storage._openCalls {return false}
+        if _storage._realTimeValues != rhs_storage._realTimeValues {return false}
+        if _storage._settledCashForInvestment != rhs_storage._settledCashForInvestment {return false}
+        if _storage._shortAdjustBalance != rhs_storage._shortAdjustBalance {return false}
+        if _storage._totalAvailableForWithdrawal != rhs_storage._totalAvailableForWithdrawal {return false}
+        if _storage._unSettledCashForInvestment != rhs_storage._unSettledCashForInvestment {return false}
+        if _storage._fundsWithheldFromPurchasePower != rhs_storage._fundsWithheldFromPurchasePower {return false}
+        if _storage._fundsWithheldFromWithdrawal != rhs_storage._fundsWithheldFromWithdrawal {return false}
+        if _storage._marginBalance != rhs_storage._marginBalance {return false}
+        if _storage._regtEquity != rhs_storage._regtEquity {return false}
+        if _storage._regtEquityPercent != rhs_storage._regtEquityPercent {return false}
+        return true
+      }
+      if !storagesAreEqual {return false}
+    }
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Etrade_BalanceOpenCalls: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".BalanceOpenCalls"
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}cash_call\0\u{3}fed_call\0\u{3}house_call\0\u{3}min_equity_call\0")
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularMessageField(value: &self._cashCall) }()
+      case 2: try { try decoder.decodeSingularMessageField(value: &self._fedCall) }()
+      case 3: try { try decoder.decodeSingularMessageField(value: &self._houseCall) }()
+      case 4: try { try decoder.decodeSingularMessageField(value: &self._minEquityCall) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
+    try { if let v = self._cashCall {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 1)
+    } }()
+    try { if let v = self._fedCall {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 2)
+    } }()
+    try { if let v = self._houseCall {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 3)
+    } }()
+    try { if let v = self._minEquityCall {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 4)
+    } }()
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Etrade_BalanceOpenCalls, rhs: Etrade_BalanceOpenCalls) -> Bool {
+    if lhs._cashCall != rhs._cashCall {return false}
+    if lhs._fedCall != rhs._fedCall {return false}
+    if lhs._houseCall != rhs._houseCall {return false}
+    if lhs._minEquityCall != rhs._minEquityCall {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Etrade_BalanceRealTimeValues: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".BalanceRealTimeValues"
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}net_mv\0\u{3}net_mv_long\0\u{3}net_mv_short\0\u{3}total_account_value\0")
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularMessageField(value: &self._netMv) }()
+      case 2: try { try decoder.decodeSingularMessageField(value: &self._netMvLong) }()
+      case 3: try { try decoder.decodeSingularMessageField(value: &self._netMvShort) }()
+      case 4: try { try decoder.decodeSingularMessageField(value: &self._totalAccountValue) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
+    try { if let v = self._netMv {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 1)
+    } }()
+    try { if let v = self._netMvLong {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 2)
+    } }()
+    try { if let v = self._netMvShort {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 3)
+    } }()
+    try { if let v = self._totalAccountValue {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 4)
+    } }()
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Etrade_BalanceRealTimeValues, rhs: Etrade_BalanceRealTimeValues) -> Bool {
+    if lhs._netMv != rhs._netMv {return false}
+    if lhs._netMvLong != rhs._netMvLong {return false}
+    if lhs._netMvShort != rhs._netMvShort {return false}
+    if lhs._totalAccountValue != rhs._totalAccountValue {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }

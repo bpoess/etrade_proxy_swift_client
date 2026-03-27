@@ -20,6 +20,7 @@ service ProxyService {
   rpc GetTransactionDetails(GetTransactionDetailsRequest) returns (GetTransactionDetailsResponse);
   rpc GetOptionChains(GetOptionChainsRequest) returns (GetOptionChainsResponse);
   rpc GetOptionExpireDates(GetOptionExpireDatesRequest) returns (GetOptionExpireDatesResponse);
+  rpc GetAccountBalance(GetAccountBalanceRequest) returns (GetAccountBalanceResponse);
 }
 
 // Authentication messages
@@ -472,4 +473,67 @@ message ExpirationDate {
   string expiry_type = 2;
   int64 month = 3;
   int64 year = 4;
+}
+
+// Account balances messages
+
+message GetAccountBalanceRequest {
+  string account_id_key = 1;
+  string institution_type = 2;
+  optional bool real_time = 3;
+  optional string account_type = 4;
+}
+
+message GetAccountBalanceResponse {
+  string account_description = 1;
+  string account_id = 2;
+  string account_mode = 3;
+  string account_type = 4;
+  BalanceCash cash = 5;
+  BalanceComputed computed = 6;
+  string day_trader_status = 7;
+  string option_level = 8;
+  int64 quote_mode = 9;
+}
+
+message BalanceCash {
+  google.type.Decimal funds_for_open_orders_cash = 1;
+  google.type.Decimal money_mkt_balance = 2;
+}
+
+message BalanceComputed {
+  google.type.Decimal account_balance = 1;
+  google.type.Decimal cash_available_for_investment = 2;
+  google.type.Decimal cash_available_for_withdrawal = 3;
+  google.type.Decimal cash_balance = 4;
+  google.type.Decimal cash_buying_power = 5;
+  google.type.Decimal dt_cash_buying_power = 6;
+  google.type.Decimal dt_margin_buying_power = 7;
+  google.type.Decimal margin_buying_power = 8;
+  google.type.Decimal net_cash = 9;
+  BalanceOpenCalls open_calls = 10;
+  BalanceRealTimeValues real_time_values = 11;
+  google.type.Decimal settled_cash_for_investment = 12;
+  google.type.Decimal short_adjust_balance = 13;
+  google.type.Decimal total_available_for_withdrawal = 14;
+  google.type.Decimal un_settled_cash_for_investment = 15;
+  optional google.type.Decimal funds_withheld_from_purchase_power = 16;
+  optional google.type.Decimal funds_withheld_from_withdrawal = 17;
+  optional google.type.Decimal margin_balance = 18;
+  optional google.type.Decimal regt_equity = 19;
+  optional google.type.Decimal regt_equity_percent = 20;
+}
+
+message BalanceOpenCalls {
+  google.type.Decimal cash_call = 1;
+  google.type.Decimal fed_call = 2;
+  google.type.Decimal house_call = 3;
+  google.type.Decimal min_equity_call = 4;
+}
+
+message BalanceRealTimeValues {
+  google.type.Decimal net_mv = 1;
+  google.type.Decimal net_mv_long = 2;
+  google.type.Decimal net_mv_short = 3;
+  google.type.Decimal total_account_value = 4;
 }
