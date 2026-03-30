@@ -68,11 +68,12 @@ public final class ETradeClient: Sendable {
 
     // MARK: - Positions
 
-    public func listPositions(accountIdKey: String, view: String? = nil) async throws -> [Position] {
+    public func listPositions(accountIdKey: String, view: String? = nil, lotsRequired: Bool? = nil) async throws -> [Position] {
         do {
             var request = Etrade_ListPositionsRequest()
             request.accountIDKey = accountIdKey
             if let view { request.view = view }
+            if let lotsRequired { request.lotsRequired = lotsRequired }
             return try await proxyService.listPositions(request) { response in
                 try await response.messages.reduce(into: []) { result, proto in
                     try result.append(Position(proto: proto))
@@ -141,7 +142,7 @@ public final class ETradeClient: Sendable {
         accountIdKey: String,
         startDate: String,
         endDate: String
-    ) async throws -> [Transaction] {
+    ) async throws -> [ListTransactionItem] {
         do {
             var request = Etrade_ListTransactionsRequest()
             request.accountIDKey = accountIdKey
@@ -149,7 +150,7 @@ public final class ETradeClient: Sendable {
             request.endDate = endDate
             return try await proxyService.listTransactions(request) { response in
                 try await response.messages.reduce(into: []) { result, proto in
-                    try result.append(Transaction(proto: proto))
+                    result.append(ListTransactionItem(proto: proto))
                 }
             }
         } catch let error as RPCError {
@@ -159,12 +160,14 @@ public final class ETradeClient: Sendable {
 
     public func getTransactionDetails(
         accountIdKey: String,
-        transactionId: String
+        transactionId: String,
+        storeId: Int64
     ) async throws -> Transaction {
         do {
             var request = Etrade_GetTransactionDetailsRequest()
             request.accountIDKey = accountIdKey
             request.transactionID = transactionId
+            request.storeID = storeId
             let response = try await proxyService.getTransactionDetails(request)
             return try Transaction(proto: response.transaction)
         } catch let error as RPCError {
@@ -188,6 +191,19 @@ public final class ETradeClient: Sendable {
             if let accountType { request.accountType = accountType }
             let response = try await proxyService.getAccountBalance(request)
             return try AccountBalance(proto: response)
+        } catch let error as RPCError {
+            throw ETradeError(rpcError: error)
+        }
+    }
+
+    // MARK: - Lots
+
+    public func getLot(accountIdKey: String, positionId: String) async throws {
+        do {
+            var request = Etrade_GetLotRequest()
+            request.accountIDKey = accountIdKey
+            request.positionID = positionId
+            _ = try await proxyService.getLot(request)
         } catch let error as RPCError {
             throw ETradeError(rpcError: error)
         }

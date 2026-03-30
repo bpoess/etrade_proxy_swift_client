@@ -112,11 +112,21 @@ struct Etrade_ListPositionsRequest: Sendable {
   /// Clears the value of `view`. Subsequent reads from it will return its default value.
   mutating func clearView() {self._view = nil}
 
+  var lotsRequired: Bool {
+    get {_lotsRequired ?? false}
+    set {_lotsRequired = newValue}
+  }
+  /// Returns true if `lotsRequired` has been explicitly set.
+  var hasLotsRequired: Bool {self._lotsRequired != nil}
+  /// Clears the value of `lotsRequired`. Subsequent reads from it will return its default value.
+  mutating func clearLotsRequired() {self._lotsRequired = nil}
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
 
   fileprivate var _view: String? = nil
+  fileprivate var _lotsRequired: Bool? = nil
 }
 
 struct Etrade_ListQuotesRequest: Sendable {
@@ -209,6 +219,8 @@ struct Etrade_GetTransactionDetailsRequest: Sendable {
   var accountIDKey: String = String()
 
   var transactionID: String = String()
+
+  var storeID: Int64 = 0
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -2406,6 +2418,11 @@ struct Etrade_Brokerage: @unchecked Sendable {
   /// Clears the value of `orderNo`. Subsequent reads from it will return its default value.
   mutating func clearOrderNo() {_uniqueStorage()._orderNo = nil}
 
+  var memo: String {
+    get {_storage._memo}
+    set {_uniqueStorage()._memo = newValue}
+  }
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
@@ -2468,6 +2485,24 @@ struct Etrade_Transaction: Sendable {
   fileprivate var _postDate: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
   fileprivate var _amount: Google_Type_Decimal? = nil
   fileprivate var _brokerage: Etrade_Brokerage? = nil
+}
+
+struct Etrade_ListTransactionItem: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var accountID: String = String()
+
+  var storeID: Int64 = 0
+
+  var transactionID: String = String()
+
+  var transactionType: String = String()
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
 }
 
 struct Etrade_OptionPair: Sendable {
@@ -3220,6 +3255,30 @@ struct Etrade_BalanceRealTimeValues: Sendable {
   fileprivate var _totalAccountValue: Google_Type_Decimal? = nil
 }
 
+struct Etrade_GetLotRequest: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var accountIDKey: String = String()
+
+  var positionID: String = String()
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+}
+
+struct Etrade_GetLotResponse: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+}
+
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
 
 fileprivate let _protobuf_package = "etrade"
@@ -3392,7 +3451,7 @@ extension Etrade_ListAccountsRequest: SwiftProtobuf.Message, SwiftProtobuf._Mess
 
 extension Etrade_ListPositionsRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".ListPositionsRequest"
-  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}account_id_key\0\u{1}view\0")
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}account_id_key\0\u{1}view\0\u{3}lots_required\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -3402,6 +3461,7 @@ extension Etrade_ListPositionsRequest: SwiftProtobuf.Message, SwiftProtobuf._Mes
       switch fieldNumber {
       case 1: try { try decoder.decodeSingularStringField(value: &self.accountIDKey) }()
       case 2: try { try decoder.decodeSingularStringField(value: &self._view) }()
+      case 3: try { try decoder.decodeSingularBoolField(value: &self._lotsRequired) }()
       default: break
       }
     }
@@ -3418,12 +3478,16 @@ extension Etrade_ListPositionsRequest: SwiftProtobuf.Message, SwiftProtobuf._Mes
     try { if let v = self._view {
       try visitor.visitSingularStringField(value: v, fieldNumber: 2)
     } }()
+    try { if let v = self._lotsRequired {
+      try visitor.visitSingularBoolField(value: v, fieldNumber: 3)
+    } }()
     try unknownFields.traverse(visitor: &visitor)
   }
 
   static func ==(lhs: Etrade_ListPositionsRequest, rhs: Etrade_ListPositionsRequest) -> Bool {
     if lhs.accountIDKey != rhs.accountIDKey {return false}
     if lhs._view != rhs._view {return false}
+    if lhs._lotsRequired != rhs._lotsRequired {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -3589,7 +3653,7 @@ extension Etrade_ListTransactionsRequest: SwiftProtobuf.Message, SwiftProtobuf._
 
 extension Etrade_GetTransactionDetailsRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".GetTransactionDetailsRequest"
-  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}account_id_key\0\u{3}transaction_id\0")
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}account_id_key\0\u{3}transaction_id\0\u{3}store_id\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -3599,6 +3663,7 @@ extension Etrade_GetTransactionDetailsRequest: SwiftProtobuf.Message, SwiftProto
       switch fieldNumber {
       case 1: try { try decoder.decodeSingularStringField(value: &self.accountIDKey) }()
       case 2: try { try decoder.decodeSingularStringField(value: &self.transactionID) }()
+      case 3: try { try decoder.decodeSingularInt64Field(value: &self.storeID) }()
       default: break
       }
     }
@@ -3611,12 +3676,16 @@ extension Etrade_GetTransactionDetailsRequest: SwiftProtobuf.Message, SwiftProto
     if !self.transactionID.isEmpty {
       try visitor.visitSingularStringField(value: self.transactionID, fieldNumber: 2)
     }
+    if self.storeID != 0 {
+      try visitor.visitSingularInt64Field(value: self.storeID, fieldNumber: 3)
+    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
   static func ==(lhs: Etrade_GetTransactionDetailsRequest, rhs: Etrade_GetTransactionDetailsRequest) -> Bool {
     if lhs.accountIDKey != rhs.accountIDKey {return false}
     if lhs.transactionID != rhs.transactionID {return false}
+    if lhs.storeID != rhs.storeID {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -6004,7 +6073,7 @@ extension Etrade_Order: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementat
 
 extension Etrade_Brokerage: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".Brokerage"
-  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}transaction_type\0\u{1}product\0\u{1}quantity\0\u{1}price\0\u{3}settlement_currency\0\u{3}payment_currency\0\u{1}fee\0\u{3}order_no\0")
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}transaction_type\0\u{1}product\0\u{1}quantity\0\u{1}price\0\u{3}settlement_currency\0\u{3}payment_currency\0\u{1}fee\0\u{3}order_no\0\u{1}memo\0")
 
   fileprivate class _StorageClass {
     var _transactionType: String = String()
@@ -6015,6 +6084,7 @@ extension Etrade_Brokerage: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
     var _paymentCurrency: String = String()
     var _fee: Google_Type_Decimal? = nil
     var _orderNo: String? = nil
+    var _memo: String = String()
 
       // This property is used as the initial default value for new instances of the type.
       // The type itself is protecting the reference to its storage via CoW semantics.
@@ -6033,6 +6103,7 @@ extension Etrade_Brokerage: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
       _paymentCurrency = source._paymentCurrency
       _fee = source._fee
       _orderNo = source._orderNo
+      _memo = source._memo
     }
   }
 
@@ -6059,6 +6130,7 @@ extension Etrade_Brokerage: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
         case 6: try { try decoder.decodeSingularStringField(value: &_storage._paymentCurrency) }()
         case 7: try { try decoder.decodeSingularMessageField(value: &_storage._fee) }()
         case 8: try { try decoder.decodeSingularStringField(value: &_storage._orderNo) }()
+        case 9: try { try decoder.decodeSingularStringField(value: &_storage._memo) }()
         default: break
         }
       }
@@ -6095,6 +6167,9 @@ extension Etrade_Brokerage: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
       try { if let v = _storage._orderNo {
         try visitor.visitSingularStringField(value: v, fieldNumber: 8)
       } }()
+      if !_storage._memo.isEmpty {
+        try visitor.visitSingularStringField(value: _storage._memo, fieldNumber: 9)
+      }
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -6112,6 +6187,7 @@ extension Etrade_Brokerage: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
         if _storage._paymentCurrency != rhs_storage._paymentCurrency {return false}
         if _storage._fee != rhs_storage._fee {return false}
         if _storage._orderNo != rhs_storage._orderNo {return false}
+        if _storage._memo != rhs_storage._memo {return false}
         return true
       }
       if !storagesAreEqual {return false}
@@ -6180,6 +6256,51 @@ extension Etrade_Transaction: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
     if lhs._amount != rhs._amount {return false}
     if lhs.description_p != rhs.description_p {return false}
     if lhs._brokerage != rhs._brokerage {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Etrade_ListTransactionItem: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".ListTransactionItem"
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}account_id\0\u{3}store_id\0\u{3}transaction_id\0\u{3}transaction_type\0")
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.accountID) }()
+      case 2: try { try decoder.decodeSingularInt64Field(value: &self.storeID) }()
+      case 3: try { try decoder.decodeSingularStringField(value: &self.transactionID) }()
+      case 4: try { try decoder.decodeSingularStringField(value: &self.transactionType) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.accountID.isEmpty {
+      try visitor.visitSingularStringField(value: self.accountID, fieldNumber: 1)
+    }
+    if self.storeID != 0 {
+      try visitor.visitSingularInt64Field(value: self.storeID, fieldNumber: 2)
+    }
+    if !self.transactionID.isEmpty {
+      try visitor.visitSingularStringField(value: self.transactionID, fieldNumber: 3)
+    }
+    if !self.transactionType.isEmpty {
+      try visitor.visitSingularStringField(value: self.transactionType, fieldNumber: 4)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Etrade_ListTransactionItem, rhs: Etrade_ListTransactionItem) -> Bool {
+    if lhs.accountID != rhs.accountID {return false}
+    if lhs.storeID != rhs.storeID {return false}
+    if lhs.transactionID != rhs.transactionID {return false}
+    if lhs.transactionType != rhs.transactionType {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -7173,6 +7294,60 @@ extension Etrade_BalanceRealTimeValues: SwiftProtobuf.Message, SwiftProtobuf._Me
     if lhs._netMvLong != rhs._netMvLong {return false}
     if lhs._netMvShort != rhs._netMvShort {return false}
     if lhs._totalAccountValue != rhs._totalAccountValue {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Etrade_GetLotRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".GetLotRequest"
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}account_id_key\0\u{3}position_id\0")
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.accountIDKey) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self.positionID) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.accountIDKey.isEmpty {
+      try visitor.visitSingularStringField(value: self.accountIDKey, fieldNumber: 1)
+    }
+    if !self.positionID.isEmpty {
+      try visitor.visitSingularStringField(value: self.positionID, fieldNumber: 2)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Etrade_GetLotRequest, rhs: Etrade_GetLotRequest) -> Bool {
+    if lhs.accountIDKey != rhs.accountIDKey {return false}
+    if lhs.positionID != rhs.positionID {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Etrade_GetLotResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".GetLotResponse"
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap()
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    // Load everything into unknown fields
+    while try decoder.nextFieldNumber() != nil {}
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Etrade_GetLotResponse, rhs: Etrade_GetLotResponse) -> Bool {
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }

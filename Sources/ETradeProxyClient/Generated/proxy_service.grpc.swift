@@ -129,7 +129,7 @@ internal enum Etrade_ProxyService: Sendable {
             /// Request type for "ListTransactions".
             internal typealias Input = Etrade_ListTransactionsRequest
             /// Response type for "ListTransactions".
-            internal typealias Output = Etrade_Transaction
+            internal typealias Output = Etrade_ListTransactionItem
             /// Descriptor for "ListTransactions".
             internal static let descriptor = GRPCCore.MethodDescriptor(
                 service: GRPCCore.ServiceDescriptor(fullyQualifiedService: "etrade.ProxyService"),
@@ -189,6 +189,19 @@ internal enum Etrade_ProxyService: Sendable {
                 type: .unary
             )
         }
+        /// Namespace for "GetLot" metadata.
+        internal enum GetLot: Sendable {
+            /// Request type for "GetLot".
+            internal typealias Input = Etrade_GetLotRequest
+            /// Response type for "GetLot".
+            internal typealias Output = Etrade_GetLotResponse
+            /// Descriptor for "GetLot".
+            internal static let descriptor = GRPCCore.MethodDescriptor(
+                service: GRPCCore.ServiceDescriptor(fullyQualifiedService: "etrade.ProxyService"),
+                method: "GetLot",
+                type: .unary
+            )
+        }
         /// Descriptors for all methods in the "etrade.ProxyService" service.
         internal static let descriptors: [GRPCCore.MethodDescriptor] = [
             GetAuthenticationStatus.descriptor,
@@ -203,7 +216,8 @@ internal enum Etrade_ProxyService: Sendable {
             GetTransactionDetails.descriptor,
             GetOptionChains.descriptor,
             GetOptionExpireDates.descriptor,
-            GetAccountBalance.descriptor
+            GetAccountBalance.descriptor,
+            GetLot.descriptor
         ]
     }
 }
@@ -349,11 +363,11 @@ extension Etrade_ProxyService {
         /// - Throws: Any error which occurred during the processing of the request. Thrown errors
         ///     of type `RPCError` are mapped to appropriate statuses. All other errors are converted
         ///     to an internal error.
-        /// - Returns: A streaming response of `Etrade_Transaction` messages.
+        /// - Returns: A streaming response of `Etrade_ListTransactionItem` messages.
         func listTransactions(
             request: GRPCCore.StreamingServerRequest<Etrade_ListTransactionsRequest>,
             context: GRPCCore.ServerContext
-        ) async throws -> GRPCCore.StreamingServerResponse<Etrade_Transaction>
+        ) async throws -> GRPCCore.StreamingServerResponse<Etrade_ListTransactionItem>
 
         /// Handle the "GetTransactionDetails" method.
         ///
@@ -410,6 +424,20 @@ extension Etrade_ProxyService {
             request: GRPCCore.StreamingServerRequest<Etrade_GetAccountBalanceRequest>,
             context: GRPCCore.ServerContext
         ) async throws -> GRPCCore.StreamingServerResponse<Etrade_GetAccountBalanceResponse>
+
+        /// Handle the "GetLot" method.
+        ///
+        /// - Parameters:
+        ///   - request: A streaming request of `Etrade_GetLotRequest` messages.
+        ///   - context: Context providing information about the RPC.
+        /// - Throws: Any error which occurred during the processing of the request. Thrown errors
+        ///     of type `RPCError` are mapped to appropriate statuses. All other errors are converted
+        ///     to an internal error.
+        /// - Returns: A streaming response of `Etrade_GetLotResponse` messages.
+        func getLot(
+            request: GRPCCore.StreamingServerRequest<Etrade_GetLotRequest>,
+            context: GRPCCore.ServerContext
+        ) async throws -> GRPCCore.StreamingServerResponse<Etrade_GetLotResponse>
     }
 
     /// Service protocol for the "etrade.ProxyService" service.
@@ -540,11 +568,11 @@ extension Etrade_ProxyService {
         /// - Throws: Any error which occurred during the processing of the request. Thrown errors
         ///     of type `RPCError` are mapped to appropriate statuses. All other errors are converted
         ///     to an internal error.
-        /// - Returns: A streaming response of `Etrade_Transaction` messages.
+        /// - Returns: A streaming response of `Etrade_ListTransactionItem` messages.
         func listTransactions(
             request: GRPCCore.ServerRequest<Etrade_ListTransactionsRequest>,
             context: GRPCCore.ServerContext
-        ) async throws -> GRPCCore.StreamingServerResponse<Etrade_Transaction>
+        ) async throws -> GRPCCore.StreamingServerResponse<Etrade_ListTransactionItem>
 
         /// Handle the "GetTransactionDetails" method.
         ///
@@ -601,6 +629,20 @@ extension Etrade_ProxyService {
             request: GRPCCore.ServerRequest<Etrade_GetAccountBalanceRequest>,
             context: GRPCCore.ServerContext
         ) async throws -> GRPCCore.ServerResponse<Etrade_GetAccountBalanceResponse>
+
+        /// Handle the "GetLot" method.
+        ///
+        /// - Parameters:
+        ///   - request: A request containing a single `Etrade_GetLotRequest` message.
+        ///   - context: Context providing information about the RPC.
+        /// - Throws: Any error which occurred during the processing of the request. Thrown errors
+        ///     of type `RPCError` are mapped to appropriate statuses. All other errors are converted
+        ///     to an internal error.
+        /// - Returns: A response containing a single `Etrade_GetLotResponse` message.
+        func getLot(
+            request: GRPCCore.ServerRequest<Etrade_GetLotRequest>,
+            context: GRPCCore.ServerContext
+        ) async throws -> GRPCCore.ServerResponse<Etrade_GetLotResponse>
     }
 
     /// Simple service protocol for the "etrade.ProxyService" service.
@@ -728,14 +770,14 @@ extension Etrade_ProxyService {
         ///
         /// - Parameters:
         ///   - request: A `Etrade_ListTransactionsRequest` message.
-        ///   - response: A response stream of `Etrade_Transaction` messages.
+        ///   - response: A response stream of `Etrade_ListTransactionItem` messages.
         ///   - context: Context providing information about the RPC.
         /// - Throws: Any error which occurred during the processing of the request. Thrown errors
         ///     of type `RPCError` are mapped to appropriate statuses. All other errors are converted
         ///     to an internal error.
         func listTransactions(
             request: Etrade_ListTransactionsRequest,
-            response: GRPCCore.RPCWriter<Etrade_Transaction>,
+            response: GRPCCore.RPCWriter<Etrade_ListTransactionItem>,
             context: GRPCCore.ServerContext
         ) async throws
 
@@ -794,6 +836,20 @@ extension Etrade_ProxyService {
             request: Etrade_GetAccountBalanceRequest,
             context: GRPCCore.ServerContext
         ) async throws -> Etrade_GetAccountBalanceResponse
+
+        /// Handle the "GetLot" method.
+        ///
+        /// - Parameters:
+        ///   - request: A `Etrade_GetLotRequest` message.
+        ///   - context: Context providing information about the RPC.
+        /// - Throws: Any error which occurred during the processing of the request. Thrown errors
+        ///     of type `RPCError` are mapped to appropriate statuses. All other errors are converted
+        ///     to an internal error.
+        /// - Returns: A `Etrade_GetLotResponse` to respond with.
+        func getLot(
+            request: Etrade_GetLotRequest,
+            context: GRPCCore.ServerContext
+        ) async throws -> Etrade_GetLotResponse
     }
 }
 
@@ -892,7 +948,7 @@ extension Etrade_ProxyService.StreamingServiceProtocol {
         router.registerHandler(
             forMethod: Etrade_ProxyService.Method.ListTransactions.descriptor,
             deserializer: GRPCProtobuf.ProtobufDeserializer<Etrade_ListTransactionsRequest>(),
-            serializer: GRPCProtobuf.ProtobufSerializer<Etrade_Transaction>(),
+            serializer: GRPCProtobuf.ProtobufSerializer<Etrade_ListTransactionItem>(),
             handler: { request, context in
                 try await self.listTransactions(
                     request: request,
@@ -939,6 +995,17 @@ extension Etrade_ProxyService.StreamingServiceProtocol {
             serializer: GRPCProtobuf.ProtobufSerializer<Etrade_GetAccountBalanceResponse>(),
             handler: { request, context in
                 try await self.getAccountBalance(
+                    request: request,
+                    context: context
+                )
+            }
+        )
+        router.registerHandler(
+            forMethod: Etrade_ProxyService.Method.GetLot.descriptor,
+            deserializer: GRPCProtobuf.ProtobufDeserializer<Etrade_GetLotRequest>(),
+            serializer: GRPCProtobuf.ProtobufSerializer<Etrade_GetLotResponse>(),
+            handler: { request, context in
+                try await self.getLot(
                     request: request,
                     context: context
                 )
@@ -1041,7 +1108,7 @@ extension Etrade_ProxyService.ServiceProtocol {
     internal func listTransactions(
         request: GRPCCore.StreamingServerRequest<Etrade_ListTransactionsRequest>,
         context: GRPCCore.ServerContext
-    ) async throws -> GRPCCore.StreamingServerResponse<Etrade_Transaction> {
+    ) async throws -> GRPCCore.StreamingServerResponse<Etrade_ListTransactionItem> {
         let response = try await self.listTransactions(
             request: GRPCCore.ServerRequest(stream: request),
             context: context
@@ -1087,6 +1154,17 @@ extension Etrade_ProxyService.ServiceProtocol {
         context: GRPCCore.ServerContext
     ) async throws -> GRPCCore.StreamingServerResponse<Etrade_GetAccountBalanceResponse> {
         let response = try await self.getAccountBalance(
+            request: GRPCCore.ServerRequest(stream: request),
+            context: context
+        )
+        return GRPCCore.StreamingServerResponse(single: response)
+    }
+
+    internal func getLot(
+        request: GRPCCore.StreamingServerRequest<Etrade_GetLotRequest>,
+        context: GRPCCore.ServerContext
+    ) async throws -> GRPCCore.StreamingServerResponse<Etrade_GetLotResponse> {
+        let response = try await self.getLot(
             request: GRPCCore.ServerRequest(stream: request),
             context: context
         )
@@ -1216,8 +1294,8 @@ extension Etrade_ProxyService.SimpleServiceProtocol {
     internal func listTransactions(
         request: GRPCCore.ServerRequest<Etrade_ListTransactionsRequest>,
         context: GRPCCore.ServerContext
-    ) async throws -> GRPCCore.StreamingServerResponse<Etrade_Transaction> {
-        return GRPCCore.StreamingServerResponse<Etrade_Transaction>(
+    ) async throws -> GRPCCore.StreamingServerResponse<Etrade_ListTransactionItem> {
+        return GRPCCore.StreamingServerResponse<Etrade_ListTransactionItem>(
             metadata: [:],
             producer: { writer in
                 try await self.listTransactions(
@@ -1275,6 +1353,19 @@ extension Etrade_ProxyService.SimpleServiceProtocol {
     ) async throws -> GRPCCore.ServerResponse<Etrade_GetAccountBalanceResponse> {
         return GRPCCore.ServerResponse<Etrade_GetAccountBalanceResponse>(
             message: try await self.getAccountBalance(
+                request: request.message,
+                context: context
+            ),
+            metadata: [:]
+        )
+    }
+
+    internal func getLot(
+        request: GRPCCore.ServerRequest<Etrade_GetLotRequest>,
+        context: GRPCCore.ServerContext
+    ) async throws -> GRPCCore.ServerResponse<Etrade_GetLotResponse> {
+        return GRPCCore.ServerResponse<Etrade_GetLotResponse>(
+            message: try await self.getLot(
                 request: request.message,
                 context: context
             ),
@@ -1449,7 +1540,7 @@ extension Etrade_ProxyService {
         /// - Parameters:
         ///   - request: A request containing a single `Etrade_ListTransactionsRequest` message.
         ///   - serializer: A serializer for `Etrade_ListTransactionsRequest` messages.
-        ///   - deserializer: A deserializer for `Etrade_Transaction` messages.
+        ///   - deserializer: A deserializer for `Etrade_ListTransactionItem` messages.
         ///   - options: Options to apply to this RPC.
         ///   - handleResponse: A closure which handles the response, the result of which is
         ///       returned to the caller. Returning from the closure will cancel the RPC if it
@@ -1458,9 +1549,9 @@ extension Etrade_ProxyService {
         func listTransactions<Result>(
             request: GRPCCore.ClientRequest<Etrade_ListTransactionsRequest>,
             serializer: some GRPCCore.MessageSerializer<Etrade_ListTransactionsRequest>,
-            deserializer: some GRPCCore.MessageDeserializer<Etrade_Transaction>,
+            deserializer: some GRPCCore.MessageDeserializer<Etrade_ListTransactionItem>,
             options: GRPCCore.CallOptions,
-            onResponse handleResponse: @Sendable @escaping (GRPCCore.StreamingClientResponse<Etrade_Transaction>) async throws -> Result
+            onResponse handleResponse: @Sendable @escaping (GRPCCore.StreamingClientResponse<Etrade_ListTransactionItem>) async throws -> Result
         ) async throws -> Result where Result: Sendable
 
         /// Call the "GetTransactionDetails" method.
@@ -1537,6 +1628,25 @@ extension Etrade_ProxyService {
             deserializer: some GRPCCore.MessageDeserializer<Etrade_GetAccountBalanceResponse>,
             options: GRPCCore.CallOptions,
             onResponse handleResponse: @Sendable @escaping (GRPCCore.ClientResponse<Etrade_GetAccountBalanceResponse>) async throws -> Result
+        ) async throws -> Result where Result: Sendable
+
+        /// Call the "GetLot" method.
+        ///
+        /// - Parameters:
+        ///   - request: A request containing a single `Etrade_GetLotRequest` message.
+        ///   - serializer: A serializer for `Etrade_GetLotRequest` messages.
+        ///   - deserializer: A deserializer for `Etrade_GetLotResponse` messages.
+        ///   - options: Options to apply to this RPC.
+        ///   - handleResponse: A closure which handles the response, the result of which is
+        ///       returned to the caller. Returning from the closure will cancel the RPC if it
+        ///       hasn't already finished.
+        /// - Returns: The result of `handleResponse`.
+        func getLot<Result>(
+            request: GRPCCore.ClientRequest<Etrade_GetLotRequest>,
+            serializer: some GRPCCore.MessageSerializer<Etrade_GetLotRequest>,
+            deserializer: some GRPCCore.MessageDeserializer<Etrade_GetLotResponse>,
+            options: GRPCCore.CallOptions,
+            onResponse handleResponse: @Sendable @escaping (GRPCCore.ClientResponse<Etrade_GetLotResponse>) async throws -> Result
         ) async throws -> Result where Result: Sendable
     }
 
@@ -1795,7 +1905,7 @@ extension Etrade_ProxyService {
         /// - Parameters:
         ///   - request: A request containing a single `Etrade_ListTransactionsRequest` message.
         ///   - serializer: A serializer for `Etrade_ListTransactionsRequest` messages.
-        ///   - deserializer: A deserializer for `Etrade_Transaction` messages.
+        ///   - deserializer: A deserializer for `Etrade_ListTransactionItem` messages.
         ///   - options: Options to apply to this RPC.
         ///   - handleResponse: A closure which handles the response, the result of which is
         ///       returned to the caller. Returning from the closure will cancel the RPC if it
@@ -1804,9 +1914,9 @@ extension Etrade_ProxyService {
         internal func listTransactions<Result>(
             request: GRPCCore.ClientRequest<Etrade_ListTransactionsRequest>,
             serializer: some GRPCCore.MessageSerializer<Etrade_ListTransactionsRequest>,
-            deserializer: some GRPCCore.MessageDeserializer<Etrade_Transaction>,
+            deserializer: some GRPCCore.MessageDeserializer<Etrade_ListTransactionItem>,
             options: GRPCCore.CallOptions = .defaults,
-            onResponse handleResponse: @Sendable @escaping (GRPCCore.StreamingClientResponse<Etrade_Transaction>) async throws -> Result
+            onResponse handleResponse: @Sendable @escaping (GRPCCore.StreamingClientResponse<Etrade_ListTransactionItem>) async throws -> Result
         ) async throws -> Result where Result: Sendable {
             try await self.client.serverStreaming(
                 request: request,
@@ -1931,6 +2041,36 @@ extension Etrade_ProxyService {
             try await self.client.unary(
                 request: request,
                 descriptor: Etrade_ProxyService.Method.GetAccountBalance.descriptor,
+                serializer: serializer,
+                deserializer: deserializer,
+                options: options,
+                onResponse: handleResponse
+            )
+        }
+
+        /// Call the "GetLot" method.
+        ///
+        /// - Parameters:
+        ///   - request: A request containing a single `Etrade_GetLotRequest` message.
+        ///   - serializer: A serializer for `Etrade_GetLotRequest` messages.
+        ///   - deserializer: A deserializer for `Etrade_GetLotResponse` messages.
+        ///   - options: Options to apply to this RPC.
+        ///   - handleResponse: A closure which handles the response, the result of which is
+        ///       returned to the caller. Returning from the closure will cancel the RPC if it
+        ///       hasn't already finished.
+        /// - Returns: The result of `handleResponse`.
+        internal func getLot<Result>(
+            request: GRPCCore.ClientRequest<Etrade_GetLotRequest>,
+            serializer: some GRPCCore.MessageSerializer<Etrade_GetLotRequest>,
+            deserializer: some GRPCCore.MessageDeserializer<Etrade_GetLotResponse>,
+            options: GRPCCore.CallOptions = .defaults,
+            onResponse handleResponse: @Sendable @escaping (GRPCCore.ClientResponse<Etrade_GetLotResponse>) async throws -> Result = { response in
+                try response.message
+            }
+        ) async throws -> Result where Result: Sendable {
+            try await self.client.unary(
+                request: request,
+                descriptor: Etrade_ProxyService.Method.GetLot.descriptor,
                 serializer: serializer,
                 deserializer: deserializer,
                 options: options,
@@ -2149,12 +2289,12 @@ extension Etrade_ProxyService.ClientProtocol {
     internal func listTransactions<Result>(
         request: GRPCCore.ClientRequest<Etrade_ListTransactionsRequest>,
         options: GRPCCore.CallOptions = .defaults,
-        onResponse handleResponse: @Sendable @escaping (GRPCCore.StreamingClientResponse<Etrade_Transaction>) async throws -> Result
+        onResponse handleResponse: @Sendable @escaping (GRPCCore.StreamingClientResponse<Etrade_ListTransactionItem>) async throws -> Result
     ) async throws -> Result where Result: Sendable {
         try await self.listTransactions(
             request: request,
             serializer: GRPCProtobuf.ProtobufSerializer<Etrade_ListTransactionsRequest>(),
-            deserializer: GRPCProtobuf.ProtobufDeserializer<Etrade_Transaction>(),
+            deserializer: GRPCProtobuf.ProtobufDeserializer<Etrade_ListTransactionItem>(),
             options: options,
             onResponse: handleResponse
         )
@@ -2255,6 +2395,31 @@ extension Etrade_ProxyService.ClientProtocol {
             request: request,
             serializer: GRPCProtobuf.ProtobufSerializer<Etrade_GetAccountBalanceRequest>(),
             deserializer: GRPCProtobuf.ProtobufDeserializer<Etrade_GetAccountBalanceResponse>(),
+            options: options,
+            onResponse: handleResponse
+        )
+    }
+
+    /// Call the "GetLot" method.
+    ///
+    /// - Parameters:
+    ///   - request: A request containing a single `Etrade_GetLotRequest` message.
+    ///   - options: Options to apply to this RPC.
+    ///   - handleResponse: A closure which handles the response, the result of which is
+    ///       returned to the caller. Returning from the closure will cancel the RPC if it
+    ///       hasn't already finished.
+    /// - Returns: The result of `handleResponse`.
+    internal func getLot<Result>(
+        request: GRPCCore.ClientRequest<Etrade_GetLotRequest>,
+        options: GRPCCore.CallOptions = .defaults,
+        onResponse handleResponse: @Sendable @escaping (GRPCCore.ClientResponse<Etrade_GetLotResponse>) async throws -> Result = { response in
+            try response.message
+        }
+    ) async throws -> Result where Result: Sendable {
+        try await self.getLot(
+            request: request,
+            serializer: GRPCProtobuf.ProtobufSerializer<Etrade_GetLotRequest>(),
+            deserializer: GRPCProtobuf.ProtobufDeserializer<Etrade_GetLotResponse>(),
             options: options,
             onResponse: handleResponse
         )
@@ -2504,7 +2669,7 @@ extension Etrade_ProxyService.ClientProtocol {
         _ message: Etrade_ListTransactionsRequest,
         metadata: GRPCCore.Metadata = [:],
         options: GRPCCore.CallOptions = .defaults,
-        onResponse handleResponse: @Sendable @escaping (GRPCCore.StreamingClientResponse<Etrade_Transaction>) async throws -> Result
+        onResponse handleResponse: @Sendable @escaping (GRPCCore.StreamingClientResponse<Etrade_ListTransactionItem>) async throws -> Result
     ) async throws -> Result where Result: Sendable {
         let request = GRPCCore.ClientRequest<Etrade_ListTransactionsRequest>(
             message: message,
@@ -2627,6 +2792,35 @@ extension Etrade_ProxyService.ClientProtocol {
             metadata: metadata
         )
         return try await self.getAccountBalance(
+            request: request,
+            options: options,
+            onResponse: handleResponse
+        )
+    }
+
+    /// Call the "GetLot" method.
+    ///
+    /// - Parameters:
+    ///   - message: request message to send.
+    ///   - metadata: Additional metadata to send, defaults to empty.
+    ///   - options: Options to apply to this RPC, defaults to `.defaults`.
+    ///   - handleResponse: A closure which handles the response, the result of which is
+    ///       returned to the caller. Returning from the closure will cancel the RPC if it
+    ///       hasn't already finished.
+    /// - Returns: The result of `handleResponse`.
+    internal func getLot<Result>(
+        _ message: Etrade_GetLotRequest,
+        metadata: GRPCCore.Metadata = [:],
+        options: GRPCCore.CallOptions = .defaults,
+        onResponse handleResponse: @Sendable @escaping (GRPCCore.ClientResponse<Etrade_GetLotResponse>) async throws -> Result = { response in
+            try response.message
+        }
+    ) async throws -> Result where Result: Sendable {
+        let request = GRPCCore.ClientRequest<Etrade_GetLotRequest>(
+            message: message,
+            metadata: metadata
+        )
+        return try await self.getLot(
             request: request,
             options: options,
             onResponse: handleResponse

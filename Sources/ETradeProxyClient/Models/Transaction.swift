@@ -19,4 +19,12 @@ public struct Brokerage: Sendable {
     public let paymentCurrency: String
     public let fee: Decimal
     public let orderNo: String?
+    public let memo: String
+}
+
+public struct ListTransactionItem: Sendable {
+    public let accountId: String
+    public let storeId: Int64
+    public let id: String
+    public let type: String
 }

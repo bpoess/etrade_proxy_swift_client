@@ -16,11 +16,12 @@ service ProxyService {
   rpc ListQuotes(ListQuotesRequest) returns (stream Quote);
   rpc ListOrders(ListOrdersRequest) returns (stream Order);
   rpc GetOrderDetails(GetOrderDetailsRequest) returns (GetOrderDetailsResponse);
-  rpc ListTransactions(ListTransactionsRequest) returns (stream Transaction);
+  rpc ListTransactions(ListTransactionsRequest) returns (stream ListTransactionItem);
   rpc GetTransactionDetails(GetTransactionDetailsRequest) returns (GetTransactionDetailsResponse);
   rpc GetOptionChains(GetOptionChainsRequest) returns (GetOptionChainsResponse);
   rpc GetOptionExpireDates(GetOptionExpireDatesRequest) returns (GetOptionExpireDatesResponse);
   rpc GetAccountBalance(GetAccountBalanceRequest) returns (GetAccountBalanceResponse);
+  rpc GetLot(GetLotRequest) returns (GetLotResponse);
 }
 
 // Authentication messages
@@ -47,6 +48,7 @@ message ListAccountsRequest {}
 message ListPositionsRequest {
   string account_id_key = 1;
   optional string view = 2;
+  optional bool lots_required = 3;
 }
 
 message ListQuotesRequest {
@@ -74,6 +76,7 @@ message ListTransactionsRequest {
 message GetTransactionDetailsRequest {
   string account_id_key = 1;
   string transaction_id = 2;
+  int64 store_id = 3;
 }
 
 message GetOptionExpireDatesRequest {
@@ -399,6 +402,7 @@ message Brokerage {
   string payment_currency = 6;
   google.type.Decimal fee = 7;
   optional string order_no = 8;
+  string memo = 9;
 }
 
 message Transaction {
@@ -409,6 +413,13 @@ message Transaction {
   google.type.Decimal amount = 5;
   string description = 6;
   Brokerage brokerage = 7;
+}
+
+message ListTransactionItem {
+  string account_id = 1;
+  int64 store_id = 2;
+  string transaction_id = 3;
+  string transaction_type = 4;
 }
 
 message OptionPair {
@@ -537,3 +548,12 @@ message BalanceRealTimeValues {
   google.type.Decimal net_mv_short = 3;
   google.type.Decimal total_account_value = 4;
 }
+
+// Lot messages
+
+message GetLotRequest {
+  string account_id_key = 1;
+  string position_id = 2;
+}
+
+message GetLotResponse {}

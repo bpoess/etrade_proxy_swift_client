@@ -342,7 +342,19 @@ extension Brokerage {
             settlementCurrency: proto.settlementCurrency,
             paymentCurrency: proto.paymentCurrency,
             fee: try Decimal(proto: proto.fee),
-            orderNo: proto.hasOrderNo ? proto.orderNo : nil
+            orderNo: proto.hasOrderNo ? proto.orderNo : nil,
+            memo: proto.memo
+        )
+    }
+}
+
+extension ListTransactionItem {
+    init(proto: Etrade_ListTransactionItem) {
+        self.init(
+            accountId: proto.accountID,
+            storeId: proto.storeID,
+            id: proto.transactionID,
+            type: proto.transactionType
         )
     }
 }
