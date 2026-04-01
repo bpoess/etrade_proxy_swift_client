@@ -291,18 +291,24 @@ extension Quote {
 
 // MARK: - Order
 
-extension Instrument {
-    init(proto: Etrade_Instrument) throws {
+extension ListOrderItem {
+    init(proto: Etrade_ListOrderItem) {
+        self.init(id: proto.orderID)
+    }
+}
+
+extension OrderInstrument {
+    init(proto: Etrade_OrderInstrument) throws {
         self.init(
-            product: try Product(proto: proto.product),
-            orderAction: proto.orderAction,
-            orderedQuantity: try Decimal(proto: proto.orderedQuantity),
-            quantityType: proto.quantityType,
-            averageExecutionPrice: proto.hasAverageExecutionPrice ? try Decimal(proto: proto.averageExecutionPrice) : nil,
             estimatedCommission: try Decimal(proto: proto.estimatedCommission),
             estimatedFees: try Decimal(proto: proto.estimatedFees),
             filledQuantity: try Decimal(proto: proto.filledQuantity),
-            symbolDescription: proto.symbolDescription
+            orderAction: proto.orderAction,
+            orderedQuantity: try Decimal(proto: proto.orderedQuantity),
+            product: try Product(proto: proto.product),
+            quantityType: proto.quantityType,
+            symbolDescription: proto.symbolDescription,
+            averageExecutionPrice: proto.hasAverageExecutionPrice ? try Decimal(proto: proto.averageExecutionPrice) : nil
         )
     }
 }
@@ -310,22 +316,45 @@ extension Instrument {
 extension OrderEvent {
     init(proto: Etrade_OrderEvent) throws {
         self.init(
-            name: proto.name,
             dateTime: Date(proto: proto.dateTime),
-            instruments: try proto.instruments.map { try Instrument(proto: $0) }
+            instruments: try proto.instrument.map { try OrderInstrument(proto: $0) },
+            name: proto.name
         )
     }
 }
 
-extension Order {
-    init(proto: Etrade_Order) throws {
+extension OrderDetail {
+    init(proto: Etrade_OrderDetail) throws {
         self.init(
-            id: proto.orderID,
-            type: proto.hasOrderType ? proto.orderType : nil,
-            executedTime: Date(proto: proto.executedTime),
+            allOrNone: proto.allOrNone,
+            gcd: proto.gcd,
+            instruments: try proto.instrument.map { try OrderInstrument(proto: $0) },
+            limitPrice: try Decimal(proto: proto.limitPrice),
+            marketSession: proto.marketSession,
+            netAsk: try Decimal(proto: proto.netAsk),
+            netBid: try Decimal(proto: proto.netBid),
+            netPrice: try Decimal(proto: proto.netPrice),
+            orderTerm: proto.orderTerm,
+            orderValue: try Decimal(proto: proto.orderValue),
+            placedTime: Date(proto: proto.placedTime),
+            priceType: proto.priceType,
+            ratio: proto.ratio,
             status: proto.status,
+            stopPrice: try Decimal(proto: proto.stopPrice),
+            executedTime: proto.hasExecutedTime ? Date(proto: proto.executedTime) : nil,
+            replacedByOrderId: proto.hasReplacedByOrderID ? proto.replacedByOrderID : nil,
+            replacesOrderId: proto.hasReplacesOrderID ? proto.replacesOrderID : nil
+        )
+    }
+}
+
+extension OrderDetails {
+    init(proto: Etrade_GetOrderDetailsResponse) throws {
+        self.init(
             events: try proto.events.map { try OrderEvent(proto: $0) },
-            detailsUrl: proto.detailsURL
+            orderDetail: try proto.orderDetail.map { try OrderDetail(proto: $0) },
+            id: proto.orderID,
+            type: proto.hasOrderType ? proto.orderType : nil
         )
     }
 }

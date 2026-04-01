@@ -103,7 +103,7 @@ internal enum Etrade_ProxyService: Sendable {
             /// Request type for "ListOrders".
             internal typealias Input = Etrade_ListOrdersRequest
             /// Response type for "ListOrders".
-            internal typealias Output = Etrade_Order
+            internal typealias Output = Etrade_ListOrderItem
             /// Descriptor for "ListOrders".
             internal static let descriptor = GRPCCore.MethodDescriptor(
                 service: GRPCCore.ServiceDescriptor(fullyQualifiedService: "etrade.ProxyService"),
@@ -335,11 +335,11 @@ extension Etrade_ProxyService {
         /// - Throws: Any error which occurred during the processing of the request. Thrown errors
         ///     of type `RPCError` are mapped to appropriate statuses. All other errors are converted
         ///     to an internal error.
-        /// - Returns: A streaming response of `Etrade_Order` messages.
+        /// - Returns: A streaming response of `Etrade_ListOrderItem` messages.
         func listOrders(
             request: GRPCCore.StreamingServerRequest<Etrade_ListOrdersRequest>,
             context: GRPCCore.ServerContext
-        ) async throws -> GRPCCore.StreamingServerResponse<Etrade_Order>
+        ) async throws -> GRPCCore.StreamingServerResponse<Etrade_ListOrderItem>
 
         /// Handle the "GetOrderDetails" method.
         ///
@@ -540,11 +540,11 @@ extension Etrade_ProxyService {
         /// - Throws: Any error which occurred during the processing of the request. Thrown errors
         ///     of type `RPCError` are mapped to appropriate statuses. All other errors are converted
         ///     to an internal error.
-        /// - Returns: A streaming response of `Etrade_Order` messages.
+        /// - Returns: A streaming response of `Etrade_ListOrderItem` messages.
         func listOrders(
             request: GRPCCore.ServerRequest<Etrade_ListOrdersRequest>,
             context: GRPCCore.ServerContext
-        ) async throws -> GRPCCore.StreamingServerResponse<Etrade_Order>
+        ) async throws -> GRPCCore.StreamingServerResponse<Etrade_ListOrderItem>
 
         /// Handle the "GetOrderDetails" method.
         ///
@@ -741,14 +741,14 @@ extension Etrade_ProxyService {
         ///
         /// - Parameters:
         ///   - request: A `Etrade_ListOrdersRequest` message.
-        ///   - response: A response stream of `Etrade_Order` messages.
+        ///   - response: A response stream of `Etrade_ListOrderItem` messages.
         ///   - context: Context providing information about the RPC.
         /// - Throws: Any error which occurred during the processing of the request. Thrown errors
         ///     of type `RPCError` are mapped to appropriate statuses. All other errors are converted
         ///     to an internal error.
         func listOrders(
             request: Etrade_ListOrdersRequest,
-            response: GRPCCore.RPCWriter<Etrade_Order>,
+            response: GRPCCore.RPCWriter<Etrade_ListOrderItem>,
             context: GRPCCore.ServerContext
         ) async throws
 
@@ -926,7 +926,7 @@ extension Etrade_ProxyService.StreamingServiceProtocol {
         router.registerHandler(
             forMethod: Etrade_ProxyService.Method.ListOrders.descriptor,
             deserializer: GRPCProtobuf.ProtobufDeserializer<Etrade_ListOrdersRequest>(),
-            serializer: GRPCProtobuf.ProtobufSerializer<Etrade_Order>(),
+            serializer: GRPCProtobuf.ProtobufSerializer<Etrade_ListOrderItem>(),
             handler: { request, context in
                 try await self.listOrders(
                     request: request,
@@ -1086,7 +1086,7 @@ extension Etrade_ProxyService.ServiceProtocol {
     internal func listOrders(
         request: GRPCCore.StreamingServerRequest<Etrade_ListOrdersRequest>,
         context: GRPCCore.ServerContext
-    ) async throws -> GRPCCore.StreamingServerResponse<Etrade_Order> {
+    ) async throws -> GRPCCore.StreamingServerResponse<Etrade_ListOrderItem> {
         let response = try await self.listOrders(
             request: GRPCCore.ServerRequest(stream: request),
             context: context
@@ -1264,8 +1264,8 @@ extension Etrade_ProxyService.SimpleServiceProtocol {
     internal func listOrders(
         request: GRPCCore.ServerRequest<Etrade_ListOrdersRequest>,
         context: GRPCCore.ServerContext
-    ) async throws -> GRPCCore.StreamingServerResponse<Etrade_Order> {
-        return GRPCCore.StreamingServerResponse<Etrade_Order>(
+    ) async throws -> GRPCCore.StreamingServerResponse<Etrade_ListOrderItem> {
+        return GRPCCore.StreamingServerResponse<Etrade_ListOrderItem>(
             metadata: [:],
             producer: { writer in
                 try await self.listOrders(
@@ -1502,7 +1502,7 @@ extension Etrade_ProxyService {
         /// - Parameters:
         ///   - request: A request containing a single `Etrade_ListOrdersRequest` message.
         ///   - serializer: A serializer for `Etrade_ListOrdersRequest` messages.
-        ///   - deserializer: A deserializer for `Etrade_Order` messages.
+        ///   - deserializer: A deserializer for `Etrade_ListOrderItem` messages.
         ///   - options: Options to apply to this RPC.
         ///   - handleResponse: A closure which handles the response, the result of which is
         ///       returned to the caller. Returning from the closure will cancel the RPC if it
@@ -1511,9 +1511,9 @@ extension Etrade_ProxyService {
         func listOrders<Result>(
             request: GRPCCore.ClientRequest<Etrade_ListOrdersRequest>,
             serializer: some GRPCCore.MessageSerializer<Etrade_ListOrdersRequest>,
-            deserializer: some GRPCCore.MessageDeserializer<Etrade_Order>,
+            deserializer: some GRPCCore.MessageDeserializer<Etrade_ListOrderItem>,
             options: GRPCCore.CallOptions,
-            onResponse handleResponse: @Sendable @escaping (GRPCCore.StreamingClientResponse<Etrade_Order>) async throws -> Result
+            onResponse handleResponse: @Sendable @escaping (GRPCCore.StreamingClientResponse<Etrade_ListOrderItem>) async throws -> Result
         ) async throws -> Result where Result: Sendable
 
         /// Call the "GetOrderDetails" method.
@@ -1847,7 +1847,7 @@ extension Etrade_ProxyService {
         /// - Parameters:
         ///   - request: A request containing a single `Etrade_ListOrdersRequest` message.
         ///   - serializer: A serializer for `Etrade_ListOrdersRequest` messages.
-        ///   - deserializer: A deserializer for `Etrade_Order` messages.
+        ///   - deserializer: A deserializer for `Etrade_ListOrderItem` messages.
         ///   - options: Options to apply to this RPC.
         ///   - handleResponse: A closure which handles the response, the result of which is
         ///       returned to the caller. Returning from the closure will cancel the RPC if it
@@ -1856,9 +1856,9 @@ extension Etrade_ProxyService {
         internal func listOrders<Result>(
             request: GRPCCore.ClientRequest<Etrade_ListOrdersRequest>,
             serializer: some GRPCCore.MessageSerializer<Etrade_ListOrdersRequest>,
-            deserializer: some GRPCCore.MessageDeserializer<Etrade_Order>,
+            deserializer: some GRPCCore.MessageDeserializer<Etrade_ListOrderItem>,
             options: GRPCCore.CallOptions = .defaults,
-            onResponse handleResponse: @Sendable @escaping (GRPCCore.StreamingClientResponse<Etrade_Order>) async throws -> Result
+            onResponse handleResponse: @Sendable @escaping (GRPCCore.StreamingClientResponse<Etrade_ListOrderItem>) async throws -> Result
         ) async throws -> Result where Result: Sendable {
             try await self.client.serverStreaming(
                 request: request,
@@ -2241,12 +2241,12 @@ extension Etrade_ProxyService.ClientProtocol {
     internal func listOrders<Result>(
         request: GRPCCore.ClientRequest<Etrade_ListOrdersRequest>,
         options: GRPCCore.CallOptions = .defaults,
-        onResponse handleResponse: @Sendable @escaping (GRPCCore.StreamingClientResponse<Etrade_Order>) async throws -> Result
+        onResponse handleResponse: @Sendable @escaping (GRPCCore.StreamingClientResponse<Etrade_ListOrderItem>) async throws -> Result
     ) async throws -> Result where Result: Sendable {
         try await self.listOrders(
             request: request,
             serializer: GRPCProtobuf.ProtobufSerializer<Etrade_ListOrdersRequest>(),
-            deserializer: GRPCProtobuf.ProtobufDeserializer<Etrade_Order>(),
+            deserializer: GRPCProtobuf.ProtobufDeserializer<Etrade_ListOrderItem>(),
             options: options,
             onResponse: handleResponse
         )
@@ -2613,7 +2613,7 @@ extension Etrade_ProxyService.ClientProtocol {
         _ message: Etrade_ListOrdersRequest,
         metadata: GRPCCore.Metadata = [:],
         options: GRPCCore.CallOptions = .defaults,
-        onResponse handleResponse: @Sendable @escaping (GRPCCore.StreamingClientResponse<Etrade_Order>) async throws -> Result
+        onResponse handleResponse: @Sendable @escaping (GRPCCore.StreamingClientResponse<Etrade_ListOrderItem>) async throws -> Result
     ) async throws -> Result where Result: Sendable {
         let request = GRPCCore.ClientRequest<Etrade_ListOrdersRequest>(
             message: message,

@@ -108,7 +108,7 @@ public final class ETradeClient: Sendable {
         startDate: String,
         endDate: String,
         status: String? = nil
-    ) async throws -> [Order] {
+    ) async throws -> [ListOrderItem] {
         do {
             var request = Etrade_ListOrdersRequest()
             request.accountIDKey = accountIdKey
@@ -117,7 +117,7 @@ public final class ETradeClient: Sendable {
             if let status { request.status = status }
             return try await proxyService.listOrders(request) { response in
                 try await response.messages.reduce(into: []) { result, proto in
-                    try result.append(Order(proto: proto))
+                    result.append(ListOrderItem(proto: proto))
                 }
             }
         } catch let error as RPCError {
@@ -125,12 +125,13 @@ public final class ETradeClient: Sendable {
         }
     }
 
-    public func getOrderDetails(detailsUrl: String) async throws -> [Order] {
+    public func getOrderDetails(accountIdKey: String, orderId: String) async throws -> OrderDetails {
         do {
             var request = Etrade_GetOrderDetailsRequest()
-            request.detailsURL = detailsUrl
+            request.accountIDKey = accountIdKey
+            request.orderID = orderId
             let response = try await proxyService.getOrderDetails(request)
-            return try response.orders.map { try Order(proto: $0) }
+            return try OrderDetails(proto: response)
         } catch let error as RPCError {
             throw ETradeError(rpcError: error)
         }

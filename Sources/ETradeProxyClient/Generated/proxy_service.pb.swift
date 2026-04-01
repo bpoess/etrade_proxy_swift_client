@@ -186,7 +186,9 @@ struct Etrade_GetOrderDetailsRequest: Sendable {
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  var detailsURL: String = String()
+  var accountIDKey: String = String()
+
+  var orderID: String = String()
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -393,11 +395,28 @@ struct Etrade_GetOrderDetailsResponse: Sendable {
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  var orders: [Etrade_Order] = []
+  /// Stored in raw as Events.Event
+  var events: [Etrade_OrderEvent] = []
+
+  var orderDetail: [Etrade_OrderDetail] = []
+
+  /// Raw data contains int
+  var orderID: String = String()
+
+  var orderType: String {
+    get {_orderType ?? String()}
+    set {_orderType = newValue}
+  }
+  /// Returns true if `orderType` has been explicitly set.
+  var hasOrderType: Bool {self._orderType != nil}
+  /// Clears the value of `orderType`. Subsequent reads from it will return its default value.
+  mutating func clearOrderType() {self._orderType = nil}
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
+
+  fileprivate var _orderType: String? = nil
 }
 
 struct Etrade_GetTransactionDetailsResponse: Sendable {
@@ -464,6 +483,19 @@ struct Etrade_GetOptionChainsResponse: Sendable {
   fileprivate var _nearPrice: Google_Type_Decimal? = nil
   fileprivate var _selectedEd: Etrade_SelectedEd? = nil
   fileprivate var _timeStamp: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+}
+
+struct Etrade_ListOrderItem: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  /// Raw data contains int
+  var orderID: String = String()
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
 }
 
 struct Etrade_Account: Sendable {
@@ -2208,151 +2240,6 @@ struct Etrade_Quote: @unchecked Sendable {
   fileprivate var _storage = _StorageClass.defaultInstance
 }
 
-struct Etrade_Instrument: @unchecked Sendable {
-  // SwiftProtobuf.Message conformance is added in an extension below. See the
-  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
-  // methods supported on all messages.
-
-  var product: Etrade_Product {
-    get {_storage._product ?? Etrade_Product()}
-    set {_uniqueStorage()._product = newValue}
-  }
-  /// Returns true if `product` has been explicitly set.
-  var hasProduct: Bool {_storage._product != nil}
-  /// Clears the value of `product`. Subsequent reads from it will return its default value.
-  mutating func clearProduct() {_uniqueStorage()._product = nil}
-
-  var orderAction: String {
-    get {_storage._orderAction}
-    set {_uniqueStorage()._orderAction = newValue}
-  }
-
-  var orderedQuantity: Google_Type_Decimal {
-    get {_storage._orderedQuantity ?? Google_Type_Decimal()}
-    set {_uniqueStorage()._orderedQuantity = newValue}
-  }
-  /// Returns true if `orderedQuantity` has been explicitly set.
-  var hasOrderedQuantity: Bool {_storage._orderedQuantity != nil}
-  /// Clears the value of `orderedQuantity`. Subsequent reads from it will return its default value.
-  mutating func clearOrderedQuantity() {_uniqueStorage()._orderedQuantity = nil}
-
-  var quantityType: String {
-    get {_storage._quantityType}
-    set {_uniqueStorage()._quantityType = newValue}
-  }
-
-  var averageExecutionPrice: Google_Type_Decimal {
-    get {_storage._averageExecutionPrice ?? Google_Type_Decimal()}
-    set {_uniqueStorage()._averageExecutionPrice = newValue}
-  }
-  /// Returns true if `averageExecutionPrice` has been explicitly set.
-  var hasAverageExecutionPrice: Bool {_storage._averageExecutionPrice != nil}
-  /// Clears the value of `averageExecutionPrice`. Subsequent reads from it will return its default value.
-  mutating func clearAverageExecutionPrice() {_uniqueStorage()._averageExecutionPrice = nil}
-
-  var estimatedCommission: Google_Type_Decimal {
-    get {_storage._estimatedCommission ?? Google_Type_Decimal()}
-    set {_uniqueStorage()._estimatedCommission = newValue}
-  }
-  /// Returns true if `estimatedCommission` has been explicitly set.
-  var hasEstimatedCommission: Bool {_storage._estimatedCommission != nil}
-  /// Clears the value of `estimatedCommission`. Subsequent reads from it will return its default value.
-  mutating func clearEstimatedCommission() {_uniqueStorage()._estimatedCommission = nil}
-
-  var estimatedFees: Google_Type_Decimal {
-    get {_storage._estimatedFees ?? Google_Type_Decimal()}
-    set {_uniqueStorage()._estimatedFees = newValue}
-  }
-  /// Returns true if `estimatedFees` has been explicitly set.
-  var hasEstimatedFees: Bool {_storage._estimatedFees != nil}
-  /// Clears the value of `estimatedFees`. Subsequent reads from it will return its default value.
-  mutating func clearEstimatedFees() {_uniqueStorage()._estimatedFees = nil}
-
-  var filledQuantity: Google_Type_Decimal {
-    get {_storage._filledQuantity ?? Google_Type_Decimal()}
-    set {_uniqueStorage()._filledQuantity = newValue}
-  }
-  /// Returns true if `filledQuantity` has been explicitly set.
-  var hasFilledQuantity: Bool {_storage._filledQuantity != nil}
-  /// Clears the value of `filledQuantity`. Subsequent reads from it will return its default value.
-  mutating func clearFilledQuantity() {_uniqueStorage()._filledQuantity = nil}
-
-  var symbolDescription: String {
-    get {_storage._symbolDescription}
-    set {_uniqueStorage()._symbolDescription = newValue}
-  }
-
-  var unknownFields = SwiftProtobuf.UnknownStorage()
-
-  init() {}
-
-  fileprivate var _storage = _StorageClass.defaultInstance
-}
-
-struct Etrade_OrderEvent: Sendable {
-  // SwiftProtobuf.Message conformance is added in an extension below. See the
-  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
-  // methods supported on all messages.
-
-  var name: String = String()
-
-  var dateTime: SwiftProtobuf.Google_Protobuf_Timestamp {
-    get {_dateTime ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
-    set {_dateTime = newValue}
-  }
-  /// Returns true if `dateTime` has been explicitly set.
-  var hasDateTime: Bool {self._dateTime != nil}
-  /// Clears the value of `dateTime`. Subsequent reads from it will return its default value.
-  mutating func clearDateTime() {self._dateTime = nil}
-
-  var instruments: [Etrade_Instrument] = []
-
-  var unknownFields = SwiftProtobuf.UnknownStorage()
-
-  init() {}
-
-  fileprivate var _dateTime: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
-}
-
-struct Etrade_Order: Sendable {
-  // SwiftProtobuf.Message conformance is added in an extension below. See the
-  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
-  // methods supported on all messages.
-
-  var orderID: String = String()
-
-  var orderType: String {
-    get {_orderType ?? String()}
-    set {_orderType = newValue}
-  }
-  /// Returns true if `orderType` has been explicitly set.
-  var hasOrderType: Bool {self._orderType != nil}
-  /// Clears the value of `orderType`. Subsequent reads from it will return its default value.
-  mutating func clearOrderType() {self._orderType = nil}
-
-  var executedTime: SwiftProtobuf.Google_Protobuf_Timestamp {
-    get {_executedTime ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
-    set {_executedTime = newValue}
-  }
-  /// Returns true if `executedTime` has been explicitly set.
-  var hasExecutedTime: Bool {self._executedTime != nil}
-  /// Clears the value of `executedTime`. Subsequent reads from it will return its default value.
-  mutating func clearExecutedTime() {self._executedTime = nil}
-
-  var status: String = String()
-
-  var events: [Etrade_OrderEvent] = []
-
-  var detailsURL: String = String()
-
-  var unknownFields = SwiftProtobuf.UnknownStorage()
-
-  init() {}
-
-  fileprivate var _orderType: String? = nil
-  fileprivate var _executedTime: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
-}
-
 struct Etrade_Brokerage: @unchecked Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
@@ -3255,6 +3142,256 @@ struct Etrade_BalanceRealTimeValues: Sendable {
   fileprivate var _totalAccountValue: Google_Type_Decimal? = nil
 }
 
+struct Etrade_OrderEvent: Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var dateTime: SwiftProtobuf.Google_Protobuf_Timestamp {
+    get {_dateTime ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    set {_dateTime = newValue}
+  }
+  /// Returns true if `dateTime` has been explicitly set.
+  var hasDateTime: Bool {self._dateTime != nil}
+  /// Clears the value of `dateTime`. Subsequent reads from it will return its default value.
+  mutating func clearDateTime() {self._dateTime = nil}
+
+  var instrument: [Etrade_OrderInstrument] = []
+
+  var name: String = String()
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+
+  fileprivate var _dateTime: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+}
+
+struct Etrade_OrderInstrument: @unchecked Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var estimatedCommission: Google_Type_Decimal {
+    get {_storage._estimatedCommission ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._estimatedCommission = newValue}
+  }
+  /// Returns true if `estimatedCommission` has been explicitly set.
+  var hasEstimatedCommission: Bool {_storage._estimatedCommission != nil}
+  /// Clears the value of `estimatedCommission`. Subsequent reads from it will return its default value.
+  mutating func clearEstimatedCommission() {_uniqueStorage()._estimatedCommission = nil}
+
+  var estimatedFees: Google_Type_Decimal {
+    get {_storage._estimatedFees ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._estimatedFees = newValue}
+  }
+  /// Returns true if `estimatedFees` has been explicitly set.
+  var hasEstimatedFees: Bool {_storage._estimatedFees != nil}
+  /// Clears the value of `estimatedFees`. Subsequent reads from it will return its default value.
+  mutating func clearEstimatedFees() {_uniqueStorage()._estimatedFees = nil}
+
+  var filledQuantity: Google_Type_Decimal {
+    get {_storage._filledQuantity ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._filledQuantity = newValue}
+  }
+  /// Returns true if `filledQuantity` has been explicitly set.
+  var hasFilledQuantity: Bool {_storage._filledQuantity != nil}
+  /// Clears the value of `filledQuantity`. Subsequent reads from it will return its default value.
+  mutating func clearFilledQuantity() {_uniqueStorage()._filledQuantity = nil}
+
+  var orderAction: String {
+    get {_storage._orderAction}
+    set {_uniqueStorage()._orderAction = newValue}
+  }
+
+  var orderedQuantity: Google_Type_Decimal {
+    get {_storage._orderedQuantity ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._orderedQuantity = newValue}
+  }
+  /// Returns true if `orderedQuantity` has been explicitly set.
+  var hasOrderedQuantity: Bool {_storage._orderedQuantity != nil}
+  /// Clears the value of `orderedQuantity`. Subsequent reads from it will return its default value.
+  mutating func clearOrderedQuantity() {_uniqueStorage()._orderedQuantity = nil}
+
+  var product: Etrade_Product {
+    get {_storage._product ?? Etrade_Product()}
+    set {_uniqueStorage()._product = newValue}
+  }
+  /// Returns true if `product` has been explicitly set.
+  var hasProduct: Bool {_storage._product != nil}
+  /// Clears the value of `product`. Subsequent reads from it will return its default value.
+  mutating func clearProduct() {_uniqueStorage()._product = nil}
+
+  var quantityType: String {
+    get {_storage._quantityType}
+    set {_uniqueStorage()._quantityType = newValue}
+  }
+
+  var symbolDescription: String {
+    get {_storage._symbolDescription}
+    set {_uniqueStorage()._symbolDescription = newValue}
+  }
+
+  var averageExecutionPrice: Google_Type_Decimal {
+    get {_storage._averageExecutionPrice ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._averageExecutionPrice = newValue}
+  }
+  /// Returns true if `averageExecutionPrice` has been explicitly set.
+  var hasAverageExecutionPrice: Bool {_storage._averageExecutionPrice != nil}
+  /// Clears the value of `averageExecutionPrice`. Subsequent reads from it will return its default value.
+  mutating func clearAverageExecutionPrice() {_uniqueStorage()._averageExecutionPrice = nil}
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+
+  fileprivate var _storage = _StorageClass.defaultInstance
+}
+
+struct Etrade_OrderDetail: @unchecked Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var allOrNone: Bool {
+    get {_storage._allOrNone}
+    set {_uniqueStorage()._allOrNone = newValue}
+  }
+
+  var gcd: Int64 {
+    get {_storage._gcd}
+    set {_uniqueStorage()._gcd = newValue}
+  }
+
+  var instrument: [Etrade_OrderInstrument] {
+    get {_storage._instrument}
+    set {_uniqueStorage()._instrument = newValue}
+  }
+
+  var limitPrice: Google_Type_Decimal {
+    get {_storage._limitPrice ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._limitPrice = newValue}
+  }
+  /// Returns true if `limitPrice` has been explicitly set.
+  var hasLimitPrice: Bool {_storage._limitPrice != nil}
+  /// Clears the value of `limitPrice`. Subsequent reads from it will return its default value.
+  mutating func clearLimitPrice() {_uniqueStorage()._limitPrice = nil}
+
+  var marketSession: String {
+    get {_storage._marketSession}
+    set {_uniqueStorage()._marketSession = newValue}
+  }
+
+  var netAsk: Google_Type_Decimal {
+    get {_storage._netAsk ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._netAsk = newValue}
+  }
+  /// Returns true if `netAsk` has been explicitly set.
+  var hasNetAsk: Bool {_storage._netAsk != nil}
+  /// Clears the value of `netAsk`. Subsequent reads from it will return its default value.
+  mutating func clearNetAsk() {_uniqueStorage()._netAsk = nil}
+
+  var netBid: Google_Type_Decimal {
+    get {_storage._netBid ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._netBid = newValue}
+  }
+  /// Returns true if `netBid` has been explicitly set.
+  var hasNetBid: Bool {_storage._netBid != nil}
+  /// Clears the value of `netBid`. Subsequent reads from it will return its default value.
+  mutating func clearNetBid() {_uniqueStorage()._netBid = nil}
+
+  var netPrice: Google_Type_Decimal {
+    get {_storage._netPrice ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._netPrice = newValue}
+  }
+  /// Returns true if `netPrice` has been explicitly set.
+  var hasNetPrice: Bool {_storage._netPrice != nil}
+  /// Clears the value of `netPrice`. Subsequent reads from it will return its default value.
+  mutating func clearNetPrice() {_uniqueStorage()._netPrice = nil}
+
+  var orderTerm: String {
+    get {_storage._orderTerm}
+    set {_uniqueStorage()._orderTerm = newValue}
+  }
+
+  var orderValue: Google_Type_Decimal {
+    get {_storage._orderValue ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._orderValue = newValue}
+  }
+  /// Returns true if `orderValue` has been explicitly set.
+  var hasOrderValue: Bool {_storage._orderValue != nil}
+  /// Clears the value of `orderValue`. Subsequent reads from it will return its default value.
+  mutating func clearOrderValue() {_uniqueStorage()._orderValue = nil}
+
+  var placedTime: SwiftProtobuf.Google_Protobuf_Timestamp {
+    get {_storage._placedTime ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    set {_uniqueStorage()._placedTime = newValue}
+  }
+  /// Returns true if `placedTime` has been explicitly set.
+  var hasPlacedTime: Bool {_storage._placedTime != nil}
+  /// Clears the value of `placedTime`. Subsequent reads from it will return its default value.
+  mutating func clearPlacedTime() {_uniqueStorage()._placedTime = nil}
+
+  var priceType: String {
+    get {_storage._priceType}
+    set {_uniqueStorage()._priceType = newValue}
+  }
+
+  var ratio: String {
+    get {_storage._ratio}
+    set {_uniqueStorage()._ratio = newValue}
+  }
+
+  var status: String {
+    get {_storage._status}
+    set {_uniqueStorage()._status = newValue}
+  }
+
+  var stopPrice: Google_Type_Decimal {
+    get {_storage._stopPrice ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._stopPrice = newValue}
+  }
+  /// Returns true if `stopPrice` has been explicitly set.
+  var hasStopPrice: Bool {_storage._stopPrice != nil}
+  /// Clears the value of `stopPrice`. Subsequent reads from it will return its default value.
+  mutating func clearStopPrice() {_uniqueStorage()._stopPrice = nil}
+
+  var executedTime: SwiftProtobuf.Google_Protobuf_Timestamp {
+    get {_storage._executedTime ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    set {_uniqueStorage()._executedTime = newValue}
+  }
+  /// Returns true if `executedTime` has been explicitly set.
+  var hasExecutedTime: Bool {_storage._executedTime != nil}
+  /// Clears the value of `executedTime`. Subsequent reads from it will return its default value.
+  mutating func clearExecutedTime() {_uniqueStorage()._executedTime = nil}
+
+  /// Raw data contains int
+  var replacedByOrderID: String {
+    get {_storage._replacedByOrderID ?? String()}
+    set {_uniqueStorage()._replacedByOrderID = newValue}
+  }
+  /// Returns true if `replacedByOrderID` has been explicitly set.
+  var hasReplacedByOrderID: Bool {_storage._replacedByOrderID != nil}
+  /// Clears the value of `replacedByOrderID`. Subsequent reads from it will return its default value.
+  mutating func clearReplacedByOrderID() {_uniqueStorage()._replacedByOrderID = nil}
+
+  /// Raw data contains int
+  var replacesOrderID: String {
+    get {_storage._replacesOrderID ?? String()}
+    set {_uniqueStorage()._replacesOrderID = newValue}
+  }
+  /// Returns true if `replacesOrderID` has been explicitly set.
+  var hasReplacesOrderID: Bool {_storage._replacesOrderID != nil}
+  /// Clears the value of `replacesOrderID`. Subsequent reads from it will return its default value.
+  mutating func clearReplacesOrderID() {_uniqueStorage()._replacesOrderID = nil}
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+
+  fileprivate var _storage = _StorageClass.defaultInstance
+}
+
 struct Etrade_GetLotRequest: Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
@@ -3583,7 +3720,7 @@ extension Etrade_ListOrdersRequest: SwiftProtobuf.Message, SwiftProtobuf._Messag
 
 extension Etrade_GetOrderDetailsRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".GetOrderDetailsRequest"
-  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}details_url\0")
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}account_id_key\0\u{3}order_id\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -3591,21 +3728,26 @@ extension Etrade_GetOrderDetailsRequest: SwiftProtobuf.Message, SwiftProtobuf._M
       // allocates stack space for every case branch when no optimizations are
       // enabled. https://github.com/apple/swift-protobuf/issues/1034
       switch fieldNumber {
-      case 1: try { try decoder.decodeSingularStringField(value: &self.detailsURL) }()
+      case 1: try { try decoder.decodeSingularStringField(value: &self.accountIDKey) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self.orderID) }()
       default: break
       }
     }
   }
 
   func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
-    if !self.detailsURL.isEmpty {
-      try visitor.visitSingularStringField(value: self.detailsURL, fieldNumber: 1)
+    if !self.accountIDKey.isEmpty {
+      try visitor.visitSingularStringField(value: self.accountIDKey, fieldNumber: 1)
+    }
+    if !self.orderID.isEmpty {
+      try visitor.visitSingularStringField(value: self.orderID, fieldNumber: 2)
     }
     try unknownFields.traverse(visitor: &visitor)
   }
 
   static func ==(lhs: Etrade_GetOrderDetailsRequest, rhs: Etrade_GetOrderDetailsRequest) -> Bool {
-    if lhs.detailsURL != rhs.detailsURL {return false}
+    if lhs.accountIDKey != rhs.accountIDKey {return false}
+    if lhs.orderID != rhs.orderID {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -3876,7 +4018,7 @@ extension Etrade_ListAccountsResponse: SwiftProtobuf.Message, SwiftProtobuf._Mes
 
 extension Etrade_GetOrderDetailsResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".GetOrderDetailsResponse"
-  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}orders\0")
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}events\0\u{3}order_detail\0\u{3}order_id\0\u{3}order_type\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -3884,21 +4026,40 @@ extension Etrade_GetOrderDetailsResponse: SwiftProtobuf.Message, SwiftProtobuf._
       // allocates stack space for every case branch when no optimizations are
       // enabled. https://github.com/apple/swift-protobuf/issues/1034
       switch fieldNumber {
-      case 1: try { try decoder.decodeRepeatedMessageField(value: &self.orders) }()
+      case 1: try { try decoder.decodeRepeatedMessageField(value: &self.events) }()
+      case 2: try { try decoder.decodeRepeatedMessageField(value: &self.orderDetail) }()
+      case 3: try { try decoder.decodeSingularStringField(value: &self.orderID) }()
+      case 4: try { try decoder.decodeSingularStringField(value: &self._orderType) }()
       default: break
       }
     }
   }
 
   func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
-    if !self.orders.isEmpty {
-      try visitor.visitRepeatedMessageField(value: self.orders, fieldNumber: 1)
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
+    if !self.events.isEmpty {
+      try visitor.visitRepeatedMessageField(value: self.events, fieldNumber: 1)
     }
+    if !self.orderDetail.isEmpty {
+      try visitor.visitRepeatedMessageField(value: self.orderDetail, fieldNumber: 2)
+    }
+    if !self.orderID.isEmpty {
+      try visitor.visitSingularStringField(value: self.orderID, fieldNumber: 3)
+    }
+    try { if let v = self._orderType {
+      try visitor.visitSingularStringField(value: v, fieldNumber: 4)
+    } }()
     try unknownFields.traverse(visitor: &visitor)
   }
 
   static func ==(lhs: Etrade_GetOrderDetailsResponse, rhs: Etrade_GetOrderDetailsResponse) -> Bool {
-    if lhs.orders != rhs.orders {return false}
+    if lhs.events != rhs.events {return false}
+    if lhs.orderDetail != rhs.orderDetail {return false}
+    if lhs.orderID != rhs.orderID {return false}
+    if lhs._orderType != rhs._orderType {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -3987,6 +4148,36 @@ extension Etrade_GetOptionChainsResponse: SwiftProtobuf.Message, SwiftProtobuf._
     if lhs.quoteType != rhs.quoteType {return false}
     if lhs._selectedEd != rhs._selectedEd {return false}
     if lhs._timeStamp != rhs._timeStamp {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Etrade_ListOrderItem: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".ListOrderItem"
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}order_id\0")
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.orderID) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.orderID.isEmpty {
+      try visitor.visitSingularStringField(value: self.orderID, fieldNumber: 1)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Etrade_ListOrderItem, rhs: Etrade_ListOrderItem) -> Bool {
+    if lhs.orderID != rhs.orderID {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -5842,235 +6033,6 @@ extension Etrade_Quote: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementat
   }
 }
 
-extension Etrade_Instrument: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = _protobuf_package + ".Instrument"
-  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}product\0\u{3}order_action\0\u{3}ordered_quantity\0\u{3}quantity_type\0\u{3}average_execution_price\0\u{3}estimated_commission\0\u{3}estimated_fees\0\u{3}filled_quantity\0\u{3}symbol_description\0")
-
-  fileprivate class _StorageClass {
-    var _product: Etrade_Product? = nil
-    var _orderAction: String = String()
-    var _orderedQuantity: Google_Type_Decimal? = nil
-    var _quantityType: String = String()
-    var _averageExecutionPrice: Google_Type_Decimal? = nil
-    var _estimatedCommission: Google_Type_Decimal? = nil
-    var _estimatedFees: Google_Type_Decimal? = nil
-    var _filledQuantity: Google_Type_Decimal? = nil
-    var _symbolDescription: String = String()
-
-      // This property is used as the initial default value for new instances of the type.
-      // The type itself is protecting the reference to its storage via CoW semantics.
-      // This will force a copy to be made of this reference when the first mutation occurs;
-      // hence, it is safe to mark this as `nonisolated(unsafe)`.
-      static nonisolated(unsafe) let defaultInstance = _StorageClass()
-
-    private init() {}
-
-    init(copying source: _StorageClass) {
-      _product = source._product
-      _orderAction = source._orderAction
-      _orderedQuantity = source._orderedQuantity
-      _quantityType = source._quantityType
-      _averageExecutionPrice = source._averageExecutionPrice
-      _estimatedCommission = source._estimatedCommission
-      _estimatedFees = source._estimatedFees
-      _filledQuantity = source._filledQuantity
-      _symbolDescription = source._symbolDescription
-    }
-  }
-
-  fileprivate mutating func _uniqueStorage() -> _StorageClass {
-    if !isKnownUniquelyReferenced(&_storage) {
-      _storage = _StorageClass(copying: _storage)
-    }
-    return _storage
-  }
-
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
-    _ = _uniqueStorage()
-    try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
-      while let fieldNumber = try decoder.nextFieldNumber() {
-        // The use of inline closures is to circumvent an issue where the compiler
-        // allocates stack space for every case branch when no optimizations are
-        // enabled. https://github.com/apple/swift-protobuf/issues/1034
-        switch fieldNumber {
-        case 1: try { try decoder.decodeSingularMessageField(value: &_storage._product) }()
-        case 2: try { try decoder.decodeSingularStringField(value: &_storage._orderAction) }()
-        case 3: try { try decoder.decodeSingularMessageField(value: &_storage._orderedQuantity) }()
-        case 4: try { try decoder.decodeSingularStringField(value: &_storage._quantityType) }()
-        case 5: try { try decoder.decodeSingularMessageField(value: &_storage._averageExecutionPrice) }()
-        case 6: try { try decoder.decodeSingularMessageField(value: &_storage._estimatedCommission) }()
-        case 7: try { try decoder.decodeSingularMessageField(value: &_storage._estimatedFees) }()
-        case 8: try { try decoder.decodeSingularMessageField(value: &_storage._filledQuantity) }()
-        case 9: try { try decoder.decodeSingularStringField(value: &_storage._symbolDescription) }()
-        default: break
-        }
-      }
-    }
-  }
-
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
-    try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
-      // The use of inline closures is to circumvent an issue where the compiler
-      // allocates stack space for every if/case branch local when no optimizations
-      // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
-      // https://github.com/apple/swift-protobuf/issues/1182
-      try { if let v = _storage._product {
-        try visitor.visitSingularMessageField(value: v, fieldNumber: 1)
-      } }()
-      if !_storage._orderAction.isEmpty {
-        try visitor.visitSingularStringField(value: _storage._orderAction, fieldNumber: 2)
-      }
-      try { if let v = _storage._orderedQuantity {
-        try visitor.visitSingularMessageField(value: v, fieldNumber: 3)
-      } }()
-      if !_storage._quantityType.isEmpty {
-        try visitor.visitSingularStringField(value: _storage._quantityType, fieldNumber: 4)
-      }
-      try { if let v = _storage._averageExecutionPrice {
-        try visitor.visitSingularMessageField(value: v, fieldNumber: 5)
-      } }()
-      try { if let v = _storage._estimatedCommission {
-        try visitor.visitSingularMessageField(value: v, fieldNumber: 6)
-      } }()
-      try { if let v = _storage._estimatedFees {
-        try visitor.visitSingularMessageField(value: v, fieldNumber: 7)
-      } }()
-      try { if let v = _storage._filledQuantity {
-        try visitor.visitSingularMessageField(value: v, fieldNumber: 8)
-      } }()
-      if !_storage._symbolDescription.isEmpty {
-        try visitor.visitSingularStringField(value: _storage._symbolDescription, fieldNumber: 9)
-      }
-    }
-    try unknownFields.traverse(visitor: &visitor)
-  }
-
-  static func ==(lhs: Etrade_Instrument, rhs: Etrade_Instrument) -> Bool {
-    if lhs._storage !== rhs._storage {
-      let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
-        let _storage = _args.0
-        let rhs_storage = _args.1
-        if _storage._product != rhs_storage._product {return false}
-        if _storage._orderAction != rhs_storage._orderAction {return false}
-        if _storage._orderedQuantity != rhs_storage._orderedQuantity {return false}
-        if _storage._quantityType != rhs_storage._quantityType {return false}
-        if _storage._averageExecutionPrice != rhs_storage._averageExecutionPrice {return false}
-        if _storage._estimatedCommission != rhs_storage._estimatedCommission {return false}
-        if _storage._estimatedFees != rhs_storage._estimatedFees {return false}
-        if _storage._filledQuantity != rhs_storage._filledQuantity {return false}
-        if _storage._symbolDescription != rhs_storage._symbolDescription {return false}
-        return true
-      }
-      if !storagesAreEqual {return false}
-    }
-    if lhs.unknownFields != rhs.unknownFields {return false}
-    return true
-  }
-}
-
-extension Etrade_OrderEvent: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = _protobuf_package + ".OrderEvent"
-  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}name\0\u{3}date_time\0\u{1}instruments\0")
-
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
-    while let fieldNumber = try decoder.nextFieldNumber() {
-      // The use of inline closures is to circumvent an issue where the compiler
-      // allocates stack space for every case branch when no optimizations are
-      // enabled. https://github.com/apple/swift-protobuf/issues/1034
-      switch fieldNumber {
-      case 1: try { try decoder.decodeSingularStringField(value: &self.name) }()
-      case 2: try { try decoder.decodeSingularMessageField(value: &self._dateTime) }()
-      case 3: try { try decoder.decodeRepeatedMessageField(value: &self.instruments) }()
-      default: break
-      }
-    }
-  }
-
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
-    // The use of inline closures is to circumvent an issue where the compiler
-    // allocates stack space for every if/case branch local when no optimizations
-    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
-    // https://github.com/apple/swift-protobuf/issues/1182
-    if !self.name.isEmpty {
-      try visitor.visitSingularStringField(value: self.name, fieldNumber: 1)
-    }
-    try { if let v = self._dateTime {
-      try visitor.visitSingularMessageField(value: v, fieldNumber: 2)
-    } }()
-    if !self.instruments.isEmpty {
-      try visitor.visitRepeatedMessageField(value: self.instruments, fieldNumber: 3)
-    }
-    try unknownFields.traverse(visitor: &visitor)
-  }
-
-  static func ==(lhs: Etrade_OrderEvent, rhs: Etrade_OrderEvent) -> Bool {
-    if lhs.name != rhs.name {return false}
-    if lhs._dateTime != rhs._dateTime {return false}
-    if lhs.instruments != rhs.instruments {return false}
-    if lhs.unknownFields != rhs.unknownFields {return false}
-    return true
-  }
-}
-
-extension Etrade_Order: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = _protobuf_package + ".Order"
-  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}order_id\0\u{3}order_type\0\u{3}executed_time\0\u{1}status\0\u{1}events\0\u{3}details_url\0")
-
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
-    while let fieldNumber = try decoder.nextFieldNumber() {
-      // The use of inline closures is to circumvent an issue where the compiler
-      // allocates stack space for every case branch when no optimizations are
-      // enabled. https://github.com/apple/swift-protobuf/issues/1034
-      switch fieldNumber {
-      case 1: try { try decoder.decodeSingularStringField(value: &self.orderID) }()
-      case 2: try { try decoder.decodeSingularStringField(value: &self._orderType) }()
-      case 3: try { try decoder.decodeSingularMessageField(value: &self._executedTime) }()
-      case 4: try { try decoder.decodeSingularStringField(value: &self.status) }()
-      case 5: try { try decoder.decodeRepeatedMessageField(value: &self.events) }()
-      case 6: try { try decoder.decodeSingularStringField(value: &self.detailsURL) }()
-      default: break
-      }
-    }
-  }
-
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
-    // The use of inline closures is to circumvent an issue where the compiler
-    // allocates stack space for every if/case branch local when no optimizations
-    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
-    // https://github.com/apple/swift-protobuf/issues/1182
-    if !self.orderID.isEmpty {
-      try visitor.visitSingularStringField(value: self.orderID, fieldNumber: 1)
-    }
-    try { if let v = self._orderType {
-      try visitor.visitSingularStringField(value: v, fieldNumber: 2)
-    } }()
-    try { if let v = self._executedTime {
-      try visitor.visitSingularMessageField(value: v, fieldNumber: 3)
-    } }()
-    if !self.status.isEmpty {
-      try visitor.visitSingularStringField(value: self.status, fieldNumber: 4)
-    }
-    if !self.events.isEmpty {
-      try visitor.visitRepeatedMessageField(value: self.events, fieldNumber: 5)
-    }
-    if !self.detailsURL.isEmpty {
-      try visitor.visitSingularStringField(value: self.detailsURL, fieldNumber: 6)
-    }
-    try unknownFields.traverse(visitor: &visitor)
-  }
-
-  static func ==(lhs: Etrade_Order, rhs: Etrade_Order) -> Bool {
-    if lhs.orderID != rhs.orderID {return false}
-    if lhs._orderType != rhs._orderType {return false}
-    if lhs._executedTime != rhs._executedTime {return false}
-    if lhs.status != rhs.status {return false}
-    if lhs.events != rhs.events {return false}
-    if lhs.detailsURL != rhs.detailsURL {return false}
-    if lhs.unknownFields != rhs.unknownFields {return false}
-    return true
-  }
-}
-
 extension Etrade_Brokerage: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".Brokerage"
   static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}transaction_type\0\u{1}product\0\u{1}quantity\0\u{1}price\0\u{3}settlement_currency\0\u{3}payment_currency\0\u{1}fee\0\u{3}order_no\0\u{1}memo\0")
@@ -7294,6 +7256,365 @@ extension Etrade_BalanceRealTimeValues: SwiftProtobuf.Message, SwiftProtobuf._Me
     if lhs._netMvLong != rhs._netMvLong {return false}
     if lhs._netMvShort != rhs._netMvShort {return false}
     if lhs._totalAccountValue != rhs._totalAccountValue {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Etrade_OrderEvent: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".OrderEvent"
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}date_time\0\u{1}instrument\0\u{1}name\0")
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularMessageField(value: &self._dateTime) }()
+      case 2: try { try decoder.decodeRepeatedMessageField(value: &self.instrument) }()
+      case 3: try { try decoder.decodeSingularStringField(value: &self.name) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
+    try { if let v = self._dateTime {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 1)
+    } }()
+    if !self.instrument.isEmpty {
+      try visitor.visitRepeatedMessageField(value: self.instrument, fieldNumber: 2)
+    }
+    if !self.name.isEmpty {
+      try visitor.visitSingularStringField(value: self.name, fieldNumber: 3)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Etrade_OrderEvent, rhs: Etrade_OrderEvent) -> Bool {
+    if lhs._dateTime != rhs._dateTime {return false}
+    if lhs.instrument != rhs.instrument {return false}
+    if lhs.name != rhs.name {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Etrade_OrderInstrument: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".OrderInstrument"
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}estimated_commission\0\u{3}estimated_fees\0\u{3}filled_quantity\0\u{3}order_action\0\u{3}ordered_quantity\0\u{1}product\0\u{3}quantity_type\0\u{3}symbol_description\0\u{3}average_execution_price\0")
+
+  fileprivate class _StorageClass {
+    var _estimatedCommission: Google_Type_Decimal? = nil
+    var _estimatedFees: Google_Type_Decimal? = nil
+    var _filledQuantity: Google_Type_Decimal? = nil
+    var _orderAction: String = String()
+    var _orderedQuantity: Google_Type_Decimal? = nil
+    var _product: Etrade_Product? = nil
+    var _quantityType: String = String()
+    var _symbolDescription: String = String()
+    var _averageExecutionPrice: Google_Type_Decimal? = nil
+
+      // This property is used as the initial default value for new instances of the type.
+      // The type itself is protecting the reference to its storage via CoW semantics.
+      // This will force a copy to be made of this reference when the first mutation occurs;
+      // hence, it is safe to mark this as `nonisolated(unsafe)`.
+      static nonisolated(unsafe) let defaultInstance = _StorageClass()
+
+    private init() {}
+
+    init(copying source: _StorageClass) {
+      _estimatedCommission = source._estimatedCommission
+      _estimatedFees = source._estimatedFees
+      _filledQuantity = source._filledQuantity
+      _orderAction = source._orderAction
+      _orderedQuantity = source._orderedQuantity
+      _product = source._product
+      _quantityType = source._quantityType
+      _symbolDescription = source._symbolDescription
+      _averageExecutionPrice = source._averageExecutionPrice
+    }
+  }
+
+  fileprivate mutating func _uniqueStorage() -> _StorageClass {
+    if !isKnownUniquelyReferenced(&_storage) {
+      _storage = _StorageClass(copying: _storage)
+    }
+    return _storage
+  }
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    _ = _uniqueStorage()
+    try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
+      while let fieldNumber = try decoder.nextFieldNumber() {
+        // The use of inline closures is to circumvent an issue where the compiler
+        // allocates stack space for every case branch when no optimizations are
+        // enabled. https://github.com/apple/swift-protobuf/issues/1034
+        switch fieldNumber {
+        case 1: try { try decoder.decodeSingularMessageField(value: &_storage._estimatedCommission) }()
+        case 2: try { try decoder.decodeSingularMessageField(value: &_storage._estimatedFees) }()
+        case 3: try { try decoder.decodeSingularMessageField(value: &_storage._filledQuantity) }()
+        case 4: try { try decoder.decodeSingularStringField(value: &_storage._orderAction) }()
+        case 5: try { try decoder.decodeSingularMessageField(value: &_storage._orderedQuantity) }()
+        case 6: try { try decoder.decodeSingularMessageField(value: &_storage._product) }()
+        case 7: try { try decoder.decodeSingularStringField(value: &_storage._quantityType) }()
+        case 8: try { try decoder.decodeSingularStringField(value: &_storage._symbolDescription) }()
+        case 9: try { try decoder.decodeSingularMessageField(value: &_storage._averageExecutionPrice) }()
+        default: break
+        }
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every if/case branch local when no optimizations
+      // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+      // https://github.com/apple/swift-protobuf/issues/1182
+      try { if let v = _storage._estimatedCommission {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 1)
+      } }()
+      try { if let v = _storage._estimatedFees {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 2)
+      } }()
+      try { if let v = _storage._filledQuantity {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 3)
+      } }()
+      if !_storage._orderAction.isEmpty {
+        try visitor.visitSingularStringField(value: _storage._orderAction, fieldNumber: 4)
+      }
+      try { if let v = _storage._orderedQuantity {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 5)
+      } }()
+      try { if let v = _storage._product {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 6)
+      } }()
+      if !_storage._quantityType.isEmpty {
+        try visitor.visitSingularStringField(value: _storage._quantityType, fieldNumber: 7)
+      }
+      if !_storage._symbolDescription.isEmpty {
+        try visitor.visitSingularStringField(value: _storage._symbolDescription, fieldNumber: 8)
+      }
+      try { if let v = _storage._averageExecutionPrice {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 9)
+      } }()
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Etrade_OrderInstrument, rhs: Etrade_OrderInstrument) -> Bool {
+    if lhs._storage !== rhs._storage {
+      let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
+        let _storage = _args.0
+        let rhs_storage = _args.1
+        if _storage._estimatedCommission != rhs_storage._estimatedCommission {return false}
+        if _storage._estimatedFees != rhs_storage._estimatedFees {return false}
+        if _storage._filledQuantity != rhs_storage._filledQuantity {return false}
+        if _storage._orderAction != rhs_storage._orderAction {return false}
+        if _storage._orderedQuantity != rhs_storage._orderedQuantity {return false}
+        if _storage._product != rhs_storage._product {return false}
+        if _storage._quantityType != rhs_storage._quantityType {return false}
+        if _storage._symbolDescription != rhs_storage._symbolDescription {return false}
+        if _storage._averageExecutionPrice != rhs_storage._averageExecutionPrice {return false}
+        return true
+      }
+      if !storagesAreEqual {return false}
+    }
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Etrade_OrderDetail: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".OrderDetail"
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}all_or_none\0\u{1}gcd\0\u{1}instrument\0\u{3}limit_price\0\u{3}market_session\0\u{3}net_ask\0\u{3}net_bid\0\u{3}net_price\0\u{3}order_term\0\u{3}order_value\0\u{3}placed_time\0\u{3}price_type\0\u{1}ratio\0\u{1}status\0\u{3}stop_price\0\u{3}executed_time\0\u{3}replaced_by_order_id\0\u{3}replaces_order_id\0")
+
+  fileprivate class _StorageClass {
+    var _allOrNone: Bool = false
+    var _gcd: Int64 = 0
+    var _instrument: [Etrade_OrderInstrument] = []
+    var _limitPrice: Google_Type_Decimal? = nil
+    var _marketSession: String = String()
+    var _netAsk: Google_Type_Decimal? = nil
+    var _netBid: Google_Type_Decimal? = nil
+    var _netPrice: Google_Type_Decimal? = nil
+    var _orderTerm: String = String()
+    var _orderValue: Google_Type_Decimal? = nil
+    var _placedTime: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+    var _priceType: String = String()
+    var _ratio: String = String()
+    var _status: String = String()
+    var _stopPrice: Google_Type_Decimal? = nil
+    var _executedTime: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+    var _replacedByOrderID: String? = nil
+    var _replacesOrderID: String? = nil
+
+      // This property is used as the initial default value for new instances of the type.
+      // The type itself is protecting the reference to its storage via CoW semantics.
+      // This will force a copy to be made of this reference when the first mutation occurs;
+      // hence, it is safe to mark this as `nonisolated(unsafe)`.
+      static nonisolated(unsafe) let defaultInstance = _StorageClass()
+
+    private init() {}
+
+    init(copying source: _StorageClass) {
+      _allOrNone = source._allOrNone
+      _gcd = source._gcd
+      _instrument = source._instrument
+      _limitPrice = source._limitPrice
+      _marketSession = source._marketSession
+      _netAsk = source._netAsk
+      _netBid = source._netBid
+      _netPrice = source._netPrice
+      _orderTerm = source._orderTerm
+      _orderValue = source._orderValue
+      _placedTime = source._placedTime
+      _priceType = source._priceType
+      _ratio = source._ratio
+      _status = source._status
+      _stopPrice = source._stopPrice
+      _executedTime = source._executedTime
+      _replacedByOrderID = source._replacedByOrderID
+      _replacesOrderID = source._replacesOrderID
+    }
+  }
+
+  fileprivate mutating func _uniqueStorage() -> _StorageClass {
+    if !isKnownUniquelyReferenced(&_storage) {
+      _storage = _StorageClass(copying: _storage)
+    }
+    return _storage
+  }
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    _ = _uniqueStorage()
+    try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
+      while let fieldNumber = try decoder.nextFieldNumber() {
+        // The use of inline closures is to circumvent an issue where the compiler
+        // allocates stack space for every case branch when no optimizations are
+        // enabled. https://github.com/apple/swift-protobuf/issues/1034
+        switch fieldNumber {
+        case 1: try { try decoder.decodeSingularBoolField(value: &_storage._allOrNone) }()
+        case 2: try { try decoder.decodeSingularInt64Field(value: &_storage._gcd) }()
+        case 3: try { try decoder.decodeRepeatedMessageField(value: &_storage._instrument) }()
+        case 4: try { try decoder.decodeSingularMessageField(value: &_storage._limitPrice) }()
+        case 5: try { try decoder.decodeSingularStringField(value: &_storage._marketSession) }()
+        case 6: try { try decoder.decodeSingularMessageField(value: &_storage._netAsk) }()
+        case 7: try { try decoder.decodeSingularMessageField(value: &_storage._netBid) }()
+        case 8: try { try decoder.decodeSingularMessageField(value: &_storage._netPrice) }()
+        case 9: try { try decoder.decodeSingularStringField(value: &_storage._orderTerm) }()
+        case 10: try { try decoder.decodeSingularMessageField(value: &_storage._orderValue) }()
+        case 11: try { try decoder.decodeSingularMessageField(value: &_storage._placedTime) }()
+        case 12: try { try decoder.decodeSingularStringField(value: &_storage._priceType) }()
+        case 13: try { try decoder.decodeSingularStringField(value: &_storage._ratio) }()
+        case 14: try { try decoder.decodeSingularStringField(value: &_storage._status) }()
+        case 15: try { try decoder.decodeSingularMessageField(value: &_storage._stopPrice) }()
+        case 16: try { try decoder.decodeSingularMessageField(value: &_storage._executedTime) }()
+        case 17: try { try decoder.decodeSingularStringField(value: &_storage._replacedByOrderID) }()
+        case 18: try { try decoder.decodeSingularStringField(value: &_storage._replacesOrderID) }()
+        default: break
+        }
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every if/case branch local when no optimizations
+      // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+      // https://github.com/apple/swift-protobuf/issues/1182
+      if _storage._allOrNone != false {
+        try visitor.visitSingularBoolField(value: _storage._allOrNone, fieldNumber: 1)
+      }
+      if _storage._gcd != 0 {
+        try visitor.visitSingularInt64Field(value: _storage._gcd, fieldNumber: 2)
+      }
+      if !_storage._instrument.isEmpty {
+        try visitor.visitRepeatedMessageField(value: _storage._instrument, fieldNumber: 3)
+      }
+      try { if let v = _storage._limitPrice {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 4)
+      } }()
+      if !_storage._marketSession.isEmpty {
+        try visitor.visitSingularStringField(value: _storage._marketSession, fieldNumber: 5)
+      }
+      try { if let v = _storage._netAsk {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 6)
+      } }()
+      try { if let v = _storage._netBid {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 7)
+      } }()
+      try { if let v = _storage._netPrice {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 8)
+      } }()
+      if !_storage._orderTerm.isEmpty {
+        try visitor.visitSingularStringField(value: _storage._orderTerm, fieldNumber: 9)
+      }
+      try { if let v = _storage._orderValue {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 10)
+      } }()
+      try { if let v = _storage._placedTime {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 11)
+      } }()
+      if !_storage._priceType.isEmpty {
+        try visitor.visitSingularStringField(value: _storage._priceType, fieldNumber: 12)
+      }
+      if !_storage._ratio.isEmpty {
+        try visitor.visitSingularStringField(value: _storage._ratio, fieldNumber: 13)
+      }
+      if !_storage._status.isEmpty {
+        try visitor.visitSingularStringField(value: _storage._status, fieldNumber: 14)
+      }
+      try { if let v = _storage._stopPrice {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 15)
+      } }()
+      try { if let v = _storage._executedTime {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 16)
+      } }()
+      try { if let v = _storage._replacedByOrderID {
+        try visitor.visitSingularStringField(value: v, fieldNumber: 17)
+      } }()
+      try { if let v = _storage._replacesOrderID {
+        try visitor.visitSingularStringField(value: v, fieldNumber: 18)
+      } }()
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Etrade_OrderDetail, rhs: Etrade_OrderDetail) -> Bool {
+    if lhs._storage !== rhs._storage {
+      let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
+        let _storage = _args.0
+        let rhs_storage = _args.1
+        if _storage._allOrNone != rhs_storage._allOrNone {return false}
+        if _storage._gcd != rhs_storage._gcd {return false}
+        if _storage._instrument != rhs_storage._instrument {return false}
+        if _storage._limitPrice != rhs_storage._limitPrice {return false}
+        if _storage._marketSession != rhs_storage._marketSession {return false}
+        if _storage._netAsk != rhs_storage._netAsk {return false}
+        if _storage._netBid != rhs_storage._netBid {return false}
+        if _storage._netPrice != rhs_storage._netPrice {return false}
+        if _storage._orderTerm != rhs_storage._orderTerm {return false}
+        if _storage._orderValue != rhs_storage._orderValue {return false}
+        if _storage._placedTime != rhs_storage._placedTime {return false}
+        if _storage._priceType != rhs_storage._priceType {return false}
+        if _storage._ratio != rhs_storage._ratio {return false}
+        if _storage._status != rhs_storage._status {return false}
+        if _storage._stopPrice != rhs_storage._stopPrice {return false}
+        if _storage._executedTime != rhs_storage._executedTime {return false}
+        if _storage._replacedByOrderID != rhs_storage._replacedByOrderID {return false}
+        if _storage._replacesOrderID != rhs_storage._replacesOrderID {return false}
+        return true
+      }
+      if !storagesAreEqual {return false}
+    }
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }

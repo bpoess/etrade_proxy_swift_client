@@ -14,7 +14,7 @@ service ProxyService {
   rpc ListAccounts(ListAccountsRequest) returns (ListAccountsResponse);
   rpc ListPositions(ListPositionsRequest) returns (stream Position);
   rpc ListQuotes(ListQuotesRequest) returns (stream Quote);
-  rpc ListOrders(ListOrdersRequest) returns (stream Order);
+  rpc ListOrders(ListOrdersRequest) returns (stream ListOrderItem);
   rpc GetOrderDetails(GetOrderDetailsRequest) returns (GetOrderDetailsResponse);
   rpc ListTransactions(ListTransactionsRequest) returns (stream ListTransactionItem);
   rpc GetTransactionDetails(GetTransactionDetailsRequest) returns (GetTransactionDetailsResponse);
@@ -64,7 +64,8 @@ message ListOrdersRequest {
 }
 
 message GetOrderDetailsRequest {
-  string details_url = 1;
+  string account_id_key = 1;
+  string order_id = 2;
 }
 
 message ListTransactionsRequest {
@@ -109,7 +110,10 @@ message ListAccountsResponse {
 }
 
 message GetOrderDetailsResponse {
-  repeated Order orders = 1;
+  repeated OrderEvent events = 1; // Stored in raw as Events.Event
+  repeated OrderDetail order_detail = 2;
+  string order_id = 3; // Raw data contains int
+  optional string order_type = 4;
 }
 
 message GetTransactionDetailsResponse {
@@ -122,6 +126,10 @@ message GetOptionChainsResponse {
   string quote_type = 3;
   SelectedEd selected_ed = 4;
   google.protobuf.Timestamp time_stamp = 5;
+}
+
+message ListOrderItem {
+  string order_id = 1; // Raw data contains int
 }
 
 // Domain messages
@@ -366,33 +374,6 @@ message Quote {
   optional QuoteOptionDetail option = 8;
 }
 
-message Instrument {
-  Product product = 1;
-  string order_action = 2;
-  google.type.Decimal ordered_quantity = 3;
-  string quantity_type = 4;
-  optional google.type.Decimal average_execution_price = 5;
-  google.type.Decimal estimated_commission = 6;
-  google.type.Decimal estimated_fees = 7;
-  google.type.Decimal filled_quantity = 8;
-  string symbol_description = 9;
-}
-
-message OrderEvent {
-  string name = 1;
-  google.protobuf.Timestamp date_time = 2;
-  repeated Instrument instruments = 3;
-}
-
-message Order {
-  string order_id = 1;
-  optional string order_type = 2;
-  google.protobuf.Timestamp executed_time = 3;
-  string status = 4;
-  repeated OrderEvent events = 5;
-  string details_url = 6;
-}
-
 message Brokerage {
   string transaction_type = 1;
   optional Product product = 2;
@@ -548,6 +529,47 @@ message BalanceRealTimeValues {
   google.type.Decimal net_mv_short = 3;
   google.type.Decimal total_account_value = 4;
 }
+
+message OrderEvent {
+  google.protobuf.Timestamp date_time = 1;
+  repeated OrderInstrument instrument = 2;
+  string name = 3;
+}
+
+message OrderInstrument {
+  google.type.Decimal estimated_commission = 1;
+  google.type.Decimal estimated_fees = 2;
+  google.type.Decimal filled_quantity = 3;
+  string order_action = 4;
+  google.type.Decimal ordered_quantity = 5;
+  Product product = 6;
+  string quantity_type = 7;
+  string symbol_description = 8;
+  optional google.type.Decimal average_execution_price = 9;
+}
+
+message OrderDetail {
+  bool all_or_none = 1;
+  int64 gcd = 2;
+  repeated OrderInstrument instrument = 3;
+  google.type.Decimal limit_price = 4;
+  string market_session = 5;
+  google.type.Decimal net_ask = 6;
+  google.type.Decimal net_bid = 7;
+  google.type.Decimal net_price = 8;
+  string order_term = 9;
+  google.type.Decimal order_value = 10;
+  google.protobuf.Timestamp placed_time = 11;
+  string price_type = 12;
+  string ratio = 13;
+  string status = 14;
+  google.type.Decimal stop_price = 15;
+  optional google.protobuf.Timestamp executed_time = 16;
+  optional string replaced_by_order_id = 17; // Raw data contains int
+  optional string replaces_order_id = 18; // Raw data contains int
+}
+
+
 
 // Lot messages
 
