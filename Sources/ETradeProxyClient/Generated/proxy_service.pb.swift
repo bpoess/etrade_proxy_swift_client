@@ -398,7 +398,15 @@ struct Etrade_GetOrderDetailsResponse: Sendable {
   /// Stored in raw as Events.Event
   var events: [Etrade_OrderEvent] = []
 
-  var orderDetail: [Etrade_OrderDetail] = []
+  /// Stored as [OrderDetail] in raw but always has length 1
+  var orderDetail: Etrade_OrderDetail {
+    get {_orderDetail ?? Etrade_OrderDetail()}
+    set {_orderDetail = newValue}
+  }
+  /// Returns true if `orderDetail` has been explicitly set.
+  var hasOrderDetail: Bool {self._orderDetail != nil}
+  /// Clears the value of `orderDetail`. Subsequent reads from it will return its default value.
+  mutating func clearOrderDetail() {self._orderDetail = nil}
 
   /// Raw data contains int
   var orderID: String = String()
@@ -416,6 +424,7 @@ struct Etrade_GetOrderDetailsResponse: Sendable {
 
   init() {}
 
+  fileprivate var _orderDetail: Etrade_OrderDetail? = nil
   fileprivate var _orderType: String? = nil
 }
 
@@ -4027,7 +4036,7 @@ extension Etrade_GetOrderDetailsResponse: SwiftProtobuf.Message, SwiftProtobuf._
       // enabled. https://github.com/apple/swift-protobuf/issues/1034
       switch fieldNumber {
       case 1: try { try decoder.decodeRepeatedMessageField(value: &self.events) }()
-      case 2: try { try decoder.decodeRepeatedMessageField(value: &self.orderDetail) }()
+      case 2: try { try decoder.decodeSingularMessageField(value: &self._orderDetail) }()
       case 3: try { try decoder.decodeSingularStringField(value: &self.orderID) }()
       case 4: try { try decoder.decodeSingularStringField(value: &self._orderType) }()
       default: break
@@ -4043,9 +4052,9 @@ extension Etrade_GetOrderDetailsResponse: SwiftProtobuf.Message, SwiftProtobuf._
     if !self.events.isEmpty {
       try visitor.visitRepeatedMessageField(value: self.events, fieldNumber: 1)
     }
-    if !self.orderDetail.isEmpty {
-      try visitor.visitRepeatedMessageField(value: self.orderDetail, fieldNumber: 2)
-    }
+    try { if let v = self._orderDetail {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 2)
+    } }()
     if !self.orderID.isEmpty {
       try visitor.visitSingularStringField(value: self.orderID, fieldNumber: 3)
     }
@@ -4057,7 +4066,7 @@ extension Etrade_GetOrderDetailsResponse: SwiftProtobuf.Message, SwiftProtobuf._
 
   static func ==(lhs: Etrade_GetOrderDetailsResponse, rhs: Etrade_GetOrderDetailsResponse) -> Bool {
     if lhs.events != rhs.events {return false}
-    if lhs.orderDetail != rhs.orderDetail {return false}
+    if lhs._orderDetail != rhs._orderDetail {return false}
     if lhs.orderID != rhs.orderID {return false}
     if lhs._orderType != rhs._orderType {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}

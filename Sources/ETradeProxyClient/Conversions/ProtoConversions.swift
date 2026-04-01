@@ -348,11 +348,11 @@ extension OrderDetail {
     }
 }
 
-extension OrderDetails {
+extension Order {
     init(proto: Etrade_GetOrderDetailsResponse) throws {
         self.init(
             events: try proto.events.map { try OrderEvent(proto: $0) },
-            orderDetail: try proto.orderDetail.map { try OrderDetail(proto: $0) },
+            orderDetail: try OrderDetail(proto: proto.orderDetail),
             id: proto.orderID,
             type: proto.hasOrderType ? proto.orderType : nil
         )

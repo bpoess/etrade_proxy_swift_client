@@ -125,13 +125,13 @@ public final class ETradeClient: Sendable {
         }
     }
 
-    public func getOrderDetails(accountIdKey: String, orderId: String) async throws -> OrderDetails {
+    public func getOrderDetails(accountIdKey: String, orderId: String) async throws -> Order {
         do {
             var request = Etrade_GetOrderDetailsRequest()
             request.accountIDKey = accountIdKey
             request.orderID = orderId
             let response = try await proxyService.getOrderDetails(request)
-            return try OrderDetails(proto: response)
+            return try Order(proto: response)
         } catch let error as RPCError {
             throw ETradeError(rpcError: error)
         }

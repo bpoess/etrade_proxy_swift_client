@@ -4,9 +4,9 @@ public struct ListOrderItem: Sendable {
     public let id: String
 }
 
-public struct OrderDetails: Sendable {
+public struct Order: Sendable {
     public let events: [OrderEvent]
-    public let orderDetail: [OrderDetail]
+    public let orderDetail: OrderDetail
     public let id: String
     public let type: String?
 }

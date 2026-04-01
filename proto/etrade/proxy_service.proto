@@ -111,7 +111,7 @@ message ListAccountsResponse {
 
 message GetOrderDetailsResponse {
   repeated OrderEvent events = 1; // Stored in raw as Events.Event
-  repeated OrderDetail order_detail = 2;
+  OrderDetail order_detail = 2; // Stored as [OrderDetail] in raw but always has length 1
   string order_id = 3; // Raw data contains int
   optional string order_type = 4;
 }
