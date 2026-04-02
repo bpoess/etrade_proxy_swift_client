@@ -31,8 +31,8 @@ public final class ETradeClient: Sendable {
         do {
             let response = try await proxyService.getAuthenticationStatus(Etrade_GetAuthenticationStatusRequest())
             return response.isAuthenticated
-        } catch let error as RPCError {
-            throw ETradeError(rpcError: error)
+        } catch {
+            throw ETradeError(from: error)
         }
     }
 
@@ -40,8 +40,8 @@ public final class ETradeClient: Sendable {
         do {
             let response = try await proxyService.getAuthorizationUrl(Etrade_GetAuthorizationUrlRequest())
             return response.url
-        } catch let error as RPCError {
-            throw ETradeError(rpcError: error)
+        } catch {
+            throw ETradeError(from: error)
         }
     }
 
@@ -50,8 +50,8 @@ public final class ETradeClient: Sendable {
             var request = Etrade_CompleteAuthorizationRequest()
             request.verificationCode = verificationCode
             _ = try await proxyService.completeAuthorization(request)
-        } catch let error as RPCError {
-            throw ETradeError(rpcError: error)
+        } catch {
+            throw ETradeError(from: error)
         }
     }
 
@@ -61,8 +61,8 @@ public final class ETradeClient: Sendable {
         do {
             let response = try await proxyService.listAccounts(Etrade_ListAccountsRequest())
             return try response.accounts.map { try Account(proto: $0) }
-        } catch let error as RPCError {
-            throw ETradeError(rpcError: error)
+        } catch {
+            throw ETradeError(from: error)
         }
     }
 
@@ -75,12 +75,21 @@ public final class ETradeClient: Sendable {
             if let view { request.view = view }
             if let lotsRequired { request.lotsRequired = lotsRequired }
             return try await proxyService.listPositions(request) { response in
-                try await response.messages.reduce(into: []) { result, proto in
-                    try result.append(Position(proto: proto))
+                switch response.accepted {
+                case .success(let contents):
+                    var result: [Position] = []
+                    for try await part in contents.bodyParts {
+                        if case .message(let proto) = part {
+                            try result.append(Position(proto: proto))
+                        }
+                    }
+                    return result
+                case .failure(let error):
+                    throw error
                 }
             }
-        } catch let error as RPCError {
-            throw ETradeError(rpcError: error)
+        } catch {
+            throw ETradeError(from: error)
         }
     }
 
@@ -92,12 +101,21 @@ public final class ETradeClient: Sendable {
             request.symbols = symbols
             if let detailFlag { request.detailFlag = detailFlag }
             return try await proxyService.listQuotes(request) { response in
-                try await response.messages.reduce(into: []) { result, proto in
-                    try result.append(Quote(proto: proto))
+                switch response.accepted {
+                case .success(let contents):
+                    var result: [Quote] = []
+                    for try await part in contents.bodyParts {
+                        if case .message(let proto) = part {
+                            try result.append(Quote(proto: proto))
+                        }
+                    }
+                    return result
+                case .failure(let error):
+                    throw error
                 }
             }
-        } catch let error as RPCError {
-            throw ETradeError(rpcError: error)
+        } catch {
+            throw ETradeError(from: error)
         }
     }
 
@@ -116,12 +134,67 @@ public final class ETradeClient: Sendable {
             request.endDate = endDate
             if let status { request.status = status }
             return try await proxyService.listOrders(request) { response in
-                try await response.messages.reduce(into: []) { result, proto in
-                    result.append(ListOrderItem(proto: proto))
+                switch response.accepted {
+                case .success(let contents):
+                    var result: [ListOrderItem] = []
+                    for try await part in contents.bodyParts {
+                        if case .message(let proto) = part {
+                            result.append(ListOrderItem(proto: proto))
+                        }
+                    }
+                    return result
+                case .failure(let error):
+                    throw error
                 }
             }
-        } catch let error as RPCError {
-            throw ETradeError(rpcError: error)
+        } catch {
+            throw ETradeError(from: error)
+        }
+    }
+    
+    public func listOrdersStream(
+        accountIdKey: String,
+        startDate: String,
+        endDate: String,
+        status: String? = nil
+    ) -> AsyncThrowingStream<ListOrderItem, Error> {
+        AsyncThrowingStream { continuation in
+            let task = Task {
+                do {
+                    var request = Etrade_ListOrdersRequest()
+                    request.accountIDKey = accountIdKey
+                    request.startDate = startDate
+                    request.endDate = endDate
+                    if let status {
+                        request.status = status
+                    }
+
+                    try await proxyService.listOrders(request) { response in
+                        switch response.accepted {
+                        case .success(let contents):
+                            do {
+                                for try await part in contents.bodyParts {
+                                    if case .message(let proto) = part {
+                                        continuation.yield(ListOrderItem(proto: proto))
+                                    }
+                                }
+                                continuation.finish()
+                            } catch {
+                                continuation.finish(throwing: ETradeError(from: error))
+                            }
+
+                        case .failure(let error):
+                            continuation.finish(throwing: ETradeError(from: error))
+                        }
+                    }
+                } catch {
+                    continuation.finish(throwing: ETradeError(from: error))
+                }
+            }
+
+            continuation.onTermination = { @Sendable _ in
+                task.cancel()
+            }
         }
     }
 
@@ -132,8 +205,8 @@ public final class ETradeClient: Sendable {
             request.orderID = orderId
             let response = try await proxyService.getOrderDetails(request)
             return try Order(proto: response)
-        } catch let error as RPCError {
-            throw ETradeError(rpcError: error)
+        } catch {
+            throw ETradeError(from: error)
         }
     }
 
@@ -150,12 +223,21 @@ public final class ETradeClient: Sendable {
             request.startDate = startDate
             request.endDate = endDate
             return try await proxyService.listTransactions(request) { response in
-                try await response.messages.reduce(into: []) { result, proto in
-                    result.append(ListTransactionItem(proto: proto))
+                switch response.accepted {
+                case .success(let contents):
+                    var result: [ListTransactionItem] = []
+                    for try await part in contents.bodyParts {
+                        if case .message(let proto) = part {
+                            result.append(ListTransactionItem(proto: proto))
+                        }
+                    }
+                    return result
+                case .failure(let error):
+                    throw error
                 }
             }
-        } catch let error as RPCError {
-            throw ETradeError(rpcError: error)
+        } catch {
+            throw ETradeError(from: error)
         }
     }
 
@@ -171,8 +253,8 @@ public final class ETradeClient: Sendable {
             request.storeID = storeId
             let response = try await proxyService.getTransactionDetails(request)
             return try Transaction(proto: response.transaction)
-        } catch let error as RPCError {
-            throw ETradeError(rpcError: error)
+        } catch {
+            throw ETradeError(from: error)
         }
     }
 
@@ -192,8 +274,8 @@ public final class ETradeClient: Sendable {
             if let accountType { request.accountType = accountType }
             let response = try await proxyService.getAccountBalance(request)
             return try AccountBalance(proto: response)
-        } catch let error as RPCError {
-            throw ETradeError(rpcError: error)
+        } catch {
+            throw ETradeError(from: error)
         }
     }
 
@@ -205,8 +287,8 @@ public final class ETradeClient: Sendable {
             request.accountIDKey = accountIdKey
             request.positionID = positionId
             _ = try await proxyService.getLot(request)
-        } catch let error as RPCError {
-            throw ETradeError(rpcError: error)
+        } catch {
+            throw ETradeError(from: error)
         }
     }
 
@@ -240,8 +322,8 @@ public final class ETradeClient: Sendable {
             if let priceType { request.priceType = priceType }
             let response = try await proxyService.getOptionChains(request)
             return try OptionChains(proto: response)
-        } catch let error as RPCError {
-            throw ETradeError(rpcError: error)
+        } catch {
+            throw ETradeError(from: error)
         }
     }
 
@@ -255,8 +337,8 @@ public final class ETradeClient: Sendable {
             if let expiryType { request.expiryType = expiryType }
             let response = try await proxyService.getOptionExpireDates(request)
             return response.dates.map { ExpirationDate(proto: $0) }
-        } catch let error as RPCError {
-            throw ETradeError(rpcError: error)
+        } catch {
+            throw ETradeError(from: error)
         }
     }
 }
