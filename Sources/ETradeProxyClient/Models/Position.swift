@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Position: Sendable {
+public struct Position: Sendable, Codable {
     public let adjPrevClose: Decimal
     public let commissions: Decimal
     public let costPerShare: Decimal
@@ -31,7 +31,7 @@ public struct Position: Sendable {
     public let quick: PositionQuickView?
 }
 
-public struct Product: Sendable {
+public struct Product: Sendable, Codable {
     public let symbol: String
     public let securityType: String?
     public let securitySubType: String?
@@ -44,12 +44,12 @@ public struct Product: Sendable {
     public let productId: ProductId?
 }
 
-public struct ProductId: Sendable {
+public struct ProductId: Sendable, Codable {
     public let symbol: String
     public let typeCode: String
 }
 
-public struct PositionCompleteView: Sendable {
+public struct PositionCompleteView: Sendable, Codable {
     public let adjLastTrade: Decimal
     public let adjPrevClose: Decimal
     public let adjPrice: Decimal
@@ -118,7 +118,7 @@ public struct PositionCompleteView: Sendable {
     public let prevDayVolume: Decimal?
 }
 
-public struct PositionQuickView: Sendable {
+public struct PositionQuickView: Sendable, Codable {
     public let change: Decimal
     public let changePct: Decimal
     public let lastTrade: Decimal

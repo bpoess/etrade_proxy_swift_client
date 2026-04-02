@@ -1,23 +1,23 @@
 import Foundation
 
-public struct ListOrderItem: Sendable {
+public struct ListOrderItem: Sendable, Codable {
     public let id: String
 }
 
-public struct Order: Sendable {
+public struct Order: Sendable, Codable {
     public let events: [OrderEvent]
     public let orderDetail: OrderDetail
     public let id: String
     public let type: String?
 }
 
-public struct OrderEvent: Sendable {
+public struct OrderEvent: Sendable, Codable {
     public let dateTime: Date
     public let instruments: [OrderInstrument]
     public let name: String
 }
 
-public struct OrderInstrument: Sendable {
+public struct OrderInstrument: Sendable, Codable {
     public let estimatedCommission: Decimal
     public let estimatedFees: Decimal
     public let filledQuantity: Decimal
@@ -29,7 +29,7 @@ public struct OrderInstrument: Sendable {
     public let averageExecutionPrice: Decimal?
 }
 
-public struct OrderDetail: Sendable {
+public struct OrderDetail: Sendable, Codable {
     public let allOrNone: Bool
     public let gcd: Int64
     public let instruments: [OrderInstrument]

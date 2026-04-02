@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Transaction: Sendable {
+public struct Transaction: Sendable, Codable {
     public let id: String
     public let accountId: String
     public let date: Date
@@ -10,7 +10,7 @@ public struct Transaction: Sendable {
     public let brokerage: Brokerage
 }
 
-public struct Brokerage: Sendable {
+public struct Brokerage: Sendable, Codable {
     public let transactionType: String
     public let product: Product?
     public let quantity: Decimal
@@ -22,7 +22,7 @@ public struct Brokerage: Sendable {
     public let memo: String
 }
 
-public struct ListTransactionItem: Sendable {
+public struct ListTransactionItem: Sendable, Codable {
     public let accountId: String
     public let storeId: Int64
     public let id: String

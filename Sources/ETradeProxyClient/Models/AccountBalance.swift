@@ -1,6 +1,6 @@
 import Foundation
 
-public struct AccountBalance: Sendable {
+public struct AccountBalance: Sendable, Codable {
     public let description: String
     public let id: String
     public let mode: String
@@ -12,12 +12,12 @@ public struct AccountBalance: Sendable {
     public let quoteMode: Int64
 }
 
-public struct BalanceCash: Sendable {
+public struct BalanceCash: Sendable, Codable {
     public let fundsForOpenOrdersCash: Decimal
     public let moneyMktBalance: Decimal
 }
 
-public struct BalanceComputed: Sendable {
+public struct BalanceComputed: Sendable, Codable {
     public let accountBalance: Decimal
     public let cashAvailableForInvestment: Decimal
     public let cashAvailableForWithdrawal: Decimal
@@ -40,14 +40,14 @@ public struct BalanceComputed: Sendable {
     public let regtEquityPercent: Decimal?
 }
 
-public struct BalanceOpenCalls: Sendable {
+public struct BalanceOpenCalls: Sendable, Codable {
     public let cashCall: Decimal
     public let fedCall: Decimal
     public let houseCall: Decimal
     public let minEquityCall: Decimal
 }
 
-public struct BalanceRealTimeValues: Sendable {
+public struct BalanceRealTimeValues: Sendable, Codable {
     public let netMv: Decimal
     public let netMvLong: Decimal
     public let netMvShort: Decimal

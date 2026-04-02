@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Quote: Sendable {
+public struct Quote: Sendable, Codable {
     public let ahFlag: String
     public let dateTime: Date
     public let product: Product
@@ -10,7 +10,7 @@ public struct Quote: Sendable {
     public let option: QuoteOptionDetail?
 }
 
-public struct QuoteAllDetail: Sendable {
+public struct QuoteAllDetail: Sendable, Codable {
     public let adjustedFlag: Bool
     public let ask: Decimal
     public let askSize: Int64
@@ -67,7 +67,7 @@ public struct QuoteAllDetail: Sendable {
     public let osiKey: String?
 }
 
-public struct QuoteOptionDetail: Sendable {
+public struct QuoteOptionDetail: Sendable, Codable {
     public let ask: Decimal
     public let askSize: Int64
     public let bid: Decimal
@@ -87,7 +87,7 @@ public struct QuoteOptionDetail: Sendable {
     public let optionGreeks: OptionGreeks?
 }
 
-public struct OptionGreeks: Sendable {
+public struct OptionGreeks: Sendable, Codable {
     public let currentValue: Bool
     public let delta: Decimal
     public let gamma: Decimal

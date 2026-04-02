@@ -1,6 +1,6 @@
 import Foundation
 
-public struct OptionChains: Sendable {
+public struct OptionChains: Sendable, Codable {
     public let nearPrice: Decimal
     public let optionPairs: [OptionPair]
     public let quoteType: String
@@ -8,12 +8,12 @@ public struct OptionChains: Sendable {
     public let timeStamp: Date
 }
 
-public struct OptionPair: Sendable {
+public struct OptionPair: Sendable, Codable {
     public let call: OptionLeg
     public let put: OptionLeg
 }
 
-public struct OptionLeg: Sendable {
+public struct OptionLeg: Sendable, Codable {
     public let adjustedFlag: Bool
     public let ask: Decimal
     public let askSize: Int64
@@ -36,13 +36,13 @@ public struct OptionLeg: Sendable {
     public let volume: Int64
 }
 
-public struct SelectedEd: Sendable {
+public struct SelectedEd: Sendable, Codable {
     public let day: Int64
     public let month: Int64
     public let year: Int64
 }
 
-public struct ExpirationDate: Sendable {
+public struct ExpirationDate: Sendable, Codable {
     public let day: Int64
     public let expiryType: String
     public let month: Int64
