@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Transaction: Sendable, Codable {
+public struct Transaction: Identifiable, Sendable, Codable {
     public let id: String
     public let accountId: String
     public let date: Date
@@ -10,6 +10,71 @@ public struct Transaction: Sendable, Codable {
     // `@Model` types reserve `description` (conflicts with CustomStringConvertible).
     public let txDescription: String
     public let brokerage: Brokerage
+
+    public init(
+        id: String,
+        accountId: String,
+        date: Date,
+        postDate: Date? = nil,
+        amount: Decimal,
+        txDescription: String,
+        brokerage: Brokerage
+    ) {
+        self.id = id
+        self.accountId = accountId
+        self.date = date
+        self.postDate = postDate
+        self.amount = amount
+        self.txDescription = txDescription
+        self.brokerage = brokerage
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        do { id = try container.decode(String.self, forKey: .id) } catch {
+            print("Decoding id failed: \(error)")
+            throw error
+        }
+        do {
+            accountId = try container.decode(String.self, forKey: .accountId)
+        } catch {
+            print("Decoding accountId failed: \(error)")
+            throw error
+        }
+        do { date = try container.decode(Date.self, forKey: .date) } catch {
+            print("Decoding date failed: \(error)")
+            throw error
+        }
+        do {
+            postDate = try container.decodeIfPresent(
+                Date.self,
+                forKey: .postDate
+            )
+        } catch {
+            print("Decoding postDate failed: \(error)")
+            throw error
+        }
+        do {
+            amount = try container.decode(Decimal.self, forKey: .amount)
+        } catch {
+            print("Decoding amount failed: \(error)")
+            throw error
+        }
+        do {
+            txDescription =
+                try container
+                .decode(String.self, forKey: .txDescription)
+        } catch {
+            print("Decoding txDescription failed: \(error)")
+            throw error
+        }
+        do {
+            brokerage = try container.decode(Brokerage.self, forKey: .brokerage)
+        } catch {
+            print("Decoding brokerage failed: \(error)")
+            throw error
+        }
+    }
 }
 
 public struct Brokerage: Sendable, Codable {
