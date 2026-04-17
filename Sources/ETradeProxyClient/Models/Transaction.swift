@@ -87,6 +87,41 @@ public struct Brokerage: Sendable, Codable {
     public let fee: Decimal
     public let orderNo: String?
     public let memo: String
+    
+    public init(transactionType: String, product: Product?, quantity: Decimal, price: Decimal, settlementCurrency: String, paymentCurrency: String, fee: Decimal, orderNo: String?, memo: String) {
+        self.transactionType = transactionType
+        self.product = product
+        self.quantity = quantity
+        self.price = price
+        self.settlementCurrency = settlementCurrency
+        self.paymentCurrency = paymentCurrency
+        self.fee = fee
+        self.orderNo = orderNo
+        self.memo = memo
+    }
+    
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        do {
+            self.transactionType = try container
+                .decode(String.self, forKey: .transactionType)
+            self.product = try container
+                .decodeIfPresent(Product.self, forKey: .product)
+            self.quantity = try container.decode(Decimal.self, forKey: .quantity)
+            self.price = try container.decode(Decimal.self, forKey: .price)
+            self.settlementCurrency = try container
+                .decode(String.self, forKey: .settlementCurrency)
+            self.paymentCurrency = try container
+                .decode(String.self, forKey: .paymentCurrency)
+            self.fee = try container.decode(Decimal.self, forKey: .fee)
+            self.orderNo = try container
+                .decodeIfPresent(String.self, forKey: .orderNo)
+            self.memo = try container.decode(String.self, forKey: .memo)
+        } catch {
+            print("Unable to decode Brokerage \(error)")
+            throw error
+        }
+    }
 }
 
 public struct ListTransactionItem: Sendable, Codable {

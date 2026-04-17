@@ -42,11 +42,59 @@ public struct Product: Sendable, Codable {
     public let strikePrice: Decimal?
     public let expiryType: String?
     public let productId: ProductId?
+    
+    public init(symbol: String, securityType: String?, securitySubType: String?, callPut: String?, expiryYear: Int32?, expiryMonth: Int32?, expiryDay: Int32?, strikePrice: Decimal?, expiryType: String?, productId: ProductId?) {
+        self.symbol = symbol
+        self.securityType = securityType
+        self.securitySubType = securitySubType
+        self.callPut = callPut
+        self.expiryYear = expiryYear
+        self.expiryMonth = expiryMonth
+        self.expiryDay = expiryDay
+        self.strikePrice = strikePrice
+        self.expiryType = expiryType
+        self.productId = productId
+    }
+    
+    public init(from decoder: Decoder) throws {
+        do {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            symbol = try container.decode(String.self, forKey: .symbol)
+            securityType = try container.decodeIfPresent(String.self, forKey: .securityType)
+            securitySubType = try container.decodeIfPresent(String.self, forKey: .securitySubType)
+            callPut = try container.decodeIfPresent(String.self, forKey: .callPut)
+            expiryYear = try container.decodeIfPresent(Int32.self, forKey: .expiryYear)
+            expiryMonth = try container.decodeIfPresent(Int32.self, forKey: .expiryMonth)
+            expiryDay = try container.decodeIfPresent(Int32.self, forKey: .expiryDay)
+            strikePrice = try container.decodeIfPresent(Decimal.self, forKey: .strikePrice)
+            expiryType = try container.decodeIfPresent(String.self, forKey: .expiryType)
+            productId = try container.decodeIfPresent(ProductId.self, forKey: .productId)
+        } catch {
+            print("Unable to decode Product: \(error)")
+            throw error
+        }
+    }
 }
 
 public struct ProductId: Sendable, Codable {
     public let symbol: String
     public let typeCode: String
+    
+    public init(symbol: String, typeCode: String) {
+        self.symbol = symbol
+        self.typeCode = typeCode
+    }
+    
+    public init(from decoder: any Decoder) throws {
+        do {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.symbol = try container.decode(String.self, forKey: .symbol)
+            self.typeCode = try container.decode(String.self, forKey: .typeCode)
+        } catch {
+            print("Unable to decode ProductId: \(error)")
+            throw error
+        }
+    }
 }
 
 public struct PositionCompleteView: Sendable, Codable {
