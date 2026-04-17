@@ -85,6 +85,10 @@ public struct ProductId: Sendable, Codable {
         self.typeCode = typeCode
     }
     
+    enum CodingKeys: String, CodingKey {
+        case symbol, typeCode
+    }
+    
     public init(from decoder: any Decoder) throws {
         do {
             let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -94,6 +98,19 @@ public struct ProductId: Sendable, Codable {
             print("Unable to decode ProductId: \(error)")
             throw error
         }
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        do {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(symbol, forKey: .symbol)
+            try container.encode(typeCode, forKey: .typeCode)
+            print("Encoded ProductId '\(symbol)' '\(typeCode)'")
+        } catch {
+            print("Unable to encode ProductId: \(error)")
+            throw error
+        }
+        
     }
 }
 
