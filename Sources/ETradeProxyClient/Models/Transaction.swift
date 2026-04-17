@@ -6,7 +6,9 @@ public struct Transaction: Sendable, Codable {
     public let date: Date
     public let postDate: Date?
     public let amount: Decimal
-    public let description: String
+    // Named `txDescription` rather than `description` because SwiftData
+    // `@Model` types reserve `description` (conflicts with CustomStringConvertible).
+    public let txDescription: String
     public let brokerage: Brokerage
 }
 

@@ -396,7 +396,7 @@ extension Transaction {
             date: Date(proto: proto.transactionDate),
             postDate: proto.hasPostDate ? Date(proto: proto.postDate) : nil,
             amount: try Decimal(proto: proto.amount),
-            description: proto.description_p,
+            txDescription: proto.description_p,
             brokerage: try Brokerage(proto: proto.brokerage)
         )
     }
