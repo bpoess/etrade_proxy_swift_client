@@ -87,8 +87,18 @@ public struct Brokerage: Sendable, Codable {
     public let fee: Decimal
     public let orderNo: String?
     public let memo: String
-    
-    public init(transactionType: String, product: Product?, quantity: Decimal, price: Decimal, settlementCurrency: String, paymentCurrency: String, fee: Decimal, orderNo: String?, memo: String) {
+
+    public init(
+        transactionType: String,
+        product: Product?,
+        quantity: Decimal,
+        price: Decimal,
+        settlementCurrency: String,
+        paymentCurrency: String,
+        fee: Decimal,
+        orderNo: String?,
+        memo: String
+    ) {
         self.transactionType = transactionType
         self.product = product
         self.quantity = quantity
@@ -99,26 +109,35 @@ public struct Brokerage: Sendable, Codable {
         self.orderNo = orderNo
         self.memo = memo
     }
-    
+
     enum CodingKeys: String, CodingKey {
-        case transactionType, product, quantity, price, settlementCurrency, paymentCurrency, fee, orderNo, memo
+        case transactionType, product, quantity, price, settlementCurrency,
+            paymentCurrency, fee, orderNo, memo
     }
-    
+
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         do {
-            self.transactionType = try container
+            self.transactionType =
+                try container
                 .decode(String.self, forKey: .transactionType)
-            self.product = try container
+            self.product =
+                try container
                 .decodeIfPresent(Product.self, forKey: .product)
-            self.quantity = try container.decode(Decimal.self, forKey: .quantity)
+            self.quantity = try container.decode(
+                Decimal.self,
+                forKey: .quantity
+            )
             self.price = try container.decode(Decimal.self, forKey: .price)
-            self.settlementCurrency = try container
+            self.settlementCurrency =
+                try container
                 .decode(String.self, forKey: .settlementCurrency)
-            self.paymentCurrency = try container
+            self.paymentCurrency =
+                try container
                 .decode(String.self, forKey: .paymentCurrency)
             self.fee = try container.decode(Decimal.self, forKey: .fee)
-            self.orderNo = try container
+            self.orderNo =
+                try container
                 .decodeIfPresent(String.self, forKey: .orderNo)
             self.memo = try container.decode(String.self, forKey: .memo)
         } catch {
@@ -126,7 +145,7 @@ public struct Brokerage: Sendable, Codable {
             throw error
         }
     }
-    
+
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(transactionType, forKey: .transactionType)
