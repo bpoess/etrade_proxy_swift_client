@@ -106,7 +106,8 @@ public struct Brokerage: Sendable, Codable {
             self.transactionType = try container
                 .decode(String.self, forKey: .transactionType)
             if container.contains(.product) {
-                if try container.decodeNil(forKey: .product) != false {
+                let dn = try container.decodeNil(forKey: .product)
+                if !dn {
                     self.product = try container
                         .decodeIfPresent(Product.self, forKey: .product)
                 } else {
