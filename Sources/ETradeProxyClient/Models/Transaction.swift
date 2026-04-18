@@ -21,6 +21,7 @@ public struct Brokerage: Sendable, Codable {
     public let paymentCurrency: String
     public let fee: Decimal
     public let orderNo: String?
+    public let memo: String
 }
 
 public struct ListTransactionItem: Sendable, Codable {
