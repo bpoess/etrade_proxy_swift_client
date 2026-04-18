@@ -68,8 +68,12 @@ public struct Product: Sendable, Codable {
             expiryDay = try container.decodeIfPresent(Int32.self, forKey: .expiryDay)
             strikePrice = try container.decodeIfPresent(Decimal.self, forKey: .strikePrice)
             expiryType = try container.decodeIfPresent(String.self, forKey: .expiryType)
-            if try container.decodeNil(forKey: .productId) != false {
-                productId = try container.decodeIfPresent(ProductId.self, forKey: .productId)
+            if container.contains(.productId) {
+                if try container.decodeNil(forKey: .productId) != false {
+                    productId = try container.decodeIfPresent(ProductId.self, forKey: .productId)
+                } else {
+                    productId = nil
+                }
             } else {
                 productId = nil
             }
@@ -83,7 +87,8 @@ public struct Product: Sendable, Codable {
 public struct ProductId: Sendable, Codable {
     public let symbol: String
     public let typeCode: String
-    
+
+    /*
     public init(symbol: String, typeCode: String) {
         self.symbol = symbol
         self.typeCode = typeCode
@@ -116,6 +121,7 @@ public struct ProductId: Sendable, Codable {
         }
         
     }
+    */
 }
 
 public struct PositionCompleteView: Sendable, Codable {
