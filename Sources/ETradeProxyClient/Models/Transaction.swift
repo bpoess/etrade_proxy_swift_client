@@ -100,22 +100,17 @@ public struct Brokerage: Sendable, Codable {
         self.memo = memo
     }
     
+    enum CodingKeys: String, CodingKey {
+        case transactionType, product, quantity, price, settlementCurrency, paymentCurrency, fee, orderNo, memo
+    }
+    
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         do {
             self.transactionType = try container
                 .decode(String.self, forKey: .transactionType)
-            if container.contains(.product) {
-                let dn = try container.decodeNil(forKey: .product)
-                if !dn {
-                    self.product = try container
-                        .decodeIfPresent(Product.self, forKey: .product)
-                } else {
-                    self.product = nil
-                }
-            } else {
-                self.product = nil
-            }
+            self.product = try container
+                .decodeIfPresent(Product.self, forKey: .product)
             self.quantity = try container.decode(Decimal.self, forKey: .quantity)
             self.price = try container.decode(Decimal.self, forKey: .price)
             self.settlementCurrency = try container
@@ -130,6 +125,19 @@ public struct Brokerage: Sendable, Codable {
             print("Unable to decode Brokerage \(error)")
             throw error
         }
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(transactionType, forKey: .transactionType)
+        try container.encodeIfPresent(product, forKey: .product)
+        try container.encode(quantity, forKey: .quantity)
+        try container.encode(price, forKey: .price)
+        try container.encode(settlementCurrency, forKey: .settlementCurrency)
+        try container.encode(paymentCurrency, forKey: .paymentCurrency)
+        try container.encode(fee, forKey: .fee)
+        try container.encodeIfPresent(orderNo, forKey: .orderNo)
+        try container.encode(memo, forKey: .memo)
     }
 }
 

@@ -56,6 +56,10 @@ public struct Product: Sendable, Codable {
         self.productId = productId
     }
     
+    enum CodingKeys: String, CodingKey {
+        case symbol, securityType, securitySubType, callPut, expiryYear, expiryMonth, expiryDay, strikePrice, expiryType, productId
+    }
+    
     public init(from decoder: Decoder) throws {
         do {
             let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -68,60 +72,31 @@ public struct Product: Sendable, Codable {
             expiryDay = try container.decodeIfPresent(Int32.self, forKey: .expiryDay)
             strikePrice = try container.decodeIfPresent(Decimal.self, forKey: .strikePrice)
             expiryType = try container.decodeIfPresent(String.self, forKey: .expiryType)
-            if container.contains(.productId) {
-                if try container.decodeNil(forKey: .productId) != false {
-                    productId = try container.decodeIfPresent(ProductId.self, forKey: .productId)
-                } else {
-                    productId = nil
-                }
-            } else {
-                productId = nil
-            }
+            productId = try container.decodeIfPresent(ProductId.self, forKey: .productId)
         } catch {
             print("Unable to decode Product: \(error)")
             throw error
         }
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(symbol, forKey: .symbol)
+        try container.encodeIfPresent(securityType, forKey: .securityType)
+        try container.encodeIfPresent(securitySubType, forKey: .securitySubType)
+        try container.encodeIfPresent(callPut, forKey: .callPut)
+        try container.encodeIfPresent(expiryYear, forKey: .expiryYear)
+        try container.encodeIfPresent(expiryMonth, forKey: .expiryMonth)
+        try container.encodeIfPresent(expiryDay, forKey: .expiryDay)
+        try container.encodeIfPresent(strikePrice, forKey: .strikePrice)
+        try container.encodeIfPresent(expiryType, forKey: .expiryType)
+        try container.encodeIfPresent(productId, forKey: .productId)
     }
 }
 
 public struct ProductId: Sendable, Codable {
     public let symbol: String
     public let typeCode: String
-
-    /*
-    public init(symbol: String, typeCode: String) {
-        self.symbol = symbol
-        self.typeCode = typeCode
-    }
-    
-    enum CodingKeys: String, CodingKey {
-        case symbol, typeCode
-    }
-    
-    public init(from decoder: any Decoder) throws {
-        do {
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.symbol = try container.decode(String.self, forKey: .symbol)
-            self.typeCode = try container.decode(String.self, forKey: .typeCode)
-        } catch {
-            print("Unable to decode ProductId: \(error)")
-            throw error
-        }
-    }
-    
-    public func encode(to encoder: Encoder) throws {
-        do {
-            var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(symbol, forKey: .symbol)
-            try container.encode(typeCode, forKey: .typeCode)
-            print("Encoded ProductId '\(symbol)' '\(typeCode)'")
-        } catch {
-            print("Unable to encode ProductId: \(error)")
-            throw error
-        }
-        
-    }
-    */
 }
 
 public struct PositionCompleteView: Sendable, Codable {
