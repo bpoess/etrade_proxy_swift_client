@@ -68,7 +68,11 @@ public struct Product: Sendable, Codable {
             expiryDay = try container.decodeIfPresent(Int32.self, forKey: .expiryDay)
             strikePrice = try container.decodeIfPresent(Decimal.self, forKey: .strikePrice)
             expiryType = try container.decodeIfPresent(String.self, forKey: .expiryType)
-            productId = try container.decodeIfPresent(ProductId.self, forKey: .productId)
+            if try container.decodeNil(forKey: .productId) != false {
+                productId = try container.decodeIfPresent(ProductId.self, forKey: .productId)
+            } else {
+                productId = nil
+            }
         } catch {
             print("Unable to decode Product: \(error)")
             throw error

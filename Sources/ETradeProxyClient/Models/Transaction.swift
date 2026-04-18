@@ -105,8 +105,12 @@ public struct Brokerage: Sendable, Codable {
         do {
             self.transactionType = try container
                 .decode(String.self, forKey: .transactionType)
-            self.product = try container
-                .decodeIfPresent(Product.self, forKey: .product)
+            if try container.decodeNil(forKey: .product) != false {
+                self.product = try container
+                    .decodeIfPresent(Product.self, forKey: .product)
+            } else {
+                self.product = nil
+            }
             self.quantity = try container.decode(Decimal.self, forKey: .quantity)
             self.price = try container.decode(Decimal.self, forKey: .price)
             self.settlementCurrency = try container
