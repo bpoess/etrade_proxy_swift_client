@@ -129,7 +129,12 @@ public struct Product: Sendable, Codable {
         try container.encodeIfPresent(expiryDay, forKey: .expiryDay)
         try container.encodeIfPresent(strikePrice, forKey: .strikePrice)
         try container.encodeIfPresent(expiryType, forKey: .expiryType)
-        try container.encodeIfPresent(productId, forKey: .productId)
+        if let productId = self.productId {
+            try container.encode(productId, forKey: .productId)
+        } else {
+            try container.encode(nil as ProductId?, forKey: .productId)
+        }
+
     }
 }
 

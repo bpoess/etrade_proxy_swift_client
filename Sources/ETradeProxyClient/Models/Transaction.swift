@@ -28,7 +28,7 @@ public struct Transaction: Identifiable, Sendable, Codable {
         self.txDescription = txDescription
         self.brokerage = brokerage
     }
-    
+
     enum CodingKeys: String, CodingKey {
         case id, accountId, date, postDate, amount, txDescription, brokerage
     }
@@ -79,13 +79,17 @@ public struct Transaction: Identifiable, Sendable, Codable {
             throw error
         }
     }
-    
+
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
         try container.encode(accountId, forKey: .accountId)
         try container.encode(date, forKey: .date)
-        try container.encodeIfPresent(postDate, forKey: .postDate)
+        if let postDate = self.postDate {
+            try container.encodeIfPresent(postDate, forKey: .postDate)
+        } else {
+            try container.encode(nil as Date?, forKey: .postDate)
+        }
         try container.encode(amount, forKey: .amount)
         try container.encode(txDescription, forKey: .txDescription)
         try container.encode(brokerage, forKey: .brokerage)
@@ -164,7 +168,11 @@ public struct Brokerage: Sendable, Codable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(transactionType, forKey: .transactionType)
-        try container.encodeIfPresent(product, forKey: .product)
+        if let product = self.product {
+            try container.encode(product, forKey: .product)
+        } else {
+            try container.encode(nil as Product?, forKey: .product)
+        }
         try container.encode(quantity, forKey: .quantity)
         try container.encode(price, forKey: .price)
         try container.encode(settlementCurrency, forKey: .settlementCurrency)
