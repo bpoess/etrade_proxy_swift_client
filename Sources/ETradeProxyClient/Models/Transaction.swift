@@ -28,6 +28,10 @@ public struct Transaction: Identifiable, Sendable, Codable {
         self.txDescription = txDescription
         self.brokerage = brokerage
     }
+    
+    enum CodingKeys: String, CodingKey {
+        case id, accountId, date, postDate, amount, txDescription, brokerage
+    }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -74,6 +78,17 @@ public struct Transaction: Identifiable, Sendable, Codable {
             print("Decoding brokerage failed: \(error)")
             throw error
         }
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
+        try container.encode(accountId, forKey: .accountId)
+        try container.encode(date, forKey: .date)
+        try container.encodeIfPresent(postDate, forKey: .postDate)
+        try container.encode(amount, forKey: .amount)
+        try container.encode(txDescription, forKey: .txDescription)
+        try container.encode(brokerage, forKey: .brokerage)
     }
 }
 
