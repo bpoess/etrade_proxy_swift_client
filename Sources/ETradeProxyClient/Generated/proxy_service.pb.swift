@@ -3420,9 +3420,214 @@ struct Etrade_GetLotResponse: Sendable {
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
+  var positionLot: [Etrade_PositionLot] = []
+
+  var shortType: Int64 = 0
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
+}
+
+struct Etrade_PositionLot: @unchecked Sendable {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var acquiredDate: SwiftProtobuf.Google_Protobuf_Timestamp {
+    get {_storage._acquiredDate ?? SwiftProtobuf.Google_Protobuf_Timestamp()}
+    set {_uniqueStorage()._acquiredDate = newValue}
+  }
+  /// Returns true if `acquiredDate` has been explicitly set.
+  var hasAcquiredDate: Bool {_storage._acquiredDate != nil}
+  /// Clears the value of `acquiredDate`. Subsequent reads from it will return its default value.
+  mutating func clearAcquiredDate() {_uniqueStorage()._acquiredDate = nil}
+
+  var adjPrice: Google_Type_Decimal {
+    get {_storage._adjPrice ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._adjPrice = newValue}
+  }
+  /// Returns true if `adjPrice` has been explicitly set.
+  var hasAdjPrice: Bool {_storage._adjPrice != nil}
+  /// Clears the value of `adjPrice`. Subsequent reads from it will return its default value.
+  mutating func clearAdjPrice() {_uniqueStorage()._adjPrice = nil}
+
+  var availableQty: Google_Type_Decimal {
+    get {_storage._availableQty ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._availableQty = newValue}
+  }
+  /// Returns true if `availableQty` has been explicitly set.
+  var hasAvailableQty: Bool {_storage._availableQty != nil}
+  /// Clears the value of `availableQty`. Subsequent reads from it will return its default value.
+  mutating func clearAvailableQty() {_uniqueStorage()._availableQty = nil}
+
+  var commPerShare: Google_Type_Decimal {
+    get {_storage._commPerShare ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._commPerShare = newValue}
+  }
+  /// Returns true if `commPerShare` has been explicitly set.
+  var hasCommPerShare: Bool {_storage._commPerShare != nil}
+  /// Clears the value of `commPerShare`. Subsequent reads from it will return its default value.
+  mutating func clearCommPerShare() {_uniqueStorage()._commPerShare = nil}
+
+  var daysGain: Google_Type_Decimal {
+    get {_storage._daysGain ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._daysGain = newValue}
+  }
+  /// Returns true if `daysGain` has been explicitly set.
+  var hasDaysGain: Bool {_storage._daysGain != nil}
+  /// Clears the value of `daysGain`. Subsequent reads from it will return its default value.
+  mutating func clearDaysGain() {_uniqueStorage()._daysGain = nil}
+
+  var daysGainPct: Google_Type_Decimal {
+    get {_storage._daysGainPct ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._daysGainPct = newValue}
+  }
+  /// Returns true if `daysGainPct` has been explicitly set.
+  var hasDaysGainPct: Bool {_storage._daysGainPct != nil}
+  /// Clears the value of `daysGainPct`. Subsequent reads from it will return its default value.
+  mutating func clearDaysGainPct() {_uniqueStorage()._daysGainPct = nil}
+
+  var exchangeRate: Google_Type_Decimal {
+    get {_storage._exchangeRate ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._exchangeRate = newValue}
+  }
+  /// Returns true if `exchangeRate` has been explicitly set.
+  var hasExchangeRate: Bool {_storage._exchangeRate != nil}
+  /// Clears the value of `exchangeRate`. Subsequent reads from it will return its default value.
+  mutating func clearExchangeRate() {_uniqueStorage()._exchangeRate = nil}
+
+  var feesPerShare: Google_Type_Decimal {
+    get {_storage._feesPerShare ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._feesPerShare = newValue}
+  }
+  /// Returns true if `feesPerShare` has been explicitly set.
+  var hasFeesPerShare: Bool {_storage._feesPerShare != nil}
+  /// Clears the value of `feesPerShare`. Subsequent reads from it will return its default value.
+  mutating func clearFeesPerShare() {_uniqueStorage()._feesPerShare = nil}
+
+  /// int in the raw data
+  var legNo: String {
+    get {_storage._legNo}
+    set {_uniqueStorage()._legNo = newValue}
+  }
+
+  var locationCode: Int64 {
+    get {_storage._locationCode}
+    set {_uniqueStorage()._locationCode = newValue}
+  }
+
+  var lotSourceCode: Int64 {
+    get {_storage._lotSourceCode}
+    set {_uniqueStorage()._lotSourceCode = newValue}
+  }
+
+  var marketValue: Google_Type_Decimal {
+    get {_storage._marketValue ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._marketValue = newValue}
+  }
+  /// Returns true if `marketValue` has been explicitly set.
+  var hasMarketValue: Bool {_storage._marketValue != nil}
+  /// Clears the value of `marketValue`. Subsequent reads from it will return its default value.
+  mutating func clearMarketValue() {_uniqueStorage()._marketValue = nil}
+
+  /// int in the raw data
+  var orderNo: String {
+    get {_storage._orderNo}
+    set {_uniqueStorage()._orderNo = newValue}
+  }
+
+  var originalQty: Google_Type_Decimal {
+    get {_storage._originalQty ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._originalQty = newValue}
+  }
+  /// Returns true if `originalQty` has been explicitly set.
+  var hasOriginalQty: Bool {_storage._originalQty != nil}
+  /// Clears the value of `originalQty`. Subsequent reads from it will return its default value.
+  mutating func clearOriginalQty() {_uniqueStorage()._originalQty = nil}
+
+  var paymentCurrency: String {
+    get {_storage._paymentCurrency}
+    set {_uniqueStorage()._paymentCurrency = newValue}
+  }
+
+  /// int in the raw data
+  var positionID: String {
+    get {_storage._positionID}
+    set {_uniqueStorage()._positionID = newValue}
+  }
+
+  /// int in the raw data
+  var positionLotID: String {
+    get {_storage._positionLotID}
+    set {_uniqueStorage()._positionLotID = newValue}
+  }
+
+  var price: Google_Type_Decimal {
+    get {_storage._price ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._price = newValue}
+  }
+  /// Returns true if `price` has been explicitly set.
+  var hasPrice: Bool {_storage._price != nil}
+  /// Clears the value of `price`. Subsequent reads from it will return its default value.
+  mutating func clearPrice() {_uniqueStorage()._price = nil}
+
+  var remainingQty: Google_Type_Decimal {
+    get {_storage._remainingQty ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._remainingQty = newValue}
+  }
+  /// Returns true if `remainingQty` has been explicitly set.
+  var hasRemainingQty: Bool {_storage._remainingQty != nil}
+  /// Clears the value of `remainingQty`. Subsequent reads from it will return its default value.
+  mutating func clearRemainingQty() {_uniqueStorage()._remainingQty = nil}
+
+  var settlementCurrency: String {
+    get {_storage._settlementCurrency}
+    set {_uniqueStorage()._settlementCurrency = newValue}
+  }
+
+  var shortType: Int64 {
+    get {_storage._shortType}
+    set {_uniqueStorage()._shortType = newValue}
+  }
+
+  var termCode: Int64 {
+    get {_storage._termCode}
+    set {_uniqueStorage()._termCode = newValue}
+  }
+
+  var totalCost: Google_Type_Decimal {
+    get {_storage._totalCost ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._totalCost = newValue}
+  }
+  /// Returns true if `totalCost` has been explicitly set.
+  var hasTotalCost: Bool {_storage._totalCost != nil}
+  /// Clears the value of `totalCost`. Subsequent reads from it will return its default value.
+  mutating func clearTotalCost() {_uniqueStorage()._totalCost = nil}
+
+  var totalCostForGainPct: Google_Type_Decimal {
+    get {_storage._totalCostForGainPct ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._totalCostForGainPct = newValue}
+  }
+  /// Returns true if `totalCostForGainPct` has been explicitly set.
+  var hasTotalCostForGainPct: Bool {_storage._totalCostForGainPct != nil}
+  /// Clears the value of `totalCostForGainPct`. Subsequent reads from it will return its default value.
+  mutating func clearTotalCostForGainPct() {_uniqueStorage()._totalCostForGainPct = nil}
+
+  var totalGain: Google_Type_Decimal {
+    get {_storage._totalGain ?? Google_Type_Decimal()}
+    set {_uniqueStorage()._totalGain = newValue}
+  }
+  /// Returns true if `totalGain` has been explicitly set.
+  var hasTotalGain: Bool {_storage._totalGain != nil}
+  /// Clears the value of `totalGain`. Subsequent reads from it will return its default value.
+  mutating func clearTotalGain() {_uniqueStorage()._totalGain = nil}
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+
+  fileprivate var _storage = _StorageClass.defaultInstance
 }
 
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
@@ -7666,18 +7871,272 @@ extension Etrade_GetLotRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
 
 extension Etrade_GetLotResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".GetLotResponse"
-  static let _protobuf_nameMap = SwiftProtobuf._NameMap()
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}position_lot\0\u{3}short_type\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
-    // Load everything into unknown fields
-    while try decoder.nextFieldNumber() != nil {}
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeRepeatedMessageField(value: &self.positionLot) }()
+      case 2: try { try decoder.decodeSingularInt64Field(value: &self.shortType) }()
+      default: break
+      }
+    }
   }
 
   func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.positionLot.isEmpty {
+      try visitor.visitRepeatedMessageField(value: self.positionLot, fieldNumber: 1)
+    }
+    if self.shortType != 0 {
+      try visitor.visitSingularInt64Field(value: self.shortType, fieldNumber: 2)
+    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
   static func ==(lhs: Etrade_GetLotResponse, rhs: Etrade_GetLotResponse) -> Bool {
+    if lhs.positionLot != rhs.positionLot {return false}
+    if lhs.shortType != rhs.shortType {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Etrade_PositionLot: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".PositionLot"
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}acquired_date\0\u{3}adj_price\0\u{3}available_qty\0\u{3}comm_per_share\0\u{3}days_gain\0\u{3}days_gain_pct\0\u{3}exchange_rate\0\u{3}fees_per_share\0\u{3}leg_no\0\u{3}location_code\0\u{3}lot_source_code\0\u{3}market_value\0\u{3}order_no\0\u{3}original_qty\0\u{3}payment_currency\0\u{3}position_id\0\u{3}position_lot_id\0\u{1}price\0\u{3}remaining_qty\0\u{3}settlement_currency\0\u{3}short_type\0\u{3}term_code\0\u{3}total_cost\0\u{3}total_cost_for_gain_pct\0\u{3}total_gain\0")
+
+  fileprivate class _StorageClass {
+    var _acquiredDate: SwiftProtobuf.Google_Protobuf_Timestamp? = nil
+    var _adjPrice: Google_Type_Decimal? = nil
+    var _availableQty: Google_Type_Decimal? = nil
+    var _commPerShare: Google_Type_Decimal? = nil
+    var _daysGain: Google_Type_Decimal? = nil
+    var _daysGainPct: Google_Type_Decimal? = nil
+    var _exchangeRate: Google_Type_Decimal? = nil
+    var _feesPerShare: Google_Type_Decimal? = nil
+    var _legNo: String = String()
+    var _locationCode: Int64 = 0
+    var _lotSourceCode: Int64 = 0
+    var _marketValue: Google_Type_Decimal? = nil
+    var _orderNo: String = String()
+    var _originalQty: Google_Type_Decimal? = nil
+    var _paymentCurrency: String = String()
+    var _positionID: String = String()
+    var _positionLotID: String = String()
+    var _price: Google_Type_Decimal? = nil
+    var _remainingQty: Google_Type_Decimal? = nil
+    var _settlementCurrency: String = String()
+    var _shortType: Int64 = 0
+    var _termCode: Int64 = 0
+    var _totalCost: Google_Type_Decimal? = nil
+    var _totalCostForGainPct: Google_Type_Decimal? = nil
+    var _totalGain: Google_Type_Decimal? = nil
+
+      // This property is used as the initial default value for new instances of the type.
+      // The type itself is protecting the reference to its storage via CoW semantics.
+      // This will force a copy to be made of this reference when the first mutation occurs;
+      // hence, it is safe to mark this as `nonisolated(unsafe)`.
+      static nonisolated(unsafe) let defaultInstance = _StorageClass()
+
+    private init() {}
+
+    init(copying source: _StorageClass) {
+      _acquiredDate = source._acquiredDate
+      _adjPrice = source._adjPrice
+      _availableQty = source._availableQty
+      _commPerShare = source._commPerShare
+      _daysGain = source._daysGain
+      _daysGainPct = source._daysGainPct
+      _exchangeRate = source._exchangeRate
+      _feesPerShare = source._feesPerShare
+      _legNo = source._legNo
+      _locationCode = source._locationCode
+      _lotSourceCode = source._lotSourceCode
+      _marketValue = source._marketValue
+      _orderNo = source._orderNo
+      _originalQty = source._originalQty
+      _paymentCurrency = source._paymentCurrency
+      _positionID = source._positionID
+      _positionLotID = source._positionLotID
+      _price = source._price
+      _remainingQty = source._remainingQty
+      _settlementCurrency = source._settlementCurrency
+      _shortType = source._shortType
+      _termCode = source._termCode
+      _totalCost = source._totalCost
+      _totalCostForGainPct = source._totalCostForGainPct
+      _totalGain = source._totalGain
+    }
+  }
+
+  fileprivate mutating func _uniqueStorage() -> _StorageClass {
+    if !isKnownUniquelyReferenced(&_storage) {
+      _storage = _StorageClass(copying: _storage)
+    }
+    return _storage
+  }
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    _ = _uniqueStorage()
+    try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
+      while let fieldNumber = try decoder.nextFieldNumber() {
+        // The use of inline closures is to circumvent an issue where the compiler
+        // allocates stack space for every case branch when no optimizations are
+        // enabled. https://github.com/apple/swift-protobuf/issues/1034
+        switch fieldNumber {
+        case 1: try { try decoder.decodeSingularMessageField(value: &_storage._acquiredDate) }()
+        case 2: try { try decoder.decodeSingularMessageField(value: &_storage._adjPrice) }()
+        case 3: try { try decoder.decodeSingularMessageField(value: &_storage._availableQty) }()
+        case 4: try { try decoder.decodeSingularMessageField(value: &_storage._commPerShare) }()
+        case 5: try { try decoder.decodeSingularMessageField(value: &_storage._daysGain) }()
+        case 6: try { try decoder.decodeSingularMessageField(value: &_storage._daysGainPct) }()
+        case 7: try { try decoder.decodeSingularMessageField(value: &_storage._exchangeRate) }()
+        case 8: try { try decoder.decodeSingularMessageField(value: &_storage._feesPerShare) }()
+        case 9: try { try decoder.decodeSingularStringField(value: &_storage._legNo) }()
+        case 10: try { try decoder.decodeSingularInt64Field(value: &_storage._locationCode) }()
+        case 11: try { try decoder.decodeSingularInt64Field(value: &_storage._lotSourceCode) }()
+        case 12: try { try decoder.decodeSingularMessageField(value: &_storage._marketValue) }()
+        case 13: try { try decoder.decodeSingularStringField(value: &_storage._orderNo) }()
+        case 14: try { try decoder.decodeSingularMessageField(value: &_storage._originalQty) }()
+        case 15: try { try decoder.decodeSingularStringField(value: &_storage._paymentCurrency) }()
+        case 16: try { try decoder.decodeSingularStringField(value: &_storage._positionID) }()
+        case 17: try { try decoder.decodeSingularStringField(value: &_storage._positionLotID) }()
+        case 18: try { try decoder.decodeSingularMessageField(value: &_storage._price) }()
+        case 19: try { try decoder.decodeSingularMessageField(value: &_storage._remainingQty) }()
+        case 20: try { try decoder.decodeSingularStringField(value: &_storage._settlementCurrency) }()
+        case 21: try { try decoder.decodeSingularInt64Field(value: &_storage._shortType) }()
+        case 22: try { try decoder.decodeSingularInt64Field(value: &_storage._termCode) }()
+        case 23: try { try decoder.decodeSingularMessageField(value: &_storage._totalCost) }()
+        case 24: try { try decoder.decodeSingularMessageField(value: &_storage._totalCostForGainPct) }()
+        case 25: try { try decoder.decodeSingularMessageField(value: &_storage._totalGain) }()
+        default: break
+        }
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every if/case branch local when no optimizations
+      // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+      // https://github.com/apple/swift-protobuf/issues/1182
+      try { if let v = _storage._acquiredDate {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 1)
+      } }()
+      try { if let v = _storage._adjPrice {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 2)
+      } }()
+      try { if let v = _storage._availableQty {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 3)
+      } }()
+      try { if let v = _storage._commPerShare {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 4)
+      } }()
+      try { if let v = _storage._daysGain {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 5)
+      } }()
+      try { if let v = _storage._daysGainPct {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 6)
+      } }()
+      try { if let v = _storage._exchangeRate {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 7)
+      } }()
+      try { if let v = _storage._feesPerShare {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 8)
+      } }()
+      if !_storage._legNo.isEmpty {
+        try visitor.visitSingularStringField(value: _storage._legNo, fieldNumber: 9)
+      }
+      if _storage._locationCode != 0 {
+        try visitor.visitSingularInt64Field(value: _storage._locationCode, fieldNumber: 10)
+      }
+      if _storage._lotSourceCode != 0 {
+        try visitor.visitSingularInt64Field(value: _storage._lotSourceCode, fieldNumber: 11)
+      }
+      try { if let v = _storage._marketValue {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 12)
+      } }()
+      if !_storage._orderNo.isEmpty {
+        try visitor.visitSingularStringField(value: _storage._orderNo, fieldNumber: 13)
+      }
+      try { if let v = _storage._originalQty {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 14)
+      } }()
+      if !_storage._paymentCurrency.isEmpty {
+        try visitor.visitSingularStringField(value: _storage._paymentCurrency, fieldNumber: 15)
+      }
+      if !_storage._positionID.isEmpty {
+        try visitor.visitSingularStringField(value: _storage._positionID, fieldNumber: 16)
+      }
+      if !_storage._positionLotID.isEmpty {
+        try visitor.visitSingularStringField(value: _storage._positionLotID, fieldNumber: 17)
+      }
+      try { if let v = _storage._price {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 18)
+      } }()
+      try { if let v = _storage._remainingQty {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 19)
+      } }()
+      if !_storage._settlementCurrency.isEmpty {
+        try visitor.visitSingularStringField(value: _storage._settlementCurrency, fieldNumber: 20)
+      }
+      if _storage._shortType != 0 {
+        try visitor.visitSingularInt64Field(value: _storage._shortType, fieldNumber: 21)
+      }
+      if _storage._termCode != 0 {
+        try visitor.visitSingularInt64Field(value: _storage._termCode, fieldNumber: 22)
+      }
+      try { if let v = _storage._totalCost {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 23)
+      } }()
+      try { if let v = _storage._totalCostForGainPct {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 24)
+      } }()
+      try { if let v = _storage._totalGain {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 25)
+      } }()
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Etrade_PositionLot, rhs: Etrade_PositionLot) -> Bool {
+    if lhs._storage !== rhs._storage {
+      let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
+        let _storage = _args.0
+        let rhs_storage = _args.1
+        if _storage._acquiredDate != rhs_storage._acquiredDate {return false}
+        if _storage._adjPrice != rhs_storage._adjPrice {return false}
+        if _storage._availableQty != rhs_storage._availableQty {return false}
+        if _storage._commPerShare != rhs_storage._commPerShare {return false}
+        if _storage._daysGain != rhs_storage._daysGain {return false}
+        if _storage._daysGainPct != rhs_storage._daysGainPct {return false}
+        if _storage._exchangeRate != rhs_storage._exchangeRate {return false}
+        if _storage._feesPerShare != rhs_storage._feesPerShare {return false}
+        if _storage._legNo != rhs_storage._legNo {return false}
+        if _storage._locationCode != rhs_storage._locationCode {return false}
+        if _storage._lotSourceCode != rhs_storage._lotSourceCode {return false}
+        if _storage._marketValue != rhs_storage._marketValue {return false}
+        if _storage._orderNo != rhs_storage._orderNo {return false}
+        if _storage._originalQty != rhs_storage._originalQty {return false}
+        if _storage._paymentCurrency != rhs_storage._paymentCurrency {return false}
+        if _storage._positionID != rhs_storage._positionID {return false}
+        if _storage._positionLotID != rhs_storage._positionLotID {return false}
+        if _storage._price != rhs_storage._price {return false}
+        if _storage._remainingQty != rhs_storage._remainingQty {return false}
+        if _storage._settlementCurrency != rhs_storage._settlementCurrency {return false}
+        if _storage._shortType != rhs_storage._shortType {return false}
+        if _storage._termCode != rhs_storage._termCode {return false}
+        if _storage._totalCost != rhs_storage._totalCost {return false}
+        if _storage._totalCostForGainPct != rhs_storage._totalCostForGainPct {return false}
+        if _storage._totalGain != rhs_storage._totalGain {return false}
+        return true
+      }
+      if !storagesAreEqual {return false}
+    }
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }

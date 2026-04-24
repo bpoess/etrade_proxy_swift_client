@@ -126,3 +126,35 @@ public struct PositionQuickView: Sendable, Codable {
     public let quoteStatus: String
     public let volume: Decimal
 }
+
+public struct PositionLot: Sendable, Codable {
+    public let acquiredDate: Date
+    public let adjPrice: Decimal
+    public let commPerShare: Decimal
+    public let daysGain: Decimal
+    public let daysGainPct: Decimal
+    public let exchangeRate: Decimal
+    public let feesPerShare: Decimal
+    public let legNo: String
+    public let locationCode: Int
+    public let lotSourceCode: Int
+    public let marketValue: Decimal
+    public let orderNo: String
+    public let originalQty: Decimal
+    public let paymentCurrency: String
+    public let positionId: String
+    public let positionLotId: String
+    public let price: Decimal
+    public let remainingQty: Decimal
+    public let settlementCurrency: String
+    public let shortType: Int
+    public let termCode: Int
+    public let totalCost: Decimal
+    public let totalCostForGainPct: Decimal
+    public let totalGain: Decimal
+}
+
+public struct GetLotResponse: Sendable, Codable {
+    public let lots: [PositionLot]
+    public let shortType: Int
+}

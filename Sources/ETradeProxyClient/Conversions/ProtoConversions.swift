@@ -12,12 +12,14 @@ extension Account {
             type: proto.accountType,
             institutionType: proto.institutionType,
             status: proto.accountStatus,
-            closedDate: proto.hasClosedDate ? Date(proto: proto.closedDate) : nil,
+            closedDate: proto.hasClosedDate
+                ? Date(proto: proto.closedDate) : nil,
             mode: proto.accountMode,
             desc: proto.hasAccountDesc ? proto.accountDesc : nil,
             instNo: proto.hasInstNo ? proto.instNo : nil,
             shareWorksAccount: proto.shareWorksAccount,
-            shareWorksSource: proto.hasShareWorksSource ? proto.shareWorksSource : nil,
+            shareWorksSource: proto.hasShareWorksSource
+                ? proto.shareWorksSource : nil,
             fcManagedMssbClosedAccount: proto.fcManagedMssbClosedAccount
         )
     }
@@ -39,14 +41,17 @@ extension Product {
         self.init(
             symbol: proto.symbol,
             securityType: proto.hasSecurityType ? proto.securityType : nil,
-            securitySubType: proto.hasSecuritySubType ? proto.securitySubType : nil,
+            securitySubType: proto.hasSecuritySubType
+                ? proto.securitySubType : nil,
             callPut: proto.hasCallPut ? proto.callPut : nil,
             expiryYear: proto.hasExpiryYear ? proto.expiryYear : nil,
             expiryMonth: proto.hasExpiryMonth ? proto.expiryMonth : nil,
             expiryDay: proto.hasExpiryDay ? proto.expiryDay : nil,
-            strikePrice: proto.hasStrikePrice ? try Decimal(proto: proto.strikePrice) : nil,
+            strikePrice: proto.hasStrikePrice
+                ? try Decimal(proto: proto.strikePrice) : nil,
             expiryType: proto.hasExpiryType ? proto.expiryType : nil,
-            productId: proto.hasProductID ? ProductId(proto: proto.productID) : nil
+            productId: proto.hasProductID
+                ? ProductId(proto: proto.productID) : nil
         )
     }
 }
@@ -113,15 +118,24 @@ extension PositionCompleteView {
             week52High: try Decimal(proto: proto.week52High),
             week52Low: try Decimal(proto: proto.week52Low),
             week52Range: proto.week52Range,
-            daysToExpiration: proto.hasDaysToExpiration ? proto.daysToExpiration : nil,
-            divPayDate: proto.hasDivPayDate ? Date(proto: proto.divPayDate) : nil,
-            estEarnings: proto.hasEstEarnings ? try Decimal(proto: proto.estEarnings) : nil,
-            exDividendDate: proto.hasExDividendDate ? Date(proto: proto.exDividendDate) : nil,
-            perform12Month: proto.hasPerform12Month ? try Decimal(proto: proto.perform12Month) : nil,
-            perform1Month: proto.hasPerform1Month ? try Decimal(proto: proto.perform1Month) : nil,
-            perform3Month: proto.hasPerform3Month ? try Decimal(proto: proto.perform3Month) : nil,
-            perform6Month: proto.hasPerform6Month ? try Decimal(proto: proto.perform6Month) : nil,
-            prevDayVolume: proto.hasPrevDayVolume ? try Decimal(proto: proto.prevDayVolume) : nil
+            daysToExpiration: proto.hasDaysToExpiration
+                ? proto.daysToExpiration : nil,
+            divPayDate: proto.hasDivPayDate
+                ? Date(proto: proto.divPayDate) : nil,
+            estEarnings: proto.hasEstEarnings
+                ? try Decimal(proto: proto.estEarnings) : nil,
+            exDividendDate: proto.hasExDividendDate
+                ? Date(proto: proto.exDividendDate) : nil,
+            perform12Month: proto.hasPerform12Month
+                ? try Decimal(proto: proto.perform12Month) : nil,
+            perform1Month: proto.hasPerform1Month
+                ? try Decimal(proto: proto.perform1Month) : nil,
+            perform3Month: proto.hasPerform3Month
+                ? try Decimal(proto: proto.perform3Month) : nil,
+            perform6Month: proto.hasPerform6Month
+                ? try Decimal(proto: proto.perform6Month) : nil,
+            prevDayVolume: proto.hasPrevDayVolume
+                ? try Decimal(proto: proto.prevDayVolume) : nil
         )
     }
 }
@@ -167,9 +181,11 @@ extension Position {
             totalCost: try Decimal(proto: proto.totalCost),
             totalGain: try Decimal(proto: proto.totalGain),
             totalGainPct: try Decimal(proto: proto.totalGainPct),
-            complete: proto.hasComplete ? try PositionCompleteView(proto: proto.complete) : nil,
+            complete: proto.hasComplete
+                ? try PositionCompleteView(proto: proto.complete) : nil,
             osiKey: proto.hasOsiKey ? proto.osiKey : nil,
-            quick: proto.hasQuick ? try PositionQuickView(proto: proto.quick) : nil
+            quick: proto.hasQuick
+                ? try PositionQuickView(proto: proto.quick) : nil
         )
     }
 }
@@ -205,7 +221,9 @@ extension QuoteAllDetail {
             bidTime: proto.bidTime,
             cashDeliverable: try Decimal(proto: proto.cashDeliverable),
             changeClose: try Decimal(proto: proto.changeClose),
-            changeClosePercentage: try Decimal(proto: proto.changeClosePercentage),
+            changeClosePercentage: try Decimal(
+                proto: proto.changeClosePercentage
+            ),
             companyName: proto.companyName,
             contractSize: try Decimal(proto: proto.contractSize),
             daysToExpiration: proto.daysToExpiration,
@@ -243,9 +261,12 @@ extension QuoteAllDetail {
             week52HiDate: Date(proto: proto.week52HiDate),
             week52LowDate: Date(proto: proto.week52LowDate),
             yield: try Decimal(proto: proto.yield),
-            optionPreviousAskPrice: proto.hasOptionPreviousAskPrice ? try Decimal(proto: proto.optionPreviousAskPrice) : nil,
-            optionPreviousBidPrice: proto.hasOptionPreviousBidPrice ? try Decimal(proto: proto.optionPreviousBidPrice) : nil,
-            optionUnderlierExchange: proto.hasOptionUnderlierExchange ? proto.optionUnderlierExchange : nil,
+            optionPreviousAskPrice: proto.hasOptionPreviousAskPrice
+                ? try Decimal(proto: proto.optionPreviousAskPrice) : nil,
+            optionPreviousBidPrice: proto.hasOptionPreviousBidPrice
+                ? try Decimal(proto: proto.optionPreviousBidPrice) : nil,
+            optionUnderlierExchange: proto.hasOptionUnderlierExchange
+                ? proto.optionUnderlierExchange : nil,
             osiKey: proto.hasOsiKey ? proto.osiKey : nil
         )
     }
@@ -265,12 +286,17 @@ extension QuoteOptionDetail {
             lastTrade: try Decimal(proto: proto.lastTrade),
             openInterest: proto.openInterest,
             optionMultiplier: try Decimal(proto: proto.optionMultiplier),
-            optionPreviousAskPrice: try Decimal(proto: proto.optionPreviousAskPrice),
-            optionPreviousBidPrice: try Decimal(proto: proto.optionPreviousBidPrice),
+            optionPreviousAskPrice: try Decimal(
+                proto: proto.optionPreviousAskPrice
+            ),
+            optionPreviousBidPrice: try Decimal(
+                proto: proto.optionPreviousBidPrice
+            ),
             osiKey: proto.osiKey,
             symbolDescription: proto.symbolDescription,
             timePremium: try Decimal(proto: proto.timePremium),
-            optionGreeks: proto.hasOptionGreeks ? try OptionGreeks(proto: proto.optionGreeks) : nil
+            optionGreeks: proto.hasOptionGreeks
+                ? try OptionGreeks(proto: proto.optionGreeks) : nil
         )
     }
 }
@@ -283,8 +309,10 @@ extension Quote {
             product: try Product(proto: proto.product),
             quoteStatus: proto.quoteStatus,
             all: proto.hasAll ? try QuoteAllDetail(proto: proto.all) : nil,
-            hasMiniOptions: proto.hasHasMiniOptions_p ? proto.hasMiniOptions_p : nil,
-            option: proto.hasOption ? try QuoteOptionDetail(proto: proto.option) : nil
+            hasMiniOptions: proto.hasHasMiniOptions_p
+                ? proto.hasMiniOptions_p : nil,
+            option: proto.hasOption
+                ? try QuoteOptionDetail(proto: proto.option) : nil
         )
     }
 }
@@ -308,7 +336,8 @@ extension OrderInstrument {
             product: try Product(proto: proto.product),
             quantityType: proto.quantityType,
             symbolDescription: proto.symbolDescription,
-            averageExecutionPrice: proto.hasAverageExecutionPrice ? try Decimal(proto: proto.averageExecutionPrice) : nil
+            averageExecutionPrice: proto.hasAverageExecutionPrice
+                ? try Decimal(proto: proto.averageExecutionPrice) : nil
         )
     }
 }
@@ -317,7 +346,9 @@ extension OrderEvent {
     init(proto: Etrade_OrderEvent) throws {
         self.init(
             dateTime: Date(proto: proto.dateTime),
-            instruments: try proto.instrument.map { try OrderInstrument(proto: $0) },
+            instruments: try proto.instrument.map {
+                try OrderInstrument(proto: $0)
+            },
             name: proto.name
         )
     }
@@ -328,7 +359,9 @@ extension OrderDetail {
         self.init(
             allOrNone: proto.allOrNone,
             gcd: proto.gcd,
-            instruments: try proto.instrument.map { try OrderInstrument(proto: $0) },
+            instruments: try proto.instrument.map {
+                try OrderInstrument(proto: $0)
+            },
             limitPrice: try Decimal(proto: proto.limitPrice),
             marketSession: proto.marketSession,
             netAsk: try Decimal(proto: proto.netAsk),
@@ -341,9 +374,12 @@ extension OrderDetail {
             ratio: proto.ratio,
             status: proto.status,
             stopPrice: try Decimal(proto: proto.stopPrice),
-            executedTime: proto.hasExecutedTime ? Date(proto: proto.executedTime) : nil,
-            replacedByOrderId: proto.hasReplacedByOrderID ? proto.replacedByOrderID : nil,
-            replacesOrderId: proto.hasReplacesOrderID ? proto.replacesOrderID : nil
+            executedTime: proto.hasExecutedTime
+                ? Date(proto: proto.executedTime) : nil,
+            replacedByOrderId: proto.hasReplacedByOrderID
+                ? proto.replacedByOrderID : nil,
+            replacesOrderId: proto.hasReplacesOrderID
+                ? proto.replacesOrderID : nil
         )
     }
 }
@@ -503,7 +539,9 @@ extension OptionChains {
 extension BalanceCash {
     init(proto: Etrade_BalanceCash) throws {
         self.init(
-            fundsForOpenOrdersCash: try Decimal(proto: proto.fundsForOpenOrdersCash),
+            fundsForOpenOrdersCash: try Decimal(
+                proto: proto.fundsForOpenOrdersCash
+            ),
             moneyMktBalance: try Decimal(proto: proto.moneyMktBalance)
         )
     }
@@ -535,8 +573,12 @@ extension BalanceComputed {
     init(proto: Etrade_BalanceComputed) throws {
         self.init(
             accountBalance: try Decimal(proto: proto.accountBalance),
-            cashAvailableForInvestment: try Decimal(proto: proto.cashAvailableForInvestment),
-            cashAvailableForWithdrawal: try Decimal(proto: proto.cashAvailableForWithdrawal),
+            cashAvailableForInvestment: try Decimal(
+                proto: proto.cashAvailableForInvestment
+            ),
+            cashAvailableForWithdrawal: try Decimal(
+                proto: proto.cashAvailableForWithdrawal
+            ),
             cashBalance: try Decimal(proto: proto.cashBalance),
             cashBuyingPower: try Decimal(proto: proto.cashBuyingPower),
             dtCashBuyingPower: try Decimal(proto: proto.dtCashBuyingPower),
@@ -544,16 +586,31 @@ extension BalanceComputed {
             marginBuyingPower: try Decimal(proto: proto.marginBuyingPower),
             netCash: try Decimal(proto: proto.netCash),
             openCalls: try BalanceOpenCalls(proto: proto.openCalls),
-            realTimeValues: try BalanceRealTimeValues(proto: proto.realTimeValues),
-            settledCashForInvestment: try Decimal(proto: proto.settledCashForInvestment),
+            realTimeValues: try BalanceRealTimeValues(
+                proto: proto.realTimeValues
+            ),
+            settledCashForInvestment: try Decimal(
+                proto: proto.settledCashForInvestment
+            ),
             shortAdjustBalance: try Decimal(proto: proto.shortAdjustBalance),
-            totalAvailableForWithdrawal: try Decimal(proto: proto.totalAvailableForWithdrawal),
-            unSettledCashForInvestment: try Decimal(proto: proto.unSettledCashForInvestment),
-            fundsWithheldFromPurchasePower: proto.hasFundsWithheldFromPurchasePower ? try Decimal(proto: proto.fundsWithheldFromPurchasePower) : nil,
-            fundsWithheldFromWithdrawal: proto.hasFundsWithheldFromWithdrawal ? try Decimal(proto: proto.fundsWithheldFromWithdrawal) : nil,
-            marginBalance: proto.hasMarginBalance ? try Decimal(proto: proto.marginBalance) : nil,
-            regtEquity: proto.hasRegtEquity ? try Decimal(proto: proto.regtEquity) : nil,
-            regtEquityPercent: proto.hasRegtEquityPercent ? try Decimal(proto: proto.regtEquityPercent) : nil
+            totalAvailableForWithdrawal: try Decimal(
+                proto: proto.totalAvailableForWithdrawal
+            ),
+            unSettledCashForInvestment: try Decimal(
+                proto: proto.unSettledCashForInvestment
+            ),
+            fundsWithheldFromPurchasePower: proto
+                .hasFundsWithheldFromPurchasePower
+                ? try Decimal(proto: proto.fundsWithheldFromPurchasePower)
+                : nil,
+            fundsWithheldFromWithdrawal: proto.hasFundsWithheldFromWithdrawal
+                ? try Decimal(proto: proto.fundsWithheldFromWithdrawal) : nil,
+            marginBalance: proto.hasMarginBalance
+                ? try Decimal(proto: proto.marginBalance) : nil,
+            regtEquity: proto.hasRegtEquity
+                ? try Decimal(proto: proto.regtEquity) : nil,
+            regtEquityPercent: proto.hasRegtEquityPercent
+                ? try Decimal(proto: proto.regtEquityPercent) : nil
         )
     }
 }
@@ -570,6 +627,46 @@ extension AccountBalance {
             dayTraderStatus: proto.dayTraderStatus,
             optionLevel: proto.optionLevel,
             quoteMode: proto.quoteMode
+        )
+    }
+}
+
+extension PositionLot {
+    init(proto: Etrade_PositionLot) throws {
+        acquiredDate = Date(proto: proto.acquiredDate)
+        adjPrice = try Decimal(proto: proto.adjPrice)
+        commPerShare = try Decimal(proto: proto.commPerShare)
+        daysGain = try Decimal(proto: proto.daysGain)
+        daysGainPct = try Decimal(proto: proto.daysGainPct)
+        exchangeRate = try Decimal(proto: proto.exchangeRate)
+        feesPerShare = try Decimal(proto: proto.feesPerShare)
+        legNo = proto.legNo
+        locationCode = Int(proto.locationCode)
+        lotSourceCode = Int(proto.lotSourceCode)
+        marketValue = try Decimal(proto: proto.marketValue)
+        orderNo = proto.orderNo
+        originalQty = try Decimal(proto: proto.originalQty)
+        paymentCurrency = proto.paymentCurrency
+        positionId = proto.positionID
+        positionLotId = proto.positionLotID
+        price = try Decimal(proto: proto.price)
+        remainingQty = try Decimal(proto: proto.remainingQty)
+        settlementCurrency = proto.settlementCurrency
+        shortType = Int(proto.shortType)
+        termCode = Int(proto.termCode)
+        totalCost = try Decimal(proto: proto.totalCost)
+        totalCostForGainPct = try Decimal(proto: proto.totalCostForGainPct)
+        totalGain = try Decimal(proto: proto.totalGain)
+    }
+}
+
+extension GetLotResponse {
+    init(proto: Etrade_GetLotResponse) throws {
+        self.init(
+            lots: try proto.positionLot.map {
+                try PositionLot(proto: $0)
+            },
+            shortType: Int(proto.shortType)
         )
     }
 }

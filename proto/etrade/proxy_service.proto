@@ -578,4 +578,36 @@ message GetLotRequest {
   string position_id = 2;
 }
 
-message GetLotResponse {}
+message GetLotResponse {
+  repeated PositionLot position_lot = 1;
+  int64 short_type = 2;
+
+}
+
+message PositionLot {
+  google.protobuf.Timestamp acquired_date = 1;
+  google.type.Decimal adj_price = 2;
+  google.type.Decimal available_qty = 3;
+  google.type.Decimal comm_per_share = 4;
+  google.type.Decimal days_gain = 5;
+  google.type.Decimal days_gain_pct = 6;
+  google.type.Decimal exchange_rate = 7;
+  google.type.Decimal fees_per_share = 8;
+  string leg_no = 9; // int in the raw data
+  int64 location_code = 10;
+  int64 lot_source_code = 11;
+  google.type.Decimal market_value = 12;
+  string order_no = 13; // int in the raw data
+  google.type.Decimal original_qty = 14;
+  string payment_currency = 15;
+  string position_id = 16; // int in the raw data
+  string position_lot_id = 17; // int in the raw data
+  google.type.Decimal price = 18;
+  google.type.Decimal remaining_qty = 19;
+  string settlement_currency = 20;
+  int64 short_type = 21;
+  int64 term_code = 22;
+  google.type.Decimal total_cost = 23;
+  google.type.Decimal total_cost_for_gain_pct = 24;
+  google.type.Decimal total_gain = 25;
+}

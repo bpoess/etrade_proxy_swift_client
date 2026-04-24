@@ -21,15 +21,21 @@ public final class ETradeClient: Sendable {
         grpcClient.beginGracefulShutdown()
     }
 
-    private var proxyService: Etrade_ProxyService.Client<HTTP2ClientTransport.Posix> {
-        Etrade_ProxyService.Client<HTTP2ClientTransport.Posix>(wrapping: grpcClient)
+    private var proxyService:
+        Etrade_ProxyService.Client<HTTP2ClientTransport.Posix>
+    {
+        Etrade_ProxyService.Client<HTTP2ClientTransport.Posix>(
+            wrapping: grpcClient
+        )
     }
 
     // MARK: - Authentication
 
     public func getAuthenticationStatus() async throws -> Bool {
         do {
-            let response = try await proxyService.getAuthenticationStatus(Etrade_GetAuthenticationStatusRequest())
+            let response = try await proxyService.getAuthenticationStatus(
+                Etrade_GetAuthenticationStatusRequest()
+            )
             return response.isAuthenticated
         } catch {
             throw ETradeError(from: error)
@@ -38,7 +44,9 @@ public final class ETradeClient: Sendable {
 
     public func getAuthorizationUrl() async throws -> String {
         do {
-            let response = try await proxyService.getAuthorizationUrl(Etrade_GetAuthorizationUrlRequest())
+            let response = try await proxyService.getAuthorizationUrl(
+                Etrade_GetAuthorizationUrlRequest()
+            )
             return response.url
         } catch {
             throw ETradeError(from: error)
@@ -59,7 +67,9 @@ public final class ETradeClient: Sendable {
 
     public func listAccounts() async throws -> [Account] {
         do {
-            let response = try await proxyService.listAccounts(Etrade_ListAccountsRequest())
+            let response = try await proxyService.listAccounts(
+                Etrade_ListAccountsRequest()
+            )
             return try response.accounts.map { try Account(proto: $0) }
         } catch {
             throw ETradeError(from: error)
@@ -68,7 +78,11 @@ public final class ETradeClient: Sendable {
 
     // MARK: - Positions
 
-    public func listPositions(accountIdKey: String, view: String? = nil, lotsRequired: Bool? = nil) async throws -> [Position] {
+    public func listPositions(
+        accountIdKey: String,
+        view: String? = nil,
+        lotsRequired: Bool? = nil
+    ) async throws -> [Position] {
         do {
             var request = Etrade_ListPositionsRequest()
             request.accountIDKey = accountIdKey
@@ -95,7 +109,9 @@ public final class ETradeClient: Sendable {
 
     // MARK: - Quotes
 
-    public func listQuotes(symbols: [String], detailFlag: String? = nil) async throws -> [Quote] {
+    public func listQuotes(symbols: [String], detailFlag: String? = nil)
+        async throws -> [Quote]
+    {
         do {
             var request = Etrade_ListQuotesRequest()
             request.symbols = symbols
@@ -151,7 +167,7 @@ public final class ETradeClient: Sendable {
             throw ETradeError(from: error)
         }
     }
-    
+
     public func listOrdersStream(
         accountIdKey: String,
         startDate: String,
@@ -175,16 +191,22 @@ public final class ETradeClient: Sendable {
                             do {
                                 for try await part in contents.bodyParts {
                                     if case .message(let proto) = part {
-                                        continuation.yield(ListOrderItem(proto: proto))
+                                        continuation.yield(
+                                            ListOrderItem(proto: proto)
+                                        )
                                     }
                                 }
                                 continuation.finish()
                             } catch {
-                                continuation.finish(throwing: ETradeError(from: error))
+                                continuation.finish(
+                                    throwing: ETradeError(from: error)
+                                )
                             }
 
                         case .failure(let error):
-                            continuation.finish(throwing: ETradeError(from: error))
+                            continuation.finish(
+                                throwing: ETradeError(from: error)
+                            )
                         }
                     }
                 } catch {
@@ -198,7 +220,9 @@ public final class ETradeClient: Sendable {
         }
     }
 
-    public func getOrderDetails(accountIdKey: String, orderId: String) async throws -> Order {
+    public func getOrderDetails(accountIdKey: String, orderId: String)
+        async throws -> Order
+    {
         do {
             var request = Etrade_GetOrderDetailsRequest()
             request.accountIDKey = accountIdKey
@@ -222,7 +246,8 @@ public final class ETradeClient: Sendable {
             request.accountIDKey = accountIdKey
             request.startDate = startDate
             request.endDate = endDate
-            return try await proxyService.listTransactions(request) { response in
+            return try await proxyService.listTransactions(request) {
+                response in
                 switch response.accepted {
                 case .success(let contents):
                     var result: [ListTransactionItem] = []
@@ -341,4 +366,21 @@ public final class ETradeClient: Sendable {
             throw ETradeError(from: error)
         }
     }
+
+    // Mark: Lots
+
+    public func getLots(accountIdKey: String, positionId: String) async throws
+        -> GetLotResponse
+    {
+        do {
+            var request = Etrade_GetLotRequest()
+            request.accountIDKey = accountIdKey
+            request.positionID = positionId
+            let response = try await proxyService.getLot(request)
+            return try GetLotResponse(proto: response)
+        } catch {
+            throw ETradeError(from: error)
+        }
+    }
+
 }
